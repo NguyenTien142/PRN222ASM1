@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace Repositories.WorkSeeds.Implements
 {
-    public class UnitOfWork : IDisposable
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly Prn222asm1Context _context;
-        private readonly RepositoryFactory _repositoryFactory;
+        private readonly IRepositoryFactory _repositoryFactory;
 
-        public UnitOfWork(Prn222asm1Context context)
+        public UnitOfWork(Prn222asm1Context context, IServiceProvider serviceProvider)
         {
             _context = context;
-            _repositoryFactory = new RepositoryFactory(_context);
+            _repositoryFactory = new RepositoryFactory(_context, serviceProvider);
         }
 
         public IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : class
@@ -25,10 +25,9 @@ namespace Repositories.WorkSeeds.Implements
             return _repositoryFactory.GetGenericRepository<TEntity>();
         }
 
-        public TRepository GetCustomRepository<TRepository>(Func<Prn222asm1Context, TRepository> factory)
-            where TRepository : class
+        public TRepository GetCustomRepository<TRepository>() where TRepository : class
         {
-            return _repositoryFactory.GetCustomRepository(factory);
+            return _repositoryFactory.GetCustomRepository<TRepository>();
         }
 
         public async Task SaveAsync()
@@ -36,23 +35,9 @@ namespace Repositories.WorkSeeds.Implements
             await _context.SaveChangesAsync();
         }
 
-        private bool disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposed)
-            {
-                if (disposing)
-                {
-                    _context.Dispose();
-                }
-            }
-            disposed = true;
-        }
-
         public void Dispose()
         {
-            Dispose(true);
+            _context.Dispose();
             GC.SuppressFinalize(this);
         }
     }

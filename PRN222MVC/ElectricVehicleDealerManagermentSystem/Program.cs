@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Repositories.Context;
+using Repositories.WorkSeeds.Implements;
+using Repositories.WorkSeeds.Interfaces;
 
 namespace ElectricVehicleDealerManagermentSystem
 {
@@ -14,6 +16,15 @@ namespace ElectricVehicleDealerManagermentSystem
 
             //SQL connection
             builder.Services.AddDbContext<Prn222asm1Context>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IRepositoryFactory, RepositoryFactory>();
+
+            // Generic repository
+            builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+            // Custom repositories
+            
 
             var app = builder.Build();
 
