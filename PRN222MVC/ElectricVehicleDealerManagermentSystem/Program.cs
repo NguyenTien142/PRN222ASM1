@@ -4,6 +4,9 @@ using Repositories.CustomRepositories.Implements;
 using Repositories.CustomRepositories.Interfaces;
 using Repositories.WorkSeeds.Implements;
 using Repositories.WorkSeeds.Interfaces;
+using Services.Helper.AutoMapper;
+using Services.Implements;
+using Services.Intefaces;
 
 namespace ElectricVehicleDealerManagermentSystem
 {
@@ -34,6 +37,12 @@ namespace ElectricVehicleDealerManagermentSystem
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
             builder.Services.AddScoped<IVehicleCategoryRepository, VehicleCategoryRepository>();
+
+            // Services
+            builder.Services.AddScoped<IVehicleServices, VehicleServices>();
+
+            //auto mapper
+            builder.Services.AddAutoMapper(cfg => { }, typeof(MapperProfile));
 
             var app = builder.Build();
 
