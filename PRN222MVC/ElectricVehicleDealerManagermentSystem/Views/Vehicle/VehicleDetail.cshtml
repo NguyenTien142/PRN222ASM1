@@ -1,0 +1,46 @@
+﻿@using BusinessObject.BusinessObject.VehicleModels.Respond
+@model GetDetailVehicleRespond
+
+@{
+    ViewData["Title"] = "Vehicle Detail";
+}
+
+<h2>Vehicle Detail</h2>
+
+@if (Model == null)
+{
+    <div class="alert alert-danger">Vehicle not found.</div>
+}
+else
+{
+    <div class="card" style="max-width: 600px; margin: auto;">
+        <div class="card-header">
+            <strong>@Model.Model</strong>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-4">Vehicle ID</dt>
+                <dd class="col-sm-8">@Model.VehicleId</dd>
+                <dt class="col-sm-4">Category</dt>
+                <dd class="col-sm-8">@Model.Category</dd>
+                <dt class="col-sm-4">Color</dt>
+                <dd class="col-sm-8">@Model.Color</dd>
+                <dt class="col-sm-4">Price</dt>
+                <dd class="col-sm-8">@Model.Price.ToString("C")</dd>
+                <dt class="col-sm-4">Manufacture Date</dt>
+                <dd class="col-sm-8">@Model.ManufactureDate.ToString("yyyy-MM-dd")</dd>
+                <dt class="col-sm-4">Version</dt>
+                <dd class="col-sm-8">@Model.Version</dd>
+                <dt class="col-sm-4">Available Quantity</dt>
+                <dd class="col-sm-8">@Model.AvailableQuantity</dd>
+                <dt class="col-sm-4">Image</dt>
+                <dd class="col-sm-8">
+                    @if (!string.IsNullOrEmpty(Model.Image))
+                    {
+                        <img src="@Model.Image" alt="Vehicle Image" style="max-width:200px;max-height:200px;" />
+                    }
+                </dd>
+            </dl>
+        </div>
+    </div>
+}
