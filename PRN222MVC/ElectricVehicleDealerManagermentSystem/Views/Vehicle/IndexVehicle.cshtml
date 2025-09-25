@@ -1,0 +1,41 @@
+﻿@using BusinessObject.BusinessObject.VehicleModels.Respond
+@model List<GetVehicleRespond>
+
+@{
+    ViewData["Title"] = "Vehicles";
+}
+
+<h2>Vehicles</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Vehicle ID</th>
+            <th>Model</th>
+            <th>Color</th>
+            <th>Price</th>
+            <th>Manufacture Date</th>
+            <th>Version</th>
+            <th>Image</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var vehicle in Model)
+        {
+            <tr>
+                <td>@vehicle.VehicleId</td>
+                <td>@vehicle.Model</td>
+                <td>@vehicle.Color</td>
+                <td>@vehicle.Price.ToString("C")</td>
+                <td>@vehicle.ManufactureDate.ToString("yyyy-MM-dd")</td>
+                <td>@vehicle.Version</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(vehicle.Image))
+                    {
+                        <img src="@vehicle.Image" alt="Vehicle Image" style="max-width:100px;max-height:100px;" />
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

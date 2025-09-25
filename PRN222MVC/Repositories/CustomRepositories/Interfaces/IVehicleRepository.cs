@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Repositories.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace Repositories.CustomRepositories.Interfaces
 {
     public interface IVehicleRepository
     {
+        Task<Vehicle?> GetDetailVehiclesAsync(int id);
     }
 }

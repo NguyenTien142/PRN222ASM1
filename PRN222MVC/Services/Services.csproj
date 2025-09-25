@@ -7,15 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BuisnessObject\BusinessObject.csproj" />
     <ProjectReference Include="..\Repositories\Repositories.csproj">
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Intefaces\" />
-    <Folder Include="Implements\" />
-    <Folder Include="Helper\" />
+    <PackageReference Include="AutoMapper" Version="15.0.1" />
   </ItemGroup>
 
 </Project>
