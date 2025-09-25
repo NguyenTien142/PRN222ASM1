@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Repositories.Context;
+using Repositories.CustomRepositories.Implements;
+using Repositories.CustomRepositories.Interfaces;
 using Repositories.WorkSeeds.Implements;
 using Repositories.WorkSeeds.Interfaces;
 
@@ -24,7 +26,14 @@ namespace ElectricVehicleDealerManagermentSystem
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
             // Custom repositories
-            
+            builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+            builder.Services.AddScoped<IDealerTypeRepository, DealerTypeRepository>();
+            builder.Services.AddScoped<IDealerTypeRepository, DealerTypeRepository>();
+            builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+            builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
+            builder.Services.AddScoped<IVehicleCategoryRepository, VehicleCategoryRepository>();
 
             var app = builder.Build();
 

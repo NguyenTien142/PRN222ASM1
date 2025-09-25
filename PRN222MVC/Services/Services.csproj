@@ -12,4 +12,10 @@
     </ProjectReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Intefaces\" />
+    <Folder Include="Implements\" />
+    <Folder Include="Helper\" />
+  </ItemGroup>
+
 </Project>
