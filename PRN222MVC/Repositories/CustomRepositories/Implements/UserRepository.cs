@@ -57,6 +57,19 @@ namespace Repositories.CustomRepositories.Implements
             }
         }
 
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        {
+            try
+            {
+                return await _context.Users.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error in GetAllUsersAsync");
+                throw;
+            }
+        }
+
         public async Task<IEnumerable<User>> GetAllActiveUsersAsync()
         {
             try
@@ -142,6 +155,35 @@ namespace Repositories.CustomRepositories.Implements
             catch (Exception ex)
             {
                 _logger?.LogError(ex, "Error in AddAsync: {Message}", ex.Message);
+                if (ex.InnerException != null)
+                {
+                    _logger?.LogError(ex.InnerException, "Inner Exception: {Message}", ex.InnerException.Message);
+                }
+                return false;
+            }
+        }
+
+        public override async Task<bool> UpdateAsync(User entity)
+        {
+            try
+            {
+                var existingUser = await _context.Users.FindAsync(entity.UserId);
+                if (existingUser == null)
+                    return false;
+
+                // Update only allowed fields
+                existingUser.Role = entity.Role;
+
+                // Mark as modified
+                _context.Entry(existingUser).State = EntityState.Modified;
+                
+                // Save changes
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error in UpdateAsync: {Message}", ex.Message);
                 if (ex.InnerException != null)
                 {
                     _logger?.LogError(ex.InnerException, "Inner Exception: {Message}", ex.InnerException.Message);

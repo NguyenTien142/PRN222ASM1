@@ -1,18 +1,21 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Repositories.CustomRepositories.Interfaces;
+using Services.Intefaces;
 using Repositories.Model;
+using Microsoft.Extensions.Logging;
 
 namespace ElectricVehicleDealerManagermentSystem.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IAdminService _adminService;
+        private readonly ILogger<AdminController> _logger;
 
-        public AdminController(IUserRepository userRepository)
+        public AdminController(IAdminService adminService, ILogger<AdminController> logger)
         {
-            _userRepository = userRepository;
+            _adminService = adminService;
+            _logger = logger;
         }
 
         public async Task<IActionResult> Index()
@@ -22,68 +25,71 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
 
         public async Task<IActionResult> GetAllUsers(string searchUsername = "")
         {
-            var users = string.IsNullOrWhiteSpace(searchUsername) 
-                ? await _userRepository.GetAllActiveUsersAsync()
-                : await _userRepository.SearchByUsernameAsync(searchUsername);
-            
+            var users = await _adminService.GetAllUsersAsync(searchUsername);
             ViewBag.SearchUsername = searchUsername;
             return View(users);
         }
 
         public async Task<IActionResult> GetUserById(int id)
         {
-            var user = await _userRepository.GetByIdWithDetailsAsync(id);
+            var user = await _adminService.GetUserByIdAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
-
             return View(user);
         }
 
         [HttpGet]
         public async Task<IActionResult> EditUser(int id)
         {
-            var user = await _userRepository.GetByIdWithDetailsAsync(id);
+            var user = await _adminService.GetUserByIdAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
-
             return View(user);
         }
 
         [HttpPost]
         public async Task<IActionResult> EditUser(int id, User user)
         {
-            if (id != user.UserId)
-            {
-                return NotFound();
-            }
-
             try
             {
-                await _userRepository.UpdateAsync(user);
-            }
-            catch
-            {
-                if (!await _userRepository.ExistsAsync(id))
+                if (id != user.UserId)
                 {
                     return NotFound();
                 }
-                else
+                var result = await _adminService.EditUserAsync(id, user.Role);
+                if (!result)
                 {
-                    throw;
+                    TempData["Error"] = "Failed to update user";
+                    return View(user);
                 }
+                TempData["Success"] = "User updated successfully";
+                return RedirectToAction(nameof(GetAllUsers));
             }
-
-            return RedirectToAction(nameof(GetAllUsers));
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating user {UserId}", id);
+                TempData["Error"] = "An error occurred while updating the user";
+                return View(user);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            await _userRepository.SoftDeleteAsync(id);
+            try
+            {
+                var result = await _adminService.DeleteUserAsync(id);
+                TempData["Success"] = result ? "User deleted successfully" : "Failed to delete user";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting user {UserId}", id);
+                TempData["Error"] = "Failed to delete user";
+            }
             return RedirectToAction(nameof(GetAllUsers));
         }
     }
