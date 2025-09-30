@@ -14,5 +14,6 @@ namespace Repositories.CustomRepositories.Interfaces
         Task<User?> GetByIdWithDetailsAsync(int id);
         Task<IEnumerable<User>> GetAllActiveUsersAsync();
         Task SoftDeleteAsync(int id);
+        Task<IEnumerable<User>> SearchByUsernameAsync(string username);
     }
 }

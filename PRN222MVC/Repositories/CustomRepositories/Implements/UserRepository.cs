@@ -90,6 +90,24 @@ namespace Repositories.CustomRepositories.Implements
             }
         }
 
+        public async Task<IEnumerable<User>> SearchByUsernameAsync(string username)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(username))
+                    return await GetAllActiveUsersAsync();
+
+                return await _context.Users
+                    .Where(u => u.Username.Contains(username) && u.Role != "Inactive")
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error in SearchByUsernameAsync");
+                throw;
+            }
+        }
+
         // Override AddAsync to handle DealerId
         public override async Task<bool> AddAsync(User entity)
         {

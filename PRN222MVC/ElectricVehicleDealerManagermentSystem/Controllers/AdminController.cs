@@ -20,9 +20,13 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
             return View();
         }
 
-        public async Task<IActionResult> GetAllUsers()
+        public async Task<IActionResult> GetAllUsers(string searchUsername = "")
         {
-            var users = await _userRepository.GetAllActiveUsersAsync();
+            var users = string.IsNullOrWhiteSpace(searchUsername) 
+                ? await _userRepository.GetAllActiveUsersAsync()
+                : await _userRepository.SearchByUsernameAsync(searchUsername);
+            
+            ViewBag.SearchUsername = searchUsername;
             return View(users);
         }
 

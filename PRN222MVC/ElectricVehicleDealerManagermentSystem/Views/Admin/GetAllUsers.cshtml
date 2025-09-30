@@ -1,11 +1,30 @@
 @model IEnumerable<Repositories.Model.User>
 
 @{
-    ViewData["Title"] = "All Users";
+    ViewData["Title"] = "User Management";
 }
 
 <div class="container">
     <h2>User Management</h2>
+    
+    <!-- Search Form -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <form asp-action="GetAllUsers" method="get" class="form-inline">
+                <div class="input-group">
+                    <input type="text" name="searchUsername" class="form-control" placeholder="Search by username" value="@ViewBag.SearchUsername">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                        @if (!string.IsNullOrEmpty(ViewBag.SearchUsername))
+                        {
+                            <a asp-action="GetAllUsers" class="btn btn-secondary">Clear</a>
+                        }
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
@@ -24,15 +43,24 @@
                         <td>@user.Username</td>
                         <td>@user.Role</td>
                         <td>
-                            <a asp-action="GetUserById" asp-route-id="@user.UserId" class="btn btn-info btn-sm">Details</a>
-                            <a asp-action="EditUser" asp-route-id="@user.UserId" class="btn btn-warning btn-sm">Edit</a>
-                            <form asp-action="DeleteUser" asp-route-id="@user.UserId" method="post" style="display: inline;">
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
-                            </form>
+                            <div class="btn-group">
+                                <a asp-action="GetUserById" asp-route-id="@user.UserId" class="btn btn-info btn-sm">Details</a>
+                                <a asp-action="EditUser" asp-route-id="@user.UserId" class="btn btn-warning btn-sm">Edit</a>
+                                <form asp-action="DeleteUser" asp-route-id="@user.UserId" method="post" style="display: inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            No users found.
+        </div>
+    }
 </div>
