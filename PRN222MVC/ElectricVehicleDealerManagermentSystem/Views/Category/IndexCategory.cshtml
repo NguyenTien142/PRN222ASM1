@@ -1,0 +1,46 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using BusinessObject.BusinessObject.CategoryModels.Respond
+@model List<GetCategoryRespond>
+
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<h2>Categories</h2>
+
+<div class="mb-3">
+    <a asp-controller="Category" asp-action="AddCategory" class="btn btn-success">New Category</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Category ID</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model)
+        {
+            <tr>
+                <td>@category.CategoryId</td>
+                <td>@category.Name</td>
+                <td>
+                    <a asp-controller="Category" asp-action="CategoryDetail" asp-route-categoryId="@category.CategoryId" class="btn btn-primary">View Detail</a>
+                    <a asp-controller="Category" asp-action="UpdateCategory" asp-route-categoryId="@category.CategoryId" class="btn btn-warning ml-2">Edit</a>
+                    <a asp-controller="Category" asp-action="DeleteCategory" asp-route-categoryId="@category.CategoryId" class="btn btn-danger ml-2" onclick="return confirm('Are you sure you want to delete this category?')">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">
+        <p>No categories found.</p>
+    </div>
+}

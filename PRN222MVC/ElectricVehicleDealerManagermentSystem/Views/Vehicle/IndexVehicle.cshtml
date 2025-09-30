@@ -7,6 +7,10 @@
 
 <h2>Vehicles</h2>
 
+<div class="mb-3">
+    <a asp-controller="Vehicle" asp-action="AddVehicle" class="btn btn-success">New Vehicle</a>
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -38,6 +42,7 @@
                 </td>
                 <td>
                     <a asp-controller="Vehicle" asp-action="VehicleDetail" asp-route-vehicleId="@vehicle.VehicleId" class="btn btn-primary">View Detail</a>
+                    <a asp-controller="Vehicle" asp-action="UpdateVehicle" asp-route-vehicleId="@vehicle.VehicleId" class="btn btn-warning ml-2">Edit</a>
                 </td>
             </tr>
         }

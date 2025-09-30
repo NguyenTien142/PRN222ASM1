@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BusinessObject.BusinessObject;
-using BusinessObject.BusinessObject.VehicleModels.Respond;
 using Repositories.Model;
 using System;
 using System.Collections.Generic;
@@ -15,7 +14,7 @@ namespace Services.Helper.AutoMapper
         public MapperProfile()
         {
             // Vehicle
-            CreateMap<Vehicle, GetDetailVehicleRespond>()
+            CreateMap<Vehicle, BusinessObject.BusinessObject.VehicleModels.Respond.GetDetailVehicleRespond>()
                 .ForMember(dest => dest.Category,
                            opt => opt.MapFrom(src => src.Category.Name))
                 .ForMember(dest => dest.AvailableQuantity,
@@ -24,8 +23,11 @@ namespace Services.Helper.AutoMapper
                                                      : 0));
 
             CreateMap<Vehicle, BusinessObject.BusinessObject.VehicleModels.Respond.GetVehicleRespond>();
-
+            CreateMap<BusinessObject.BusinessObject.VehicleModels.Request.CreateVehicleRequest, Vehicle>();
             CreateMap<BusinessObject.BusinessObject.VehicleModels.Request.UpdateVehicleRequest, Vehicle>();
+
+            // category
+            CreateMap<VehicleCategory, BusinessObject.BusinessObject.CategoryModels.Respond.GetCategoryRespond>();
         }
     }
 }
