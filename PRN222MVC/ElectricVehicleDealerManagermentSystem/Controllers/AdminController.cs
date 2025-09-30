@@ -52,7 +52,7 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditUser(int id, User user)
+        public async Task<IActionResult> EditUser(int id, User user, string DealerTypeName, string DealerAddress)
         {
             try
             {
@@ -60,18 +60,15 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
                 {
                     return NotFound();
                 }
-                var result = await _adminService.EditUserAsync(
-                    id,
-                    user.Role,
-                    user.Dealer?.DealerType?.TypeName ?? "",
-                    user.Dealer?.Address ?? ""
-                );
 
+                // Update user details including dealer type
+                var result = await _adminService.EditUserAsync(id, user.Role, DealerTypeName, DealerAddress);
                 if (!result)
                 {
                     TempData["Error"] = "Failed to update user";
                     return View(user);
                 }
+
                 TempData["Success"] = "User updated successfully";
                 return RedirectToAction(nameof(GetAllUsers));
             }
