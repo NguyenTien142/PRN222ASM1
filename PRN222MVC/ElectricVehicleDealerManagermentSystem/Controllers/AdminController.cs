@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Services.Intefaces;
-using Repositories.Model;
+using BusinessObject.BusinessObject.UserModels.Request;
 using Microsoft.Extensions.Logging;
 
 namespace ElectricVehicleDealerManagermentSystem.Controllers
@@ -52,21 +52,20 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditUser(int id, User user, string DealerTypeName, string DealerAddress)
+        public async Task<IActionResult> EditUser(int id, UpdateUserRequest request)
         {
             try
             {
-                if (id != user.UserId)
+                if (id != request.UserId)
                 {
                     return NotFound();
                 }
 
-                // Update user details including dealer type
-                var result = await _adminService.EditUserAsync(id, user.Role, DealerTypeName, DealerAddress);
+                var result = await _adminService.EditUserAsync(request);
                 if (!result)
                 {
                     TempData["Error"] = "Failed to update user";
-                    return View(user);
+                    return View(await _adminService.GetUserByIdAsync(id));
                 }
 
                 TempData["Success"] = "User updated successfully";
@@ -76,10 +75,9 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
             {
                 _logger.LogError(ex, "Error updating user {UserId}", id);
                 TempData["Error"] = "An error occurred while updating the user";
-                return View(user);
+                return View(await _adminService.GetUserByIdAsync(id));
             }
         }
-
 
         [HttpPost]
         public async Task<IActionResult> DeleteUser(int id)

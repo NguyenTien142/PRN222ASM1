@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Repositories.Model;
 using Services.Intefaces;
+using BusinessObject.BusinessObject.UserModels.Request;
 
 namespace ElectricVehicleDealerManagermentSystem.Controllers
 {
@@ -22,20 +22,20 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(string username, string password)
+        public async Task<IActionResult> Login(LoginRequest request)
         {
             try
             {
-                var (user, token) = await _authService.LoginAsync(username, password);
+                var result = await _authService.LoginAsync(request);
 
-                if (user == null)
+                if (!result.IsSuccess)
                 {
-                    TempData["Error"] = "Invalid username or password";
-                    return View();
+                    TempData["Error"] = result.Message;
+                    return View(request);
                 }
 
                 // Store token in cookie
-                Response.Cookies.Append("X-Access-Token", token, new CookieOptions
+                Response.Cookies.Append("X-Access-Token", result.Token, new CookieOptions
                 {
                     HttpOnly = true,
                     Secure = true,
@@ -43,7 +43,7 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
                     Expires = DateTime.Now.AddHours(3)
                 });
 
-                if (user.Role == "Admin")
+                if (result.User?.Role == "Admin")
                 {
                     return RedirectToAction("Index", "Admin");
                 }
@@ -54,7 +54,7 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
             {
                 _logger.LogError(ex, "Error in Login");
                 TempData["Error"] = "An error occurred during login. Please try again.";
-                return View();
+                return View(request);
             }
         }
 
@@ -64,34 +64,32 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(User user, string password)
+        public async Task<IActionResult> Register(RegisterRequest request)
         {
             try
             {
-                if (string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(password))
+                if (string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.Password))
                 {
                     TempData["Error"] = "Username and password are required";
-                    return View();
+                    return View(request);
                 }
 
-                if (await _authService.RegisterAsync(user, password))
+                var result = await _authService.RegisterAsync(request);
+
+                if (result.IsSuccess)
                 {
-                    TempData["Success"] = "Registration successful. Please login.";
+                    TempData["Success"] = result.Message;
                     return RedirectToAction("Login");
                 }
 
-                TempData["Error"] = "Username already exists";
-                return View();
+                TempData["Error"] = result.Message;
+                return View(request);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in Register: {Message}", ex.Message);
-                if (ex.InnerException != null)
-                {
-                    _logger.LogError(ex.InnerException, "Inner Exception: {Message}", ex.InnerException.Message);
-                }
                 TempData["Error"] = "An error occurred during registration. Please try again.";
-                return View();
+                return View(request);
             }
         }
 

@@ -28,6 +28,33 @@ namespace Services.Helper.AutoMapper
 
             // category
             CreateMap<VehicleCategory, BusinessObject.BusinessObject.CategoryModels.Respond.GetCategoryRespond>();
+
+            // User mappings
+            CreateMap<User, BusinessObject.BusinessObject.UserModels.Respond.GetUserRespond>()
+                .ForMember(dest => dest.DealerTypeName,
+                           opt => opt.MapFrom(src => src.Dealer != null && src.Dealer.DealerType != null 
+                                                     ? src.Dealer.DealerType.TypeName 
+                                                     : string.Empty))
+                .ForMember(dest => dest.DealerAddress,
+                           opt => opt.MapFrom(src => src.Dealer != null ? src.Dealer.Address : string.Empty));
+
+            CreateMap<User, BusinessObject.BusinessObject.UserModels.Respond.GetDetailUserRespond>()
+                .ForMember(dest => dest.DealerTypeName,
+                           opt => opt.MapFrom(src => src.Dealer != null && src.Dealer.DealerType != null 
+                                                     ? src.Dealer.DealerType.TypeName 
+                                                     : string.Empty))
+                .ForMember(dest => dest.DealerAddress,
+                           opt => opt.MapFrom(src => src.Dealer != null ? src.Dealer.Address : string.Empty))
+                .ForMember(dest => dest.DealerId,
+                           opt => opt.MapFrom(src => src.DealerId));
+
+            CreateMap<BusinessObject.BusinessObject.UserModels.Request.RegisterRequest, User>()
+                .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.Password))
+                .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.Username));
+
+            CreateMap<BusinessObject.BusinessObject.UserModels.Request.UpdateUserRequest, User>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
+                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role));
         }
     }
 }
