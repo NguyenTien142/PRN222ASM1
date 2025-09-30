@@ -4,24 +4,6 @@
     ViewData["Title"] = "Edit User";
 }
 
-@section Scripts {
-    <script>
-        function toggleDealerType() {
-            var role = document.getElementById('Role').value;
-            var dealerTypeDiv = document.getElementById('dealerTypeDiv');
-            if (role === 'Dealer') {
-                dealerTypeDiv.style.display = 'block';
-            } else {
-                dealerTypeDiv.style.display = 'none';
-            }
-        }
-        document.addEventListener('DOMContentLoaded', function() {
-            toggleDealerType();
-            document.getElementById('Role').addEventListener('change', toggleDealerType);
-        });
-    </script>
-}
-
 <div class="container">
     <h2>Edit User</h2>
     <div class="row">
@@ -38,20 +20,21 @@
 
                 <div class="form-group mb-3">
                     <label asp-for="Role" class="control-label">Role</label>
-                    <select asp-for="Role" class="form-select" id="Role" name="Role">
+                    <select asp-for="Role" class="form-select" id="roleSelect">
                         <option value="Admin">Admin</option>
-                        <option value="EVN staff">EVN staff</option>
-                        <option value="Dealer">Dealer</option>
+                        <option value="EVN staff">EVN Staff</option>
+                        <option value="DealerStaff">Dealer Staff</option>
+                        <option value="DealerManager">Dealer Manager</option>
                     </select>
                 </div>
 
-                <div class="form-group mb-3" id="dealerTypeDiv" style="display:none;">
-                    <label asp-for="Dealer.DealerType.TypeName" class="control-label">Dealer Type</label>
-                    <select asp-for="Dealer.DealerType.TypeName" class="form-select"
-                            asp-items="@(new SelectList(new[] { "Manager", "Staff" }, Model.Dealer?.DealerType?.TypeName))">
+                <div class="form-group mb-3" id="dealerTypeDiv">
+                    <label class="control-label">Dealer Type</label>
+                    <select name="DealerTypeName" class="form-select">
+                        <option value="Headquarter">Headquarter</option>
+                        <option value="Agent">Agent</option>
                     </select>
                 </div>
-
 
                 <div class="form-group mb-3">
                     <label class="control-label">Dealer Address</label>
@@ -66,3 +49,21 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            function toggleDealerTypeVisibility() {
+                var role = $('#roleSelect').val();
+                if (role === 'DealerStaff' || role === 'DealerManager') {
+                    $('#dealerTypeDiv').show();
+                } else {
+                    $('#dealerTypeDiv').hide();
+                }
+            }
+
+            $('#roleSelect').change(toggleDealerTypeVisibility);
+            toggleDealerTypeVisibility(); // Run on page load
+        });
+    </script>
+}}

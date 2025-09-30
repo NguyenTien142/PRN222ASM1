@@ -29,16 +29,9 @@ namespace Services.Implements
         {
             var user = await _userRepository.GetByIdWithDetailsAsync(id);
             if (user == null) return false;
+            
             user.Role = newRole;
-            if (user.Dealer != null)
-            {
-                user.Dealer.Address = dealerAddress;
-                if (user.Dealer.DealerType != null)
-                {
-                    user.Dealer.DealerType.TypeName = dealerTypeName;
-                }
-            }
-            return await _userRepository.UpdateAsync(user);
+            return await _userRepository.UpdateUserWithDealerAsync(user, dealerTypeName, dealerAddress);
         }
 
         public async Task<bool> DeleteUserAsync(int id)
