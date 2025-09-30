@@ -1,0 +1,290 @@
+﻿/*--------------------------------------------------------------
+# Privacy Section
+--------------------------------------------------------------*/
+.privacy .privacy-content {
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+    .privacy .privacy-content .last-updated {
+        background: color-mix(in srgb, var(--accent-color), transparent 95%);
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 40px;
+        border-left: 4px solid var(--accent-color);
+    }
+
+        .privacy .privacy-content .last-updated p {
+            margin: 0;
+            color: var(--heading-color);
+        }
+
+    .privacy .privacy-content .privacy-section {
+        margin-bottom: 50px;
+    }
+
+        .privacy .privacy-content .privacy-section h3 {
+            font-size: 28px;
+            margin-bottom: 25px;
+            color: var(--heading-color);
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+            .privacy .privacy-content .privacy-section h3:after {
+                content: "";
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 50px;
+                height: 3px;
+                background: var(--accent-color);
+                border-radius: 2px;
+            }
+
+        .privacy .privacy-content .privacy-section h4 {
+            color: var(--heading-color);
+            font-size: 22px;
+            margin: 30px 0 15px 0;
+        }
+
+        .privacy .privacy-content .privacy-section h5 {
+            color: var(--heading-color);
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .privacy .privacy-content .privacy-section p {
+            margin-bottom: 20px;
+            color: var(--default-color);
+        }
+
+        .privacy .privacy-content .privacy-section ul,
+        .privacy .privacy-content .privacy-section ol {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+
+            .privacy .privacy-content .privacy-section ul li,
+            .privacy .privacy-content .privacy-section ol li {
+                margin-bottom: 10px;
+                color: var(--default-color);
+            }
+
+        .privacy .privacy-content .privacy-section .info-box {
+            background: var(--surface-color);
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+        }
+
+            .privacy .privacy-content .privacy-section .info-box h4 {
+                color: var(--heading-color);
+                margin-top: 0;
+            }
+
+        .privacy .privacy-content .privacy-section .highlight-box {
+            background: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color), #000000 20%));
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            color: var(--contrast-color);
+            margin: 40px 0;
+        }
+
+            .privacy .privacy-content .privacy-section .highlight-box i {
+                font-size: 48px;
+                margin-bottom: 20px;
+                display: block;
+            }
+
+            .privacy .privacy-content .privacy-section .highlight-box h4 {
+                color: var(--contrast-color);
+                margin-bottom: 15px;
+            }
+
+            .privacy .privacy-content .privacy-section .highlight-box p {
+                color: var(--contrast-color);
+                margin: 0;
+                opacity: 0.9;
+            }
+
+        .privacy .privacy-content .privacy-section .security-measures {
+            margin: 30px 0;
+        }
+
+            .privacy .privacy-content .privacy-section .security-measures .measure-item {
+                text-align: center;
+                padding: 30px 20px;
+                border-radius: 10px;
+                background: var(--surface-color);
+                border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+                transition: all 0.3s ease;
+            }
+
+                .privacy .privacy-content .privacy-section .security-measures .measure-item:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                }
+
+                .privacy .privacy-content .privacy-section .security-measures .measure-item i {
+                    font-size: 36px;
+                    color: var(--accent-color);
+                    margin-bottom: 20px;
+                    display: block;
+                }
+
+                .privacy .privacy-content .privacy-section .security-measures .measure-item h5 {
+                    margin-bottom: 15px;
+                }
+
+                .privacy .privacy-content .privacy-section .security-measures .measure-item p {
+                    margin: 0;
+                    font-size: 14px;
+                }
+
+        .privacy .privacy-content .privacy-section .rights-list {
+            margin: 30px 0;
+        }
+
+            .privacy .privacy-content .privacy-section .rights-list .right-item {
+                display: flex;
+                align-items: flex-start;
+                padding: 25px;
+                margin-bottom: 20px;
+                background: var(--surface-color);
+                border-radius: 10px;
+                border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+                transition: all 0.3s ease;
+            }
+
+                .privacy .privacy-content .privacy-section .rights-list .right-item:hover {
+                    border-color: var(--accent-color);
+                    transform: translateX(5px);
+                }
+
+                .privacy .privacy-content .privacy-section .rights-list .right-item i {
+                    font-size: 24px;
+                    color: var(--accent-color);
+                    margin-right: 20px;
+                    margin-top: 5px;
+                    min-width: 24px;
+                }
+
+                .privacy .privacy-content .privacy-section .rights-list .right-item div {
+                    flex: 1;
+                }
+
+                    .privacy .privacy-content .privacy-section .rights-list .right-item div h5 {
+                        margin-bottom: 10px;
+                    }
+
+                    .privacy .privacy-content .privacy-section .rights-list .right-item div p {
+                        margin: 0;
+                        font-size: 14px;
+                    }
+
+        .privacy .privacy-content .privacy-section .cookie-types {
+            margin: 30px 0;
+        }
+
+            .privacy .privacy-content .privacy-section .cookie-types h4 {
+                margin-bottom: 20px;
+            }
+
+            .privacy .privacy-content .privacy-section .cookie-types .table-responsive {
+                border-radius: 10px;
+                overflow: hidden;
+                border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+            }
+
+                .privacy .privacy-content .privacy-section .cookie-types .table-responsive .table {
+                    margin: 0;
+                }
+
+                    .privacy .privacy-content .privacy-section .cookie-types .table-responsive .table thead {
+                        background: color-mix(in srgb, var(--accent-color), transparent 90%);
+                    }
+
+                        .privacy .privacy-content .privacy-section .cookie-types .table-responsive .table thead th {
+                            border: none;
+                            color: var(--heading-color);
+                            font-weight: 600;
+                            padding: 15px 20px;
+                        }
+
+                    .privacy .privacy-content .privacy-section .cookie-types .table-responsive .table tbody td {
+                        border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+                        padding: 15px 20px;
+                        color: var(--default-color);
+                    }
+
+                    .privacy .privacy-content .privacy-section .cookie-types .table-responsive .table tbody tr:hover {
+                        background: color-mix(in srgb, var(--accent-color), transparent 97%);
+                    }
+
+    .privacy .privacy-content .contact-section {
+        background: color-mix(in srgb, var(--accent-color), transparent 96%);
+        padding: 40px;
+        border-radius: 15px;
+        border: 1px solid color-mix(in srgb, var(--accent-color), transparent 90%);
+    }
+
+        .privacy .privacy-content .contact-section h3 {
+            color: var(--heading-color);
+            margin-bottom: 20px;
+        }
+
+            .privacy .privacy-content .contact-section h3:after {
+                background: var(--accent-color);
+            }
+
+        .privacy .privacy-content .contact-section .contact-info {
+            margin-top: 30px;
+        }
+
+            .privacy .privacy-content .contact-section .contact-info .contact-item {
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+            }
+
+                .privacy .privacy-content .contact-section .contact-info .contact-item i {
+                    font-size: 18px;
+                    color: var(--accent-color);
+                    margin-right: 15px;
+                    min-width: 18px;
+                }
+
+                .privacy .privacy-content .contact-section .contact-info .contact-item span {
+                    color: var(--default-color);
+                }
+
+@media (max-width: 768px) {
+    .privacy .privacy-content {
+        font-size: 15px;
+    }
+
+        .privacy .privacy-content .privacy-section h3 {
+            font-size: 24px;
+        }
+
+        .privacy .privacy-content .privacy-section h4 {
+            font-size: 20px;
+        }
+
+        .privacy .privacy-content .privacy-section .security-measures .row > div {
+            margin-bottom: 20px;
+        }
+
+        .privacy .privacy-content .privacy-section .rights-list .right-item {
+            flex-direction: column;
+            text-align: center;
+        }
+
+            .privacy .privacy-content .privacy-section .rights-list .right-item i {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+}

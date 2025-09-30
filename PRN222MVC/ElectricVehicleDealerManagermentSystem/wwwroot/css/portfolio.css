@@ -1,0 +1,518 @@
+﻿/*--------------------------------------------------------------
+# Portfolio Details Section
+--------------------------------------------------------------*/
+.portfolio-details {
+    --section-spacing: 6rem;
+    --content-spacing: 4rem;
+}
+
+    .portfolio-details .project-intro {
+        margin-bottom: var(--section-spacing);
+        text-align: center;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+        .portfolio-details .project-intro .intro-content .project-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+            .portfolio-details .project-intro .intro-content .project-meta .project-type,
+            .portfolio-details .project-intro .intro-content .project-meta .project-year {
+                font-size: 0.875rem;
+                font-weight: 400;
+                letter-spacing: 0.05em;
+                color: color-mix(in srgb, var(--default-color), transparent 40%);
+                position: relative;
+            }
+
+                .portfolio-details .project-intro .intro-content .project-meta .project-type::after {
+                    content: "�";
+                    position: absolute;
+                    right: -1rem;
+                    color: color-mix(in srgb, var(--default-color), transparent 60%);
+                }
+
+        .portfolio-details .project-intro .intro-content .project-title {
+            font-size: 3.75rem;
+            font-weight: 300;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            color: var(--heading-color);
+            letter-spacing: -0.02em;
+        }
+
+        .portfolio-details .project-intro .intro-content .project-description {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            color: color-mix(in srgb, var(--default-color), transparent 20%);
+            margin-bottom: 0;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+    .portfolio-details .project-showcase {
+        margin-bottom: var(--section-spacing);
+    }
+
+        .portfolio-details .project-showcase .showcase-slider {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+            .portfolio-details .project-showcase .showcase-slider .swiper-wrapper {
+                height: auto !important;
+            }
+
+            .portfolio-details .project-showcase .showcase-slider .swiper-slide img {
+                width: 100%;
+                height: 600px;
+                object-fit: cover;
+            }
+
+            .portfolio-details .project-showcase .showcase-slider .swiper-pagination {
+                bottom: 30px;
+            }
+
+                .portfolio-details .project-showcase .showcase-slider .swiper-pagination .swiper-pagination-bullet {
+                    width: 12px;
+                    height: 12px;
+                    background-color: rgba(255, 255, 255, 0.5);
+                    opacity: 1;
+                    transition: all 0.3s ease;
+                }
+
+                    .portfolio-details .project-showcase .showcase-slider .swiper-pagination .swiper-pagination-bullet.swiper-pagination-bullet-active {
+                        background-color: white;
+                        transform: scale(1.2);
+                    }
+
+    .portfolio-details .project-details-grid {
+        margin-bottom: var(--section-spacing);
+    }
+
+        .portfolio-details .project-details-grid .project-narrative h2 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            color: var(--heading-color);
+            letter-spacing: -0.01em;
+        }
+
+        .portfolio-details .project-details-grid .project-narrative p {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: color-mix(in srgb, var(--default-color), transparent 15%);
+            margin-bottom: 1.5rem;
+        }
+
+            .portfolio-details .project-details-grid .project-narrative p:last-child {
+                margin-bottom: 0;
+            }
+
+        .portfolio-details .project-details-grid .project-info {
+            padding-left: 3rem;
+        }
+
+            .portfolio-details .project-details-grid .project-info .info-block {
+                padding: 1.5rem 0;
+                border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+            }
+
+                .portfolio-details .project-details-grid .project-info .info-block:last-child {
+                    border-bottom: none;
+                }
+
+                .portfolio-details .project-details-grid .project-info .info-block .info-label {
+                    font-size: 0.875rem;
+                    font-weight: 500;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                    color: color-mix(in srgb, var(--default-color), transparent 50%);
+                    margin-bottom: 0.5rem;
+                }
+
+                .portfolio-details .project-details-grid .project-info .info-block .info-value {
+                    font-size: 1.125rem;
+                    font-weight: 400;
+                    color: var(--heading-color);
+                }
+
+    .portfolio-details .solution-approach {
+        margin-bottom: var(--section-spacing);
+    }
+
+        .portfolio-details .solution-approach .approach-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+            .portfolio-details .solution-approach .approach-header h2 {
+                font-size: 2.75rem;
+                font-weight: 300;
+                margin-bottom: 1.5rem;
+                color: var(--heading-color);
+                letter-spacing: -0.01em;
+            }
+
+            .portfolio-details .solution-approach .approach-header p {
+                font-size: 1.125rem;
+                line-height: 1.8;
+                color: color-mix(in srgb, var(--default-color), transparent 25%);
+                margin-bottom: 0;
+            }
+
+        .portfolio-details .solution-approach .approach-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 3rem;
+        }
+
+            .portfolio-details .solution-approach .approach-steps .step-item .step-number {
+                font-size: 3rem;
+                font-weight: 200;
+                color: color-mix(in srgb, var(--accent-color), transparent 20%);
+                margin-bottom: 1rem;
+                line-height: 1;
+            }
+
+            .portfolio-details .solution-approach .approach-steps .step-item h3 {
+                font-size: 1.5rem;
+                font-weight: 400;
+                margin-bottom: 1rem;
+                color: var(--heading-color);
+            }
+
+            .portfolio-details .solution-approach .approach-steps .step-item p {
+                font-size: 1rem;
+                line-height: 1.7;
+                color: color-mix(in srgb, var(--default-color), transparent 25%);
+                margin-bottom: 0;
+            }
+
+    .portfolio-details .project-gallery {
+        margin-bottom: var(--section-spacing);
+    }
+
+        .portfolio-details .project-gallery h2 {
+            font-size: 2.75rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--heading-color);
+            letter-spacing: -0.01em;
+        }
+
+        .portfolio-details .project-gallery .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+            .portfolio-details .project-gallery .gallery-grid .gallery-item {
+                border-radius: 8px;
+                overflow: hidden;
+                transition: all 0.4s ease;
+            }
+
+                .portfolio-details .project-gallery .gallery-grid .gallery-item.featured {
+                    grid-column: span 2;
+                    grid-row: span 2;
+                }
+
+                .portfolio-details .project-gallery .gallery-grid .gallery-item img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: transform 0.5s ease;
+                }
+
+                .portfolio-details .project-gallery .gallery-grid .gallery-item:hover {
+                    transform: translateY(-8px);
+                }
+
+                    .portfolio-details .project-gallery .gallery-grid .gallery-item:hover img {
+                        transform: scale(1.05);
+                    }
+
+    .portfolio-details .technologies-used {
+        margin-bottom: var(--section-spacing);
+    }
+
+        .portfolio-details .technologies-used h2 {
+            font-size: 2.75rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            color: var(--heading-color);
+            letter-spacing: -0.01em;
+        }
+
+        .portfolio-details .technologies-used p {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: color-mix(in srgb, var(--default-color), transparent 25%);
+        }
+
+        .portfolio-details .technologies-used .tech-stack .tech-group {
+            margin-bottom: 2.5rem;
+        }
+
+            .portfolio-details .technologies-used .tech-stack .tech-group:last-child {
+                margin-bottom: 0;
+            }
+
+            .portfolio-details .technologies-used .tech-stack .tech-group h4 {
+                font-size: 1.125rem;
+                font-weight: 500;
+                margin-bottom: 1rem;
+                color: var(--heading-color);
+            }
+
+            .portfolio-details .technologies-used .tech-stack .tech-group .tech-tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.75rem;
+            }
+
+                .portfolio-details .technologies-used .tech-stack .tech-group .tech-tags .tech-tag {
+                    padding: 0.5rem 1.25rem;
+                    background-color: color-mix(in srgb, var(--surface-color), transparent 50%);
+                    border: 1px solid color-mix(in srgb, var(--default-color), transparent 88%);
+                    border-radius: 6px;
+                    font-size: 0.875rem;
+                    font-weight: 400;
+                    color: var(--default-color);
+                    transition: all 0.3s ease;
+                }
+
+                    .portfolio-details .technologies-used .tech-stack .tech-group .tech-tags .tech-tag:hover {
+                        background-color: var(--accent-color);
+                        border-color: var(--accent-color);
+                        color: var(--contrast-color);
+                        transform: translateY(-2px);
+                    }
+
+    .portfolio-details .project-outcomes {
+        background-color: color-mix(in srgb, var(--surface-color), transparent 60%);
+        padding: 4rem 3rem;
+        border-radius: 12px;
+        margin-bottom: var(--section-spacing);
+    }
+
+        .portfolio-details .project-outcomes .outcomes-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+            .portfolio-details .project-outcomes .outcomes-header h2 {
+                font-size: 2.75rem;
+                font-weight: 300;
+                color: var(--heading-color);
+                letter-spacing: -0.01em;
+                margin-bottom: 0;
+            }
+
+        .portfolio-details .project-outcomes .outcomes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+            .portfolio-details .project-outcomes .outcomes-grid .outcome-card {
+                text-align: center;
+            }
+
+                .portfolio-details .project-outcomes .outcomes-grid .outcome-card .outcome-stat {
+                    font-size: 3rem;
+                    font-weight: 300;
+                    color: var(--accent-color);
+                    margin-bottom: 0.75rem;
+                    line-height: 1;
+                }
+
+                .portfolio-details .project-outcomes .outcomes-grid .outcome-card .outcome-label {
+                    font-size: 1rem;
+                    color: color-mix(in srgb, var(--default-color), transparent 30%);
+                    line-height: 1.4;
+                }
+
+    .portfolio-details .project-navigation {
+        border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+        padding-top: 3rem;
+    }
+
+        .portfolio-details .project-navigation .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .portfolio-details .project-navigation .nav-container .nav-item {
+                display: flex;
+                flex-direction: column;
+                text-decoration: none;
+                transition: all 0.3s ease;
+            }
+
+                .portfolio-details .project-navigation .nav-container .nav-item.prev,
+                .portfolio-details .project-navigation .nav-container .nav-item.next {
+                    color: var(--heading-color);
+                }
+
+                    .portfolio-details .project-navigation .nav-container .nav-item.prev .nav-label,
+                    .portfolio-details .project-navigation .nav-container .nav-item.next .nav-label {
+                        font-size: 0.875rem;
+                        color: color-mix(in srgb, var(--default-color), transparent 50%);
+                        margin-bottom: 0.25rem;
+                    }
+
+                    .portfolio-details .project-navigation .nav-container .nav-item.prev .nav-title,
+                    .portfolio-details .project-navigation .nav-container .nav-item.next .nav-title {
+                        font-size: 1.125rem;
+                        font-weight: 400;
+                    }
+
+                    .portfolio-details .project-navigation .nav-container .nav-item.prev:hover,
+                    .portfolio-details .project-navigation .nav-container .nav-item.next:hover {
+                        color: var(--accent-color);
+                        transform: translateY(-3px);
+                    }
+
+                .portfolio-details .project-navigation .nav-container .nav-item.next {
+                    text-align: right;
+                }
+
+                .portfolio-details .project-navigation .nav-container .nav-item.center {
+                    flex-direction: row;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding: 0.75rem 2rem;
+                    border: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
+                    border-radius: 6px;
+                    color: var(--heading-color);
+                    font-weight: 400;
+                    transition: all 0.3s ease;
+                }
+
+                    .portfolio-details .project-navigation .nav-container .nav-item.center i {
+                        font-size: 1.125rem;
+                    }
+
+                    .portfolio-details .project-navigation .nav-container .nav-item.center:hover {
+                        background-color: var(--accent-color);
+                        border-color: var(--accent-color);
+                        color: var(--contrast-color);
+                        transform: translateY(-3px);
+                    }
+
+@media (max-width: 1200px) {
+    .portfolio-details .project-details-grid .project-info {
+        padding-left: 2rem;
+    }
+
+    .portfolio-details .gallery-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+
+        .portfolio-details .gallery-grid .gallery-item.featured {
+            grid-column: span 2;
+            grid-row: span 1;
+        }
+}
+
+@media (max-width: 992px) {
+    .portfolio-details .project-intro .intro-content .project-title {
+        font-size: 3rem;
+    }
+
+    .portfolio-details .project-details-grid .project-info {
+        padding-left: 0;
+        margin-top: 3rem;
+    }
+
+    .portfolio-details .approach-steps {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+
+    .portfolio-details .gallery-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    .portfolio-details .outcomes-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .portfolio-details {
+        --section-spacing: 4rem;
+    }
+
+        .portfolio-details .project-intro .intro-content .project-meta {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+            .portfolio-details .project-intro .intro-content .project-meta .project-type::after {
+                display: none;
+            }
+
+        .portfolio-details .project-intro .intro-content .project-title {
+            font-size: 2.5rem;
+        }
+
+        .portfolio-details .project-intro .intro-content .project-description {
+            font-size: 1.125rem;
+        }
+
+        .portfolio-details .project-showcase .showcase-slider .swiper-slide img {
+            height: 400px;
+        }
+
+        .portfolio-details .gallery-grid {
+            grid-template-columns: 1fr !important;
+        }
+
+            .portfolio-details .gallery-grid .gallery-item.featured {
+                grid-column: span 1;
+            }
+
+        .portfolio-details .project-outcomes {
+            padding: 3rem 2rem;
+        }
+
+            .portfolio-details .project-outcomes .outcomes-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+        .portfolio-details .project-navigation .nav-container {
+            flex-direction: column;
+            gap: 2rem;
+            text-align: center;
+        }
+
+            .portfolio-details .project-navigation .nav-container .nav-item.prev,
+            .portfolio-details .project-navigation .nav-container .nav-item.next {
+                text-align: center;
+            }
+
+            .portfolio-details .project-navigation .nav-container .nav-item.center {
+                order: -1;
+            }
+}
+
+@media (max-width: 576px) {
+    .portfolio-details .project-outcomes {
+        margin-left: -15px;
+        margin-right: -15px;
+        border-radius: 0;
+    }
+}

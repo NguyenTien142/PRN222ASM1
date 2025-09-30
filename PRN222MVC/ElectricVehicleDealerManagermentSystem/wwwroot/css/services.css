@@ -1,0 +1,331 @@
+﻿/*--------------------------------------------------------------
+# Service Details Section
+--------------------------------------------------------------*/
+.service-details {
+    padding: 80px 0;
+}
+
+    .service-details .service-content .service-hero {
+        margin-bottom: 60px;
+    }
+
+        .service-details .service-content .service-hero .service-image {
+            border-radius: 8px;
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+    .service-details .service-content .service-description {
+        margin-bottom: 80px;
+    }
+
+        .service-details .service-content .service-description .service-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 24px;
+            line-height: 1.3;
+        }
+
+        .service-details .service-content .service-description .lead {
+            font-size: 1.25rem;
+            font-weight: 300;
+            line-height: 1.7;
+            color: color-mix(in srgb, var(--default-color), transparent 20%);
+            margin-bottom: 32px;
+        }
+
+        .service-details .service-content .service-description p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 24px;
+            color: color-mix(in srgb, var(--default-color), transparent 15%);
+        }
+
+    .service-details .service-content .service-features {
+        margin-bottom: 80px;
+    }
+
+        .service-details .service-content .service-features h3 {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+        }
+
+        .service-details .service-content .service-features .feature-item {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+            .service-details .service-content .service-features .feature-item .feature-icon {
+                flex-shrink: 0;
+                width: 48px;
+                height: 48px;
+                background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+                .service-details .service-content .service-features .feature-item .feature-icon i {
+                    font-size: 20px;
+                    color: var(--accent-color);
+                }
+
+            .service-details .service-content .service-features .feature-item .feature-content h4 {
+                font-size: 1.2rem;
+                font-weight: 400;
+                margin-bottom: 12px;
+            }
+
+            .service-details .service-content .service-features .feature-item .feature-content p {
+                font-size: 1rem;
+                line-height: 1.7;
+                color: color-mix(in srgb, var(--default-color), transparent 25%);
+                margin: 0;
+            }
+
+    .service-details .service-content .service-process h3 {
+        font-size: 2rem;
+        font-weight: 300;
+        margin-bottom: 40px;
+    }
+
+    .service-details .service-content .service-process .process-timeline .process-step {
+        display: flex;
+        gap: 24px;
+        margin-bottom: 40px;
+        position: relative;
+    }
+
+        .service-details .service-content .service-process .process-timeline .process-step:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            left: 23px;
+            top: 48px;
+            width: 2px;
+            height: 40px;
+            background: color-mix(in srgb, var(--default-color), transparent 85%);
+        }
+
+        .service-details .service-content .service-process .process-timeline .process-step .step-number {
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            color: var(--contrast-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .service-details .service-content .service-process .process-timeline .process-step .step-content {
+            flex: 1;
+        }
+
+            .service-details .service-content .service-process .process-timeline .process-step .step-content h4 {
+                font-size: 1.3rem;
+                font-weight: 400;
+                margin-bottom: 12px;
+            }
+
+            .service-details .service-content .service-process .process-timeline .process-step .step-content p {
+                font-size: 1rem;
+                line-height: 1.7;
+                color: color-mix(in srgb, var(--default-color), transparent 25%);
+                margin: 0;
+            }
+
+    .service-details .service-sidebar .sidebar-widget {
+        background-color: var(--surface-color);
+        border-radius: 8px;
+        padding: 32px;
+        margin-bottom: 32px;
+        border: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+    }
+
+        .service-details .service-sidebar .sidebar-widget h4 {
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 24px;
+        }
+
+    .service-details .service-sidebar .service-info .service-details-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .service-details .service-sidebar .service-info .service-details-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+            .service-details .service-sidebar .service-info .service-details-list li:last-child {
+                border-bottom: none;
+            }
+
+            .service-details .service-sidebar .service-info .service-details-list li strong {
+                color: var(--heading-color);
+                font-weight: 500;
+            }
+
+    .service-details .service-sidebar .related-services .related-service-list .related-service-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 0;
+        border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+        color: var(--default-color);
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+        .service-details .service-sidebar .related-services .related-service-list .related-service-item:last-child {
+            border-bottom: none;
+        }
+
+        .service-details .service-sidebar .related-services .related-service-list .related-service-item:hover {
+            color: var(--accent-color);
+            transform: translateX(4px);
+        }
+
+        .service-details .service-sidebar .related-services .related-service-list .related-service-item i {
+            font-size: 16px;
+            width: 20px;
+        }
+
+        .service-details .service-sidebar .related-services .related-service-list .related-service-item span {
+            font-size: 0.95rem;
+        }
+
+    .service-details .service-sidebar .cta-widget {
+        background: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color), transparent 20%));
+        color: var(--contrast-color);
+    }
+
+        .service-details .service-sidebar .cta-widget .cta-content {
+            text-align: center;
+        }
+
+            .service-details .service-sidebar .cta-widget .cta-content h4 {
+                color: var(--contrast-color);
+                margin-bottom: 16px;
+            }
+
+            .service-details .service-sidebar .cta-widget .cta-content p {
+                color: color-mix(in srgb, var(--contrast-color), transparent 15%);
+                margin-bottom: 24px;
+                line-height: 1.6;
+            }
+
+            .service-details .service-sidebar .cta-widget .cta-content .btn-cta {
+                display: inline-block;
+                background-color: var(--contrast-color);
+                color: var(--accent-color);
+                padding: 12px 24px;
+                border-radius: 6px;
+                text-decoration: none;
+                font-weight: 500;
+                transition: all 0.3s ease;
+            }
+
+                .service-details .service-sidebar .cta-widget .cta-content .btn-cta:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 16px color-mix(in srgb, var(--default-color), transparent 85%);
+                    color: var(--accent-color);
+                }
+
+    .service-details .service-sidebar .contact-info .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+
+        .service-details .service-sidebar .contact-info .contact-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .service-details .service-sidebar .contact-info .contact-item i {
+            font-size: 18px;
+            color: var(--accent-color);
+            width: 24px;
+        }
+
+        .service-details .service-sidebar .contact-info .contact-item div strong {
+            display: block;
+            font-weight: 500;
+            color: var(--heading-color);
+            margin-bottom: 4px;
+        }
+
+        .service-details .service-sidebar .contact-info .contact-item div span {
+            color: color-mix(in srgb, var(--default-color), transparent 25%);
+            font-size: 0.95rem;
+        }
+
+@media (max-width: 768px) {
+    .service-details {
+        padding: 60px 0;
+    }
+
+        .service-details .service-content .service-hero {
+            margin-bottom: 40px;
+        }
+
+            .service-details .service-content .service-hero .service-image {
+                height: 300px;
+            }
+
+        .service-details .service-content .service-description {
+            margin-bottom: 60px;
+        }
+
+            .service-details .service-content .service-description .service-title {
+                font-size: 2rem;
+            }
+
+            .service-details .service-content .service-description .lead {
+                font-size: 1.1rem;
+            }
+
+        .service-details .service-content .service-features,
+        .service-details .service-content .service-process {
+            margin-bottom: 60px;
+        }
+
+            .service-details .service-content .service-features h3,
+            .service-details .service-content .service-process h3 {
+                font-size: 1.7rem;
+            }
+
+        .service-details .service-content .process-timeline .process-step {
+            gap: 16px;
+        }
+
+            .service-details .service-content .process-timeline .process-step:not(:last-child)::after {
+                left: 19px;
+            }
+
+            .service-details .service-content .process-timeline .process-step .step-number {
+                width: 40px;
+                height: 40px;
+                font-size: 0.9rem;
+            }
+
+        .service-details .service-sidebar {
+            margin-top: 40px;
+        }
+
+            .service-details .service-sidebar .sidebar-widget {
+                padding: 24px;
+            }
+}

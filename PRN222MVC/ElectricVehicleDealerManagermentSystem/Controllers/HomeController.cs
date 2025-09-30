@@ -23,6 +23,11 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
             return View();
         }
 
+        public IActionResult PortfolioDetail()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
