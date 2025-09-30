@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ElectricVehicleDealerManagermentSystem.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly IAdminService _adminService;
@@ -16,6 +16,11 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
         {
             _adminService = adminService;
             _logger = logger;
+        }
+
+        public IActionResult Dashboard()
+        {
+            return View();
         }
 
         public async Task<IActionResult> Index()
