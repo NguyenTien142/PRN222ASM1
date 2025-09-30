@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace BusinessObject.BusinessObject.VehicleModels.Request
 {
-    public class UpdateVehicleRequest
+    public class CreateVehicleRequest
     {
-        public int VehicleId { get; set; }
-
         public int CategoryId { get; set; }
 
         public string Color { get; set; } = null!;

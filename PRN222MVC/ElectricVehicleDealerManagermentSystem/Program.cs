@@ -40,6 +40,7 @@ namespace ElectricVehicleDealerManagermentSystem
 
             // Services
             builder.Services.AddScoped<IVehicleServices, VehicleServices>();
+            builder.Services.AddScoped<ICategoryServices, CategoryServices>();
 
             //auto mapper
             builder.Services.AddAutoMapper(cfg => { }, typeof(MapperProfile));

@@ -24,9 +24,13 @@ namespace Services.Implements
             _mapper = mapper;
         }
 
-        public Task<GetDetailVehicleRespond?> AddVehicle(GetDetailVehicleRespond vehicle)
+        public async Task<bool> AddVehicle(CreateVehicleRequest request)
         {
-            throw new NotImplementedException();
+            var vehicleRepo = _unitOfWork.GetRepository<Vehicle>();
+            var vehicle = _mapper.Map<Vehicle>(request);
+            await vehicleRepo.AddAsync(vehicle);
+            await _unitOfWork.SaveAsync();
+            return true;
         }
 
         public Task<bool> DeleteVehicle(int vehicleId)
@@ -51,9 +55,32 @@ namespace Services.Implements
             return vehicleRespond;
         }
 
-        public Task<bool> UpdateVehicle(UpdateVehicleRequest vehicle)
+        public async Task<bool> UpdateVehicle(int vehicleId, UpdateVehicleRequest request)
         {
-            throw new NotImplementedException();
+            var vehicleRepo = _unitOfWork.GetRepository<Vehicle>();
+            var vehicle = await vehicleRepo.GetByIdAsync(vehicleId);
+            if (vehicle == null)
+            {
+                return false;
+            }
+
+            if(request.CategoryId > 0)
+                vehicle.CategoryId = request.CategoryId;
+            if (request.Color != null)
+                vehicle.Color = request.Color;
+            if (request.Price >= 0)
+                vehicle.Price = request.Price;
+            vehicle.ManufactureDate = request.ManufactureDate;
+            if (request.Model != null)
+                vehicle.Model = request.Model;
+            if (vehicle.Version != null)
+                vehicle.Version = request.Version;
+            if (vehicle.Image != null)
+                vehicle.Image = request.Image;
+
+            vehicleRepo.Update(vehicle);
+            await _unitOfWork.SaveAsync();
+            return true;
         }
     }
 }

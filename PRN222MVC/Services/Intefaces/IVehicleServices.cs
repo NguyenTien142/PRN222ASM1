@@ -14,9 +14,9 @@ namespace Services.Intefaces
 
         Task<GetDetailVehicleRespond?> GetVehicleById(int vehicleId);
 
-        Task<GetDetailVehicleRespond?> AddVehicle(GetDetailVehicleRespond vehicle);
+        Task<bool> AddVehicle(CreateVehicleRequest vehicle);
 
-        Task<bool> UpdateVehicle(UpdateVehicleRequest vehicle);
+        Task<bool> UpdateVehicle(int vehicleId, UpdateVehicleRequest vehicle);
 
         Task<bool> DeleteVehicle(int vehicleId);
     }
