@@ -1,4 +1,4 @@
-@model IEnumerable<Repositories.Model.User>
+@model IEnumerable<BusinessObject.BusinessObject.UserModels.Respond.GetUserRespond>
 
 @{
     ViewData["Title"] = "User Management";
@@ -60,8 +60,8 @@
                         <td>@user.UserId</td>
                         <td>@user.Username</td>
                         <td>@user.Role</td>
-                        <td>@(user.Dealer?.DealerType?.TypeName ?? "N/A")</td>
-                        <td>@(user.Dealer?.Address ?? "N/A")</td>
+                        <td>@(user.DealerTypeName ?? "N/A")</td>
+                        <td>@(user.DealerAddress ?? "N/A")</td>
                         <td>
                             <div class="btn-group">
                                 <a asp-action="GetUserById" asp-route-id="@user.UserId" class="btn btn-info btn-sm">Details</a>

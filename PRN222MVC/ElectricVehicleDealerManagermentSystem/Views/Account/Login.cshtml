@@ -1,3 +1,5 @@
+@model BusinessObject.BusinessObject.UserModels.Request.LoginRequest
+
 @{
     ViewData["Title"] = "Login";
 }
@@ -12,16 +14,18 @@
                 <div class="card-body">
                     @if (TempData["Error"] != null)
                     {
-                        <div class="alert alert-danger">@TempData["Error"]</div>
+                        <div class="alert alert-danger">
+                            @TempData["Error"]
+                        </div>
                     }
                     <form method="post" asp-action="Login" asp-controller="Account">
                         <div class="form-group mb-3">
-                            <label for="username">Username:</label>
-                            <input type="text" class="form-control" id="username" name="username" required>
+                            <label asp-for="Username">Username:</label>
+                            <input asp-for="Username" class="form-control" required>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="password">Password:</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
+                            <label asp-for="Password">Password:</label>
+                            <input asp-for="Password" type="password" class="form-control" required>
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary">Login</button>

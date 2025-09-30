@@ -1,4 +1,4 @@
-@model Repositories.Model.User
+@model BusinessObject.BusinessObject.UserModels.Respond.GetDetailUserRespond
 
 @{
     ViewData["Title"] = "User Details";
@@ -19,10 +19,10 @@
                 <dd class="col-sm-9">@Model.Role</dd>
 
                 <dt class="col-sm-3">Dealer Type</dt>
-                <dd class="col-sm-9">@(Model.Dealer?.DealerType?.TypeName ?? "N/A")</dd>
+                <dd class="col-sm-9">@(Model.DealerTypeName ?? "N/A")</dd>
 
                 <dt class="col-sm-3">Dealer Address</dt>
-                <dd class="col-sm-9">@(Model.Dealer?.Address ?? "N/A")</dd>
+                <dd class="col-sm-9">@(Model.DealerAddress ?? "N/A")</dd>
             </dl>
         </div>
     </div>
