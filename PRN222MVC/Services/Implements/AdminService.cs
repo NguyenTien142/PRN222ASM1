@@ -25,11 +25,19 @@ namespace Services.Implements
             return await _userRepository.GetByIdWithDetailsAsync(id);
         }
 
-        public async Task<bool> EditUserAsync(int id, string newRole)
+        public async Task<bool> EditUserAsync(int id, string newRole, string dealerTypeName, string dealerAddress)
         {
             var user = await _userRepository.GetByIdWithDetailsAsync(id);
             if (user == null) return false;
             user.Role = newRole;
+            if (user.Dealer != null)
+            {
+                user.Dealer.Address = dealerAddress;
+                if (user.Dealer.DealerType != null)
+                {
+                    user.Dealer.DealerType.TypeName = dealerTypeName;
+                }
+            }
             return await _userRepository.UpdateAsync(user);
         }
 

@@ -60,7 +60,13 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
                 {
                     return NotFound();
                 }
-                var result = await _adminService.EditUserAsync(id, user.Role);
+                var result = await _adminService.EditUserAsync(
+                    id,
+                    user.Role,
+                    user.Dealer?.DealerType?.TypeName ?? "",
+                    user.Dealer?.Address ?? ""
+                );
+
                 if (!result)
                 {
                     TempData["Error"] = "Failed to update user";
@@ -76,6 +82,7 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
                 return View(user);
             }
         }
+
 
         [HttpPost]
         public async Task<IActionResult> DeleteUser(int id)

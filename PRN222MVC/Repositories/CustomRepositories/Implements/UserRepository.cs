@@ -20,6 +20,8 @@ namespace Repositories.CustomRepositories.Implements
             try
             {
                 return await _context.Users
+                    .Include(u => u.Dealer)
+                        .ThenInclude(d => d.DealerType)
                     .FirstOrDefaultAsync(u => u.Username == username && u.PasswordHash == hashedPassword);
             }
             catch (Exception ex)
@@ -48,6 +50,7 @@ namespace Repositories.CustomRepositories.Implements
             {
                 return await _context.Users
                     .Include(u => u.Dealer)
+                        .ThenInclude(d => d.DealerType)
                     .FirstOrDefaultAsync(u => u.UserId == id);
             }
             catch (Exception ex)
@@ -61,7 +64,10 @@ namespace Repositories.CustomRepositories.Implements
         {
             try
             {
-                return await _context.Users.ToListAsync();
+                return await _context.Users
+                    .Include(u => u.Dealer)
+                        .ThenInclude(d => d.DealerType)
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -75,12 +81,31 @@ namespace Repositories.CustomRepositories.Implements
             try
             {
                 return await _context.Users
+                    .Include(u => u.Dealer)
+                        .ThenInclude(d => d.DealerType)
                     .Where(u => u.Role != "Inactive")
                     .ToListAsync();
             }
             catch (Exception ex)
             {
                 _logger?.LogError(ex, "Error in GetAllActiveUsersAsync");
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<User>> SearchByUsernameAsync(string username)
+        {
+            try
+            {
+                return await _context.Users
+                    .Include(u => u.Dealer)
+                        .ThenInclude(d => d.DealerType)
+                    .Where(u => u.Username.Contains(username))
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error in SearchByUsernameAsync");
                 throw;
             }
         }
@@ -99,24 +124,6 @@ namespace Repositories.CustomRepositories.Implements
             catch (Exception ex)
             {
                 _logger?.LogError(ex, "Error in SoftDeleteAsync");
-                throw;
-            }
-        }
-
-        public async Task<IEnumerable<User>> SearchByUsernameAsync(string username)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(username))
-                    return await GetAllActiveUsersAsync();
-
-                return await _context.Users
-                    .Where(u => u.Username.Contains(username) && u.Role != "Inactive")
-                    .ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                _logger?.LogError(ex, "Error in SearchByUsernameAsync");
                 throw;
             }
         }

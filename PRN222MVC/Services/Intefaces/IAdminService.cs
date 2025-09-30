@@ -6,7 +6,7 @@ namespace Services.Intefaces
     {
         Task<IEnumerable<User>> GetAllUsersAsync(string searchUsername = "");
         Task<User?> GetUserByIdAsync(int id);
-        Task<bool> EditUserAsync(int id, string newRole);
+        Task<bool> EditUserAsync(int id, string newRole, string dealerTypeName, string dealerAddress);
         Task<bool> DeleteUserAsync(int id);
     }
 }
