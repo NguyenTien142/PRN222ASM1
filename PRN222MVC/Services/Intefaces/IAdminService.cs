@@ -1,12 +1,14 @@
-using Repositories.Model;
+using BusinessObject.BusinessObject.UserModels.Respond;
+using BusinessObject.BusinessObject.UserModels.Request;
+
 
 namespace Services.Intefaces
 {
     public interface IAdminService
     {
-        Task<IEnumerable<User>> GetAllUsersAsync(string searchUsername = "");
-        Task<User?> GetUserByIdAsync(int id);
-        Task<bool> EditUserAsync(int id, string newRole, string dealerTypeName, string dealerAddress);
+        Task<IEnumerable<GetUserRespond>> GetAllUsersAsync(string searchUsername = "");
+        Task<GetDetailUserRespond?> GetUserByIdAsync(int id);
+        Task<bool> EditUserAsync(UpdateUserRequest request);
         Task<bool> DeleteUserAsync(int id);
     }
 }
