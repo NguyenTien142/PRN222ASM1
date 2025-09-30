@@ -26,8 +26,10 @@ namespace Services.Helper.AutoMapper
             CreateMap<BusinessObject.BusinessObject.VehicleModels.Request.CreateVehicleRequest, Vehicle>();
             CreateMap<BusinessObject.BusinessObject.VehicleModels.Request.UpdateVehicleRequest, Vehicle>();
 
-            // category
+            // Category
             CreateMap<VehicleCategory, BusinessObject.BusinessObject.CategoryModels.Respond.GetCategoryRespond>();
+            CreateMap<BusinessObject.BusinessObject.CategoryModels.Request.AddCategoryResquest, VehicleCategory>();
+            CreateMap<BusinessObject.BusinessObject.CategoryModels.Request.UpdateCategoryRequest, VehicleCategory>();
 
             // User mappings
             CreateMap<User, BusinessObject.BusinessObject.UserModels.Respond.GetUserRespond>()
@@ -55,6 +57,7 @@ namespace Services.Helper.AutoMapper
             CreateMap<BusinessObject.BusinessObject.UserModels.Request.UpdateUserRequest, User>()
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
                 .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role));
+
         }
     }
 }
