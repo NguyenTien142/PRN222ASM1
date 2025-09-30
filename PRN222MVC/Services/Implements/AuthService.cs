@@ -40,7 +40,7 @@ namespace Services.Implements
             }
 
             user.PasswordHash = HashPassword(password);
-            user.Role = "User"; // Default role
+            user.Role = "Dealer"; // Default role
 
             await _userRepository.AddAsync(user);
             return true;

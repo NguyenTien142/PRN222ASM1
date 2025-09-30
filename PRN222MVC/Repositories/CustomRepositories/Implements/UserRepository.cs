@@ -205,7 +205,7 @@ namespace Repositories.CustomRepositories.Implements
             {
                 var dealerType = new DealerType
                 {
-                    TypeName = "Default Dealer Type"
+                    TypeName = "Staff"
                 };
                 _context.DealerTypes.Add(dealerType);
                 await _context.SaveChangesAsync();
