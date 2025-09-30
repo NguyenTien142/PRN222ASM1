@@ -1,0 +1,51 @@
+﻿@model BusinessObject.BusinessObject.VehicleModels.Request.CreateVehicleRequest
+
+@{
+    ViewData["Title"] = "Add Vehicle";
+    var categories = ViewBag.Categories as List<SelectListItem>;
+}
+
+<h2>Add Vehicle</h2>
+
+<form asp-action="AddVehicle" method="post">
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label asp-for="CategoryId">Category</label>
+        <select asp-for="CategoryId" class="form-control" asp-items="categories">
+            <option value="">-- Select Category --</option>
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Color"></label>
+        <input asp-for="Color" class="form-control" />
+        <span asp-validation-for="Color" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ManufactureDate"></label>
+        <input asp-for="ManufactureDate" class="form-control" type="date" />
+        <span asp-validation-for="ManufactureDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Model"></label>
+        <input asp-for="Model" class="form-control" />
+        <span asp-validation-for="Model" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Version"></label>
+        <input asp-for="Version" class="form-control" />
+        <span asp-validation-for="Version" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Image"></label>
+        <input asp-for="Image" class="form-control" />
+        <span asp-validation-for="Image" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Vehicle</button>
+    <a asp-controller="Vehicle" asp-action="IndexVehicle" class="btn btn-secondary">Cancel</a>
+</form>

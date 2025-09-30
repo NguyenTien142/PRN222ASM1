@@ -1,0 +1,18 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container">
+    <h2>Admin Dashboard</h2>
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">User Management</h5>
+                    <p class="card-text">Manage system users</p>
+                    <a asp-action="GetAllUsers" class="btn btn-primary">View All Users</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
