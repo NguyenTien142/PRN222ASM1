@@ -1,0 +1,36 @@
+﻿@model IEnumerable<BusinessObject.BusinessObject.Appointment.Respond.GetAppointmentRespond>
+
+<h2>Appointments</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Customer</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Vehicle</th>
+            <th>Date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.CustomerName</td>
+                <td>@a.CustomerEmail</td>
+                <td>@a.CustomerPhone</td>
+                <td>@a.VehicleModel (@a.VehicleColor)</td>
+                <td>@a.AppointmentDate.ToString("g")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@a.AppointmentId">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
