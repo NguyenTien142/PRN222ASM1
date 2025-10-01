@@ -53,7 +53,7 @@
                 <div class="section-title">Navigation</div>
                 <ul class="nav-menu">
                     <li class="nav-item">
-                        <a  class="nav-link active">
+                        <a asp-area="" asp-controller="Admin" asp-action="Dashboard" class="nav-link">
                             <div class="nav-content">
                                 <i class="bi bi-speedometer2 nav-icon"></i>
                                 Dashboard
@@ -93,6 +93,14 @@
             <div class="sidebar-section">
                 <div class="section-title">Admin Panel</div>
                 <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Admin" asp-action="GetAllUsers" class="nav-link">
+                            <div class="nav-content">
+                                <i class="bi bi-person-gear nav-icon"></i>
+                                User Management
+                            </div>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="courses">
                             <div class="nav-content">
