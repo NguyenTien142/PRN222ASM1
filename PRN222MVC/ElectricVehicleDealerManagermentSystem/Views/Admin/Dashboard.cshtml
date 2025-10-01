@@ -5,5 +5,206 @@
 
 }
 
-<h1>Tôi cảm thấy</h1>
+@section Styles {
+    <link href="~/css/dashboard.css" asp-append-version="true" rel="stylesheet">
+}
+
+<div class="main-content">
+    
+    <!-- Content Area -->
+    <div class="content-area">
+
+        <!-- Dashboard Stats -->
+        <div class="row mb-4">
+            <!-- Online Orders -->
+            <div class="col-lg-4 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h6 class="card-title text-muted mb-0">Successfull Orders</h6>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted small">Successfull Orders</span>
+                            <span class="fw-bold">237 / 400</span>
+                        </div>
+                        <div class="progress mb-2" style="height: 6px;">
+                            <div class="progress-bar bg-success" style="width: 59%"></div>
+                        </div>
+                        <small class="text-muted">37% Done</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending Orders -->
+            <div class="col-lg-4 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h6 class="card-title text-muted mb-0">Pending Orders</h6>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted small">Pending Orders</span>
+                            <span class="fw-bold">100 / 500</span>
+                        </div>
+                        <div class="progress mb-2" style="height: 6px;">
+                            <div class="progress-bar bg-primary" style="width: 20%"></div>
+                        </div>
+                        <small class="text-muted">20% Pending</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Return Orders -->
+            <div class="col-lg-4 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h6 class="card-title text-muted mb-0">Stock Quantity</h6>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted small">Stock Quantity</span>
+                            <span class="fw-bold">50 / 400</span>
+                        </div>
+                        <div class="progress mb-2" style="height: 6px;">
+                            <div class="progress-bar" style="width: 12.5%; background-color: #6f42c1;"></div>
+                        </div>
+                        <small class="text-muted">10% Return</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row">
+            <!-- Yearly Summary Chart -->
+            <div class="col-lg-8 mb-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="card-title mb-0">Yearly Summary</h5>
+                        </div>
+
+                        <!-- Summary Stats -->
+                        <div class="row text-center mb-4">
+                            <div class="col-4">
+                                <h4 class="text-primary mb-0">$2356.4</h4>
+                                <small class="text-muted">Invoiced</small>
+                            </div>
+                            <div class="col-4">
+                                <h4 class="text-success mb-0">$1935.6</h4>
+                                <small class="text-muted">Profit</small>
+                            </div>
+                            <div class="col-4">
+                                <h4 class="text-warning mb-0">$468.9</h4>
+                                <small class="text-muted">Expenses</small>
+                            </div>
+                        </div>
+
+                        <!-- Chart Container -->
+                        <div style="height: 300px; position: relative;">
+                            <canvas id="yearlyChart" style="width: 100%; height: 100%;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side Cards -->
+            <div class="col-lg-4">
+                <!-- Earnings Card -->
+                <div class="card border-0 shadow-sm mb-4" style="background: linear-gradient(135deg, #28a745, #20c997);">
+                    <div class="card-body text-white">
+                        <h6 class="card-title text-white-50 mb-3">Earnings</h6>
+                        <h2 class="mb-0 text-white">359,234 </h2>
+                        <p class="mb-3">TOTAL EARNINGS</p>
+
+
+
+                    </div>
+                </div>
+
+                <!-- Sales Card -->
+                <div class="card border-0 shadow-sm" style="background: linear-gradient(135deg, #007bff, #0056b3);">
+                    <div class="card-body text-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h2 class="mb-0 text-white">375</h2>
+                                <p class="mb-0">TOTAL SALES</p>
+                            </div>
+                            <div>
+                                <i class="bi bi-graph-up" style="font-size: 3rem; opacity: 0.7;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Section -->
+        <div class="row mt-4">
+            <!-- Full Width Table -->
+            <div class="col-12 mb-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Customer</h5>
+                        <div class="table-responsive">
+                            <table class="table table-borderless">
+                                <thead>
+                                    <tr class="text-muted small">
+                                        <th>ID NUMBER</th>
+                                        <th>NAME</th>
+                                        <th>DATE</th>
+                                        <th>PRICE</th>
+                                        <th>STATUS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-bold">#467</td>
+                                        <td>8765482</td>
+                                        <td>Nov 14, 2025</td>
+                                        <td>$ 874.23</td>
+                                        <td><span class="badge bg-success rounded-pill">Active</span></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">#466</td>
+                                        <td>2366482</td>
+                                        <td>Nov 13, 2025</td>
+                                        <td>$ 235.34</td>
+                                        <td><span class="badge bg-primary rounded-pill">Not Active</span></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">#465</td>
+                                        <td>8832638</td>
+                                        <td>Oct 14, 2025</td>
+                                        <td>$ 233.46</td>
+                                        <td><span class="badge bg-success rounded-pill">Active</span></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">#464</td>
+                                        <td>9632638</td>
+                                        <td>Dec 17, 2025</td>
+                                        <td>$ 133.46</td>
+                                        <td><span class="badge bg-primary rounded-pill">Not Active</span></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">#463</td>
+                                        <td>3332538</td>
+                                        <td class="text-primary">July 14, 2025</td>
+                                        <td>$ 244.46</td>
+                                        <td><span class="badge bg-success rounded-pill">Active</span></td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
