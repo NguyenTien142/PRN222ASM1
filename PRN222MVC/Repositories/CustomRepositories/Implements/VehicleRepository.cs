@@ -22,7 +22,7 @@ namespace Repositories.CustomRepositories.Implements
             _logger = logger;
         }
 
-        async Task<Vehicle?> IVehicleRepository.GetDetailVehiclesAsync(int id)
+        public async Task<Vehicle?> GetDetailVehiclesAsync(int id)
         {
             try
             {
@@ -40,5 +40,29 @@ namespace Repositories.CustomRepositories.Implements
                 throw;
             }
         }
+
+        public async Task<List<Vehicle>> GetVehicleBuyDealerIdAsync(int dealerId)
+        {
+            try
+            {
+                var vehicles = await _context.Vehicles
+                    .Include(v => v.Category)
+                    .Include(v => v.VehicleInventories)
+                        .ThenInclude(vi => vi.Inventory)
+                            .ThenInclude(i => i.Dealer)
+                                .ThenInclude(d => d.DealerType)
+                    .Where(v => v.VehicleInventories.Any(vi => vi.Inventory.DealerId == dealerId))
+                    .ToListAsync();
+
+                return vehicles;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error getting vehicles for dealer id {dealerId}");
+                throw;
+            }
+        }
+
+
     }
 }

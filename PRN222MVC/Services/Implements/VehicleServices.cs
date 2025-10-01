@@ -46,6 +46,14 @@ namespace Services.Implements
             return vehicleResponds;
         }
 
+        public async Task<List<GetVehicleByDealerRespond>> GetVehicleByDealerId(int dealerId)
+        {
+            var vehicleRepo = _unitOfWork.GetCustomRepository<IVehicleRepository>();
+            var vehicles = await vehicleRepo.GetVehicleBuyDealerIdAsync(dealerId);
+            var vehicleResponds = _mapper.Map<List<GetVehicleByDealerRespond>>(vehicles.ToList());
+            return vehicleResponds;
+        }
+
         public async Task<GetDetailVehicleRespond?> GetVehicleById(int vehicleId)
         {
             var vehicleRepo = _unitOfWork.GetCustomRepository<IVehicleRepository>();
