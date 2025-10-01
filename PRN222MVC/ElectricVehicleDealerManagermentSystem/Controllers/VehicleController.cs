@@ -32,6 +32,13 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
             return View("VehicleDetail", vehicle);
         }
 
+        [HttpGet("dealer/{dealerId}")]
+        public async Task<IActionResult> VehicleDealer(int dealerId)
+        {
+            var vehicle = await _vehicleServices.GetVehicleByDealerId(dealerId);
+            return View("VehicleDealer", vehicle);
+        }
+
         [HttpGet("add")]
         public async Task<IActionResult> AddVehicle()
         {
