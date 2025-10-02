@@ -45,6 +45,7 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
 
                 if (result.User != null && result.User.DealerId > 0)
                 {
+                    HttpContext.Session.SetInt32("UserId", result.User.UserId);
                     HttpContext.Session.SetInt32("DealerId", result.User.DealerId);
                 }
 
@@ -53,7 +54,7 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
                     return RedirectToAction("Dashboard", "Admin");
                 }
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Dashboard", "Dealer");
             }
             catch (Exception ex)
             {

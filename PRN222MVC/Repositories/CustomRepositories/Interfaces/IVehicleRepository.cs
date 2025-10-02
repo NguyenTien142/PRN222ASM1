@@ -9,6 +9,8 @@ namespace Repositories.CustomRepositories.Interfaces
 {
     public interface IVehicleRepository
     {
+
+
         Task<Vehicle?> GetDetailVehiclesAsync(int id);
 
         Task<List<Vehicle>> GetVehicleBuyDealerIdAsync(int dealerId);

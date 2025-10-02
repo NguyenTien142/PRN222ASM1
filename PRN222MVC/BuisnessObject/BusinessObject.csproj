@@ -8,6 +8,9 @@
 
   <ItemGroup>
     <Folder Include="BusinessObject\DealerModels\Request\" />
+    <Folder Include="BusinessObject\InventoryModels\Request\" />
+    <Folder Include="BusinessObject\InventoryModels\Response\" />
+    <Folder Include="BusinessObject\OrderModels\Request\" />
   </ItemGroup>
 
 </Project>

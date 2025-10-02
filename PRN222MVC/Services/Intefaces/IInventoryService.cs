@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repositories.CustomRepositories.Interfaces
+namespace Services.Intefaces
 {
-    public interface IInventoryRepository
+    public interface IInventoryService
     {
         Task<int> GetTotalStockQuantityByDealerAsync(int dealerId);
     }

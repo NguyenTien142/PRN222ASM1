@@ -74,6 +74,9 @@ namespace ElectricVehicleDealerManagermentSystem
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IAdminService, AdminService>();
             builder.Services.AddScoped<JwtService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IInventoryService, InventoryService>();
+
 
             //auto mapper
             builder.Services.AddAutoMapper(cfg => { }, typeof(MapperProfile));
@@ -100,9 +103,10 @@ namespace ElectricVehicleDealerManagermentSystem
 
             app.UseRouting();
 
+            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseSession();
+          
 
             app.MapControllerRoute(
                 name: "default",
