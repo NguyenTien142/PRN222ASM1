@@ -1,0 +1,243 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "Admin_Layout";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="welcome-section mb-4">
+                <div class="card border-0 bg-primary text-white">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="welcome-icon me-3">
+                                <i class="bi bi-person-badge fs-1"></i>
+                            </div>
+                            <div>
+                                <h2 class="mb-1">Welcome admin @ViewBag.Username</h2>
+                                <p class="mb-0 opacity-75">Manage your system efficiently from this dashboard</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dashboard Stats Cards -->
+            <div class="row g-4">
+                <div class="col-xl-3 col-md-6">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6 class="card-title">Total Users</h6>
+                                    <h2 class="mb-0">@ViewBag.TotalUsers</h2>
+                                    <small class="opacity-75">All registered users</small>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="bi bi-people fs-1"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-xl-3 col-md-6">
+                    <div class="card bg-info text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6 class="card-title">Active Dealers</h6>
+                                    <h2 class="mb-0">@ViewBag.ActiveDealers</h2>
+                                    <small class="opacity-75">Dealer staff & managers</small>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="bi bi-shop fs-1"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-xl-3 col-md-6">
+                    <div class="card bg-warning text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6 class="card-title">Admin Users</h6>
+                                    <h2 class="mb-0">@ViewBag.AdminCount</h2>
+                                    <small class="opacity-75">System administrators</small>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="bi bi-shield-check fs-1"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-xl-3 col-md-6">
+                    <div class="card bg-danger text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6 class="card-title">EVN Staff</h6>
+                                    <h2 class="mb-0">@ViewBag.EVNStaffCount</h2>
+                                    <small class="opacity-75">EVN personnel</small>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="bi bi-lightning-charge fs-1"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Quick Actions</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <a href="@Url.Action("GetAllUsers", "Admin")" class="btn btn-outline-primary w-100 p-3">
+                                        <i class="bi bi-person-gear d-block fs-2 mb-2"></i>
+                                        Manage Users
+                                        <small class="d-block text-muted">@ViewBag.TotalUsers users total</small>
+                                    </a>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-outline-info w-100 p-3">
+                                        <i class="bi bi-graph-up d-block fs-2 mb-2"></i>
+                                        View Reports
+                                        <small class="d-block text-muted">Analytics & insights</small>
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-outline-warning w-100 p-3">
+                                        <i class="bi bi-gear d-block fs-2 mb-2"></i>
+                                        System Settings
+                                        <small class="d-block text-muted">Configure system</small>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Activity (Optional) -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">System Overview</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>User Distribution</h6>
+                                    <div class="progress-group mb-3">
+                                        <div class="d-flex justify-content-between">
+                                            <span>Dealers (@ViewBag.ActiveDealers)</span>
+                                            <span>@(ViewBag.TotalUsers > 0 ? Math.Round((double)ViewBag.ActiveDealers / ViewBag.TotalUsers * 100, 1) : 0)%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-info" style="width: @(ViewBag.TotalUsers > 0 ? (double)ViewBag.ActiveDealers / ViewBag.TotalUsers * 100 : 0)%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="progress-group mb-3">
+                                        <div class="d-flex justify-content-between">
+                                            <span>Admins (@ViewBag.AdminCount)</span>
+                                            <span>@(ViewBag.TotalUsers > 0 ? Math.Round((double)ViewBag.AdminCount / ViewBag.TotalUsers * 100, 1) : 0)%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-warning" style="width: @(ViewBag.TotalUsers > 0 ? (double)ViewBag.AdminCount / ViewBag.TotalUsers * 100 : 0)%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="progress-group">
+                                        <div class="d-flex justify-content-between">
+                                            <span>EVN Staff (@ViewBag.EVNStaffCount)</span>
+                                            <span>@(ViewBag.TotalUsers > 0 ? Math.Round((double)ViewBag.EVNStaffCount / ViewBag.TotalUsers * 100, 1) : 0)%</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar bg-danger" style="width: @(ViewBag.TotalUsers > 0 ? (double)ViewBag.EVNStaffCount / ViewBag.TotalUsers * 100 : 0)%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Quick Statistics</h6>
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2">
+                                            <i class="bi bi-people text-success me-2"></i>
+                                            <strong>@ViewBag.TotalUsers</strong> total users in system
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="bi bi-shop text-info me-2"></i>
+                                            <strong>@ViewBag.ActiveDealers</strong> active dealers
+                                        </li>
+                                        <li class="mb-2">
+                                            <i class="bi bi-shield-check text-warning me-2"></i>
+                                            <strong>@ViewBag.AdminCount</strong> system administrators
+                                        </li>
+                                        <li>
+                                            <i class="bi bi-lightning-charge text-danger me-2"></i>
+                                            <strong>@ViewBag.EVNStaffCount</strong> EVN staff members
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .welcome-section .card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        }
+        
+        .welcome-icon {
+            opacity: 0.8;
+        }
+        
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            transition: transform 0.2s ease-in-out;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline-primary:hover,
+        .btn-outline-success:hover,
+        .btn-outline-info:hover,
+        .btn-outline-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .progress {
+            height: 8px;
+            border-radius: 4px;
+        }
+        
+        .progress-group {
+            margin-bottom: 1rem;
+        }
+        
+        .progress-group:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+}
+

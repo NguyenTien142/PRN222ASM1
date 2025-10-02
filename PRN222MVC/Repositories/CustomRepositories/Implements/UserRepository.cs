@@ -128,28 +128,26 @@ namespace Repositories.CustomRepositories.Implements
             }
         }
 
-        // Override AddAsync to handle DealerId
+        // Override AddAsync to handle DealerId with default DealerStaff role and Agent DealerType
         public override async Task<bool> AddAsync(User entity)
         {
             try
             {
-                // Get the first available dealer or create a default one
-                var dealer = await _context.Dealers.FirstOrDefaultAsync();
-                if (dealer == null)
-                {
-                    // Create a default dealer type if none exists
-                    var dealerType = await _context.DealerTypes.FirstOrDefaultAsync() 
-                        ?? await CreateDefaultDealerType();
+                // Set default role to DealerStaff
+                entity.Role = "DealerStaff";
 
-                    // Create a default dealer
-                    dealer = new Dealer
-                    {
-                        DealerTypeId = dealerType.DealerTypeId,
-                        Address = "Default Address"
-                    };
-                    _context.Dealers.Add(dealer);
-                    await _context.SaveChangesAsync();
-                }
+                // Get or create Agent DealerType
+                var dealerType = await _context.DealerTypes.FirstOrDefaultAsync(dt => dt.TypeName == "Agent")
+                    ?? await CreateDealerType("Agent");
+
+                // Create new Dealer with Agent type
+                var dealer = new Dealer
+                {
+                    DealerTypeId = dealerType.DealerTypeId,
+                    Address = "Default Address"
+                };
+                _context.Dealers.Add(dealer);
+                await _context.SaveChangesAsync();
 
                 // Set the DealerId
                 entity.DealerId = dealer.DealerId;
@@ -178,13 +176,8 @@ namespace Repositories.CustomRepositories.Implements
                 if (existingUser == null)
                     return false;
 
-                // Update only allowed fields
                 existingUser.Role = entity.Role;
-
-                // Mark as modified
                 _context.Entry(existingUser).State = EntityState.Modified;
-                
-                // Save changes
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -199,13 +192,80 @@ namespace Repositories.CustomRepositories.Implements
             }
         }
 
-        private async Task<DealerType> CreateDefaultDealerType()
+        public async Task<bool> UpdateUserWithDealerAsync(User entity, string dealerTypeName, string dealerAddress)
+        {
+            try
+            {
+                var existingUser = await _context.Users
+                    .Include(u => u.Dealer)
+                    .ThenInclude(d => d.DealerType)
+                    .FirstOrDefaultAsync(u => u.UserId == entity.UserId);
+
+                if (existingUser == null)
+                    return false;
+
+                // Validate dealer type name
+                if (!IsValidDealerType(dealerTypeName))
+                {
+                    _logger?.LogError("Invalid dealer type: {DealerType}", dealerTypeName);
+                    return false;
+                }
+
+                // Update user role
+                existingUser.Role = entity.Role;
+
+                // Update dealer type and address if provided
+                if (existingUser.Dealer != null && !string.IsNullOrEmpty(dealerTypeName))
+                {
+                    // Get or create dealer type
+                    var dealerType = await _context.DealerTypes
+                        .FirstOrDefaultAsync(dt => dt.TypeName == dealerTypeName);
+
+                    if (dealerType == null)
+                    {
+                        dealerType = await CreateDealerType(dealerTypeName);
+                    }
+
+                    existingUser.Dealer.DealerTypeId = dealerType.DealerTypeId;
+
+                    if (!string.IsNullOrEmpty(dealerAddress))
+                    {
+                        existingUser.Dealer.Address = dealerAddress;
+                    }
+                }
+
+                _context.Entry(existingUser).State = EntityState.Modified;
+                if (existingUser.Dealer != null)
+                {
+                    _context.Entry(existingUser.Dealer).State = EntityState.Modified;
+                }
+
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error in UpdateUserWithDealerAsync: {Message}", ex.Message);
+                if (ex.InnerException != null)
+                {
+                    _logger?.LogError(ex.InnerException, "Inner Exception: {Message}", ex.InnerException.Message);
+                }
+                return false;
+            }
+        }
+
+        private bool IsValidDealerType(string typeName)
+        {
+            return typeName == "Headquarter" || typeName == "Agent";
+        }
+
+        private async Task<DealerType> CreateDealerType(string typeName)
         {
             try
             {
                 var dealerType = new DealerType
                 {
-                    TypeName = "Staff"
+                    TypeName = typeName
                 };
                 _context.DealerTypes.Add(dealerType);
                 await _context.SaveChangesAsync();
@@ -213,7 +273,7 @@ namespace Repositories.CustomRepositories.Implements
             }
             catch (Exception ex)
             {
-                _logger?.LogError(ex, "Error in CreateDefaultDealerType");
+                _logger?.LogError(ex, "Error in CreateDealerType: {Message}", ex.Message);
                 throw;
             }
         }

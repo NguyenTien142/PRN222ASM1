@@ -1,25 +1,7 @@
-@model Repositories.Model.User
+@model BusinessObject.BusinessObject.UserModels.Respond.GetDetailUserRespond
 
 @{
     ViewData["Title"] = "Edit User";
-}
-
-@section Scripts {
-    <script>
-        function toggleDealerType() {
-            var role = document.getElementById('Role').value;
-            var dealerTypeDiv = document.getElementById('dealerTypeDiv');
-            if (role === 'Dealer') {
-                dealerTypeDiv.style.display = 'block';
-            } else {
-                dealerTypeDiv.style.display = 'none';
-            }
-        }
-        document.addEventListener('DOMContentLoaded', function() {
-            toggleDealerType();
-            document.getElementById('Role').addEventListener('change', toggleDealerType);
-        });
-    </script>
 }
 
 <div class="container">
@@ -27,35 +9,34 @@
     <div class="row">
         <div class="col-md-6">
             <form asp-action="EditUser" method="post">
-                <input type="hidden" asp-for="UserId" />
-                <input type="hidden" asp-for="DealerId" />
-                <input type="hidden" asp-for="PasswordHash" />
+                <input type="hidden" name="UserId" value="@Model.UserId" />
                 
                 <div class="form-group mb-3">
-                    <label asp-for="Username" class="control-label">Username</label>
-                    <input asp-for="Username" class="form-control" readonly />
+                    <label class="control-label">Username</label>
+                    <input value="@Model.Username" class="form-control" readonly />
                 </div>
 
                 <div class="form-group mb-3">
-                    <label asp-for="Role" class="control-label">Role</label>
-                    <select asp-for="Role" class="form-select" id="Role" name="Role">
-                        <option value="Admin">Admin</option>
-                        <option value="EVN staff">EVN staff</option>
-                        <option value="Dealer">Dealer</option>
+                    <label class="control-label">Role</label>
+                    <select name="Role" class="form-select" id="roleSelect">
+                        <option value="Admin" selected="@(Model.Role == "Admin")">Admin</option>
+                        <option value="EVN staff" selected="@(Model.Role == "EVN staff")">EVN Staff</option>
+                        <option value="DealerStaff" selected="@(Model.Role == "DealerStaff")">Dealer Staff</option>
+                        <option value="DealerManager" selected="@(Model.Role == "DealerManager")">Dealer Manager</option>
                     </select>
                 </div>
 
-                <div class="form-group mb-3" id="dealerTypeDiv" style="display:none;">
-                    <label asp-for="Dealer.DealerType.TypeName" class="control-label">Dealer Type</label>
-                    <select asp-for="Dealer.DealerType.TypeName" class="form-select"
-                            asp-items="@(new SelectList(new[] { "Manager", "Staff" }, Model.Dealer?.DealerType?.TypeName))">
+                <div class="form-group mb-3" id="dealerTypeDiv">
+                    <label class="control-label">Dealer Type</label>
+                    <select name="DealerTypeName" class="form-select">
+                        <option value="Headquarter" selected="@(Model.DealerTypeName == "Headquarter")">Headquarter</option>
+                        <option value="Agent" selected="@(Model.DealerTypeName == "Agent")">Agent</option>
                     </select>
                 </div>
-
 
                 <div class="form-group mb-3">
                     <label class="control-label">Dealer Address</label>
-                    <input type="text" name="DealerAddress" class="form-control" value="@(Model.Dealer?.Address ?? "")" />
+                    <input type="text" name="DealerAddress" class="form-control" value="@Model.DealerAddress" />
                 </div>
 
                 <div class="form-group">
@@ -66,3 +47,21 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            function toggleDealerTypeVisibility() {
+                var role = $('#roleSelect').val();
+                if (role === 'DealerStaff' || role === 'DealerManager') {
+                    $('#dealerTypeDiv').show();
+                } else {
+                    $('#dealerTypeDiv').hide();
+                }
+            }
+
+            $('#roleSelect').change(toggleDealerTypeVisibility);
+            toggleDealerTypeVisibility(); // Run on page load
+        });
+    </script>
+}
