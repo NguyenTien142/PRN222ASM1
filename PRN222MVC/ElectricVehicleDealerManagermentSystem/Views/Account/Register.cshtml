@@ -26,19 +26,34 @@
                     }
                     <form method="post" asp-action="Register" asp-controller="Account">
                         <div class="form-group mb-3">
-                            <label asp-for="Username">Username:</label>
-                            <input asp-for="Username" class="form-control" required>
+                            <label asp-for="Username">
+                                <i class="bi bi-person me-1"></i>Username:
+                            </label>
+                            <input asp-for="Username" class="form-control" placeholder="Enter your username" required>
                         </div>
                         <div class="form-group mb-3">
-                            <label asp-for="Password">Password:</label>
-                            <input asp-for="Password" type="password" class="form-control" required>
+                            <label asp-for="Password">
+                                <i class="bi bi-lock me-1"></i>Password:
+                            </label>
+                            <input asp-for="Password" type="password" class="form-control" placeholder="Enter your password" required>
                         </div>
                         <div class="form-group mb-3">
-                            <label asp-for="ConfirmPassword">Confirm Password:</label>
-                            <input asp-for="ConfirmPassword" type="password" class="form-control" required>
+                            <label asp-for="ConfirmPassword">
+                                <i class="bi bi-shield-check me-1"></i>Confirm Password:
+                            </label>
+                            <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm your password" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="DealerAddress">
+                                <i class="bi bi-geo-alt me-1"></i>Dealer Address:
+                            </label>
+                            <textarea asp-for="DealerAddress" class="form-control" rows="3" placeholder="Enter dealer address (optional)"></textarea>
+                            <div class="form-text">This field is optional but recommended for dealer roles</div>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary">Register</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-person-plus me-1"></i>Register
+                            </button>
                         </div>
                     </form>
                     <div class="text-center mt-3">
@@ -49,3 +64,34 @@
         </div>
     </div>
 </div>
+
+@section Styles {
+    <style>
+        .card {
+            border: none;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            border-radius: 10px;
+        }
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px 10px 0 0 !important;
+        }
+        .form-label {
+            font-weight: 500;
+            color: #495057;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+            transform: translateY(-1px);
+        }
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+    </style>
+}
