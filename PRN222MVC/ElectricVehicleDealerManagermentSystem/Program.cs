@@ -76,6 +76,8 @@ namespace ElectricVehicleDealerManagermentSystem
             builder.Services.AddScoped<IAdminService, AdminService>();
             builder.Services.AddScoped<IInventoryService, InventoryService>();
             builder.Services.AddScoped<JwtService>();
+            builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+            builder.Services.AddScoped<ICustomerService, CustomerService>();
 
             //auto mapper
             builder.Services.AddAutoMapper(cfg => { }, typeof(MapperProfile));

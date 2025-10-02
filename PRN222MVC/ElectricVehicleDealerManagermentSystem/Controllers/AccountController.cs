@@ -48,12 +48,18 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
                     Path = "/" // Ensure cookie is available for entire site
                 });
 
+                if (result.User != null)
+                {
+                    HttpContext.Session.SetInt32("UserId", result.User.UserId);
+                }
+
                 if (result.User != null && result.User.DealerId > 0)
                 {
                     HttpContext.Session.SetInt32("DealerId", result.User.DealerId);
                     _logger.LogInformation("DealerId set in session: {DealerId}", result.User.DealerId);
                 }
 
+                if (result.User?.Role == "Admin")
                 // Redirect based on role with debug info
                 var userRole = result.User?.Role ?? "Unknown";
                 _logger.LogInformation("Determining redirect for role: {Role}", userRole);
