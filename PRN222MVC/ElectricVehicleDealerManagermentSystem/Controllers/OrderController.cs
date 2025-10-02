@@ -9,10 +9,10 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly IOrderService _orderService;
+        private readonly IOrderServices _orderService;
         private readonly IVehicleServices _vehicleServices;
         private readonly ICustomerService _customerService;
-        public OrderController(IOrderService orderService, IVehicleServices vehicleServices, ICustomerService customerService)
+        public OrderController(IOrderServices orderService, IVehicleServices vehicleServices, ICustomerService customerService)
         {
             _orderService = orderService;
             _vehicleServices = vehicleServices;

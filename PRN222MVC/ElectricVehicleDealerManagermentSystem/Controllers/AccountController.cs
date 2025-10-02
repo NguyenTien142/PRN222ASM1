@@ -55,13 +55,14 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
 
                 if (result.User != null && result.User.DealerId > 0)
                 {
+                    HttpContext.Session.SetInt32("UserId", result.User.UserId);
                     HttpContext.Session.SetInt32("DealerId", result.User.DealerId);
                     _logger.LogInformation("DealerId set in session: {DealerId}", result.User.DealerId);
                 }
 
-                if (result.User?.Role == "Admin")
-                // Redirect based on role with debug info
-                var userRole = result.User?.Role ?? "Unknown";
+                //if (result.User?.Role == "Admin")
+                //    // Redirect based on role with debug info
+                  var userRole = result.User?.Role ?? "Unknown";
                 _logger.LogInformation("Determining redirect for role: {Role}", userRole);
 
                 if (userRole == "Admin")
@@ -72,10 +73,9 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
                 else if (userRole == "DealerManager" || userRole.Contains("Dealer"))
                 {
                     _logger.LogInformation("Redirecting to Dealer Dashboard");
-                    return RedirectToAction("Dashboard", "Dealer");
+                    return RedirectToAction("Dashboard_Dealer", "Dealer");
                 }
 
-                _logger.LogInformation("Redirecting to Home (default)");
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)

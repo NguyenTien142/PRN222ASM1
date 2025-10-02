@@ -1,5 +1,10 @@
-using BusinessObject.BusinessObject.InventoryModels.Request;
+﻿using BusinessObject.BusinessObject.InventoryModels.Request;
 using BusinessObject.BusinessObject.InventoryModels.Respond;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Services.Intefaces
 {
@@ -12,5 +17,6 @@ namespace Services.Intefaces
         Task<bool> ProcessInventoryRequestAsync(ProcessInventoryRequestModel model, int processedByUserId);
         Task<IEnumerable<object>> GetInventoryByDealerIdAsync(int dealerId);
         Task<Dictionary<string, int>> GetInventoryRequestStatsAsync(int dealerId);
+        Task<int> GetTotalStockQuantityByDealerAsync(int dealerId);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessObject.BusinessObject;
+using BusinessObject.BusinessObject.OrderModels.Response;
 using BusinessObject.BusinessObject.VehicleModels.Respond;
 using Repositories.Model;
 using System;
@@ -86,7 +87,11 @@ namespace Services.Helper.AutoMapper
                            opt => opt.MapFrom(src => src.DealerType != null 
                                                      ? src.DealerType.TypeName 
                                                      : string.Empty));
+            // Order mappings
+            CreateMap<Order, BusinessObject.BusinessObject.OrderModels.Response.GetSuccessfulOrderResponse>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Customer.Name));
 
+            CreateMap<Order, BusinessObject.BusinessObject.OrderModels.Response.GetPendingOrderResponse>();
         }
     }
 }
