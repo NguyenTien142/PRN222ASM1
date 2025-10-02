@@ -5,7 +5,7 @@
 
 @section Styles {
     <link href="~/css/dashboard.css" asp-append-version="true" rel="stylesheet">
-}
+        }
 
 <div class="main-content">
     <!-- Content Area -->
@@ -21,19 +21,24 @@
                             <h6 class="card-title text-muted mb-0">Successful Orders</h6>
                             <div class="spinner-border spinner-border-sm text-success d-none" role="status" id="successful-loading">
                                 <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
+        </div>
+
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <h1><i class="bi bi-speedometer2 me-2"></i>Dealer Manager Dashboard</h1>
+            <p class="text-muted">Welcome back! Manage your inventory requests and vehicle operations efficiently.</p>
+        </div>
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span class="text-muted small">Successful Orders</span>
                             <span class="fw-bold" id="successful-count">0 / 500</span>
                         </div>
                         <div class="progress mb-2" style="height: 6px;">
                             <div class="progress-bar bg-success" id="successful-progress" style="width: 0%"></div>
-                        </div>
+                            </div>
                         <small class="text-muted" id="successful-percentage">0% Done</small>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
 
             <!-- Pending Orders Card -->
             <div class="col-lg-4 mb-4">
@@ -44,18 +49,24 @@
                             <div class="spinner-border spinner-border-sm text-primary d-none" role="status" id="pending-loading">
                                 <span class="visually-hidden">Loading...</span>
                             </div>
-                        </div>
+                            <div class="stat-info">
+                                <h4>Pending</h4>
+                                <p class="stat-number">@(ViewBag.Stats?.ContainsKey("Pending") == true ? ViewBag.Stats["Pending"] : 0)</p>
+                            </div>
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span class="text-muted small">Pending Orders</span>
                             <span class="fw-bold" id="pending-count">0 / 500</span>
                         </div>
                         <div class="progress mb-2" style="height: 6px;">
                             <div class="progress-bar bg-primary" id="pending-progress" style="width: 0%"></div>
-                        </div>
-                        <small class="text-muted" id="pending-percentage">0% Pending</small>
                     </div>
-                </div>
-            </div>
+                        <small class="text-muted" id="pending-percentage">0% Pending</small>
+                            </div>
+                            <div class="stat-info">
+                                <h4>Approved</h4>
+                                <p class="stat-number">@(ViewBag.Stats?.ContainsKey("Approved") == true ? ViewBag.Stats["Approved"] : 0)</p>
+                            </div>
+                        </div>
 
             <!-- Stock Quantity Card -->
             <div class="col-lg-4 mb-4">
@@ -65,12 +76,16 @@
                             <h6 class="card-title text-muted mb-0">Stock Quantity</h6>
                             <div class="spinner-border spinner-border-sm text-purple d-none" role="status" id="stock-loading">
                                 <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-info">
+                                <i class="bi bi-x-circle"></i>
                             </div>
-                        </div>
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span class="text-muted small">Stock Quantity</span>
                             <span class="fw-bold" id="stock-count">0 / 500</span>
-                        </div>
+                            </div>
                         <div class="progress mb-2" style="height: 6px;">
                             <div class="progress-bar" id="stock-progress" style="width: 0%; background-color: #6f42c1;"></div>
                         </div>
@@ -98,7 +113,11 @@
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="col-md-3">
+                    <div class="action-card">
+                        <div class="action-icon">
+                            <i class="bi bi-car-front-fill"></i>
+                        </div>
 
             <!-- Right Side Cards -->
             <div class="col-lg-4">
@@ -108,8 +127,8 @@
                         <h6 class="card-title text-white-50 mb-3">Earnings</h6>
                         <h2 class="mb-0 text-white" id="total-earnings">$0</h2>
                         <p class="mb-3">TOTAL EARNINGS</p>
+                        </div>
                     </div>
-                </div>
 
                 <!-- Sales Card -->
                 <div class="card border-0 shadow-sm" style="background: linear-gradient(135deg, #007bff, #0056b3);">
@@ -118,10 +137,16 @@
                             <div>
                                 <h2 class="mb-0 text-white" id="total-sales">0</h2>
                                 <p class="mb-0">TOTAL SALES</p>
-                            </div>
+                </div>
                             <div>
                                 <i class="bi bi-graph-up" style="font-size: 3rem; opacity: 0.7;"></i>
-                            </div>
+                        </div>
+                        <div class="action-content">
+                            <h4>Current Inventory</h4>
+                            <p>View your current inventory status</p>
+                            <a href="@Url.Action("View", "Inventory", new { dealerId = ViewBag.DealerId })" class="btn btn-outline-primary">
+                                <i class="bi bi-box-seam me-1"></i>View Inventory
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -141,7 +166,7 @@
                                     <i class="bi bi-arrow-clockwise"></i>
                                 </button>
                             </div>
-                        </div>
+                    </div>
                         <div class="table-responsive">
                             <table class="table table-borderless" id="recent-orders-table">
                                 <thead>
@@ -159,13 +184,21 @@
                                         <td colspan="5" class="text-center py-4">
                                             <div class="spinner-border spinner-border-sm text-primary" role="status">
                                                 <span class="visually-hidden">Loading...</span>
-                                            </div>
+                </div>
                                             <span class="ms-2 text-muted">Loading recent orders...</span>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
+            </div>
+            <div class="col-md-6">
+                <div class="action-cards">
+                    <h4 class="text-center mb-3">Need Help?</h4>
+                    <div class="text-center">
+                        <p class="text-muted">Contact support or browse our help documentation.</p>
+                        <a href="@Url.Action("Index", "Home")#contact" class="btn btn-outline-primary">
+                            <i class="bi bi-question-circle me-1"></i>Get Support
+                        </a>
                     </div>
                 </div>
             </div>

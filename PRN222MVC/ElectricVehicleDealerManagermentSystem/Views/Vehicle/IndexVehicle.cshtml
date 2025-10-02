@@ -3,8 +3,25 @@
 
 @{
     ViewData["Title"] = "Vehicles";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/Dealer_Layout.cshtml";
     var dealerId = Context.Session.GetInt32("DealerId");
+    
+    // Get user role using GenericRepository pattern approach
+    var token = Context.Request.Cookies["X-Access-Token"];
+    var userRole = "";
+    if (!string.IsNullOrEmpty(token))
+    {
+        try
+        {
+            var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(token);
+            if (jwtToken.ValidTo > DateTime.UtcNow)
+            {
+                userRole = jwtToken.Claims.FirstOrDefault(x => x.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role")?.Value ?? "";
+            }
+        }
+        catch { }
+    }
 }
 
 <script>
@@ -19,13 +36,26 @@
 </script>
 
 <div class="container mt-5">
-    <div class="row align-items-center mb-4" style="margin-top: 96px;">
+    <div class="row align-items-center mb-4" >
         <div class="col d-flex align-items-center">
             <h2 class="mb-0">Vehicles</h2>
         </div>
         <div class="col-auto text-end">
-            <button type="button" class="btn btn-info me-2" onclick="goToDealerInventory()">View Inventory</button>
-            <a asp-controller="Vehicle" asp-action="AddVehicle" class="btn btn-success">New Vehicle</a>
+            <button type="button" class="btn btn-info me-2" onclick="goToDealerInventory()">
+                <i class="bi bi-box-seam me-1"></i>View Inventory
+            </button>
+            @if (userRole == "DealerManager")
+            {
+                <a href="@Url.Action("Create", "Inventory")" class="btn btn-warning me-2">
+                    <i class="bi bi-plus-circle me-1"></i>Request Inventory
+                </a>
+                <a href="@Url.Action("MyRequests", "Inventory")" class="btn btn-secondary me-2">
+                    <i class="bi bi-list-check me-1"></i>My Requests
+                </a>
+            }
+            <a asp-controller="Vehicle" asp-action="AddVehicle" class="btn btn-success">
+                <i class="bi bi-car-front me-1"></i>New Vehicle
+            </a>
         </div>
     </div>
 
@@ -61,12 +91,23 @@
                         </td>
                         <td>
                             <div class="dropdown">
-                                <button class="btn btn-light btn-sm" type="button" id="dropdownMenuButton-@vehicle.VehicleId" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-three-dots-vertical"></i>
+                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton-@vehicle.VehicleId" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Actions
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton-@vehicle.VehicleId">
-                                    <li><a class="dropdown-item" asp-controller="Vehicle" asp-action="VehicleDetail" asp-route-vehicleId="@vehicle.VehicleId">View Detail</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Vehicle" asp-action="UpdateVehicle" asp-route-vehicleId="@vehicle.VehicleId">Update</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Vehicle" asp-action="VehicleDetail" asp-route-vehicleId="@vehicle.VehicleId">
+                                        <i class="bi bi-eye me-2"></i>View Detail
+                                    </a></li>
+                                    <li><a class="dropdown-item" asp-controller="Vehicle" asp-action="UpdateVehicle" asp-route-vehicleId="@vehicle.VehicleId">
+                                        <i class="bi bi-pencil me-2"></i>Update
+                                    </a></li>
+                                    @if (userRole == "DealerManager")
+                                    {
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-primary" href="@Url.Action("Create", "Inventory", new { vehicleId = vehicle.VehicleId })">
+                                            <i class="bi bi-plus-circle me-2"></i>Request for Inventory
+                                        </a></li>
+                                    }
                                 </ul>
                             </div>
                         </td>
@@ -78,5 +119,5 @@
 </div>
 
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- No Bootstrap JS here, rely on layout for script loading -->
 }

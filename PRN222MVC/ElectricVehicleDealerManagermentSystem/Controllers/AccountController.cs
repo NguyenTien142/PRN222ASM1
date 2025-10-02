@@ -34,31 +34,53 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
                     return View(request);
                 }
 
-                // Store token in cookie
+                // Debug logging
+                _logger.LogInformation("Login successful for user: {Username}, Role: {Role}", 
+                    result.User?.Username, result.User?.Role);
+
+                // Store token in cookie - Fixed for HTTP development
                 Response.Cookies.Append("X-Access-Token", result.Token, new CookieOptions
                 {
                     HttpOnly = true,
-                    Secure = true,
-                    SameSite = SameSiteMode.Strict,
-                    Expires = DateTime.Now.AddHours(3)
+                    Secure = Request.IsHttps, // Only secure in HTTPS
+                    SameSite = SameSiteMode.Lax, // Changed from Strict to Lax
+                    Expires = DateTime.Now.AddHours(3),
+                    Path = "/" // Ensure cookie is available for entire site
                 });
+
+                if (result.User != null)
+                {
+                    HttpContext.Session.SetInt32("UserId", result.User.UserId);
+                }
 
                 if (result.User != null && result.User.DealerId > 0)
                 {
                     HttpContext.Session.SetInt32("UserId", result.User.UserId);
                     HttpContext.Session.SetInt32("DealerId", result.User.DealerId);
+                    _logger.LogInformation("DealerId set in session: {DealerId}", result.User.DealerId);
                 }
 
                 if (result.User?.Role == "Admin")
+                // Redirect based on role with debug info
+                var userRole = result.User?.Role ?? "Unknown";
+                _logger.LogInformation("Determining redirect for role: {Role}", userRole);
+
+                if (userRole == "Admin")
                 {
+                    _logger.LogInformation("Redirecting to Admin Dashboard");
                     return RedirectToAction("Dashboard", "Admin");
+                }
+                else if (userRole == "DealerManager" || userRole.Contains("Dealer"))
+                {
+                    _logger.LogInformation("Redirecting to Dealer Dashboard");
+                    return RedirectToAction("Dashboard", "Dealer");
                 }
 
                 return RedirectToAction("Dashboard", "Dealer");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error in Login");
+                _logger.LogError(ex, "Error in Login for user: {Username}", request.Username);
                 TempData["Error"] = "An error occurred during login. Please try again.";
                 return View(request);
             }

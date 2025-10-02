@@ -1,0 +1,119 @@
+@model List<BusinessObject.BusinessObject.InventoryModels.Respond.GetInventoryRequestRespond>
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Request ID</th>
+                <th>Vehicle</th>
+                <th>Dealer</th>
+                <th>Quantity</th>
+                <th>Requester</th>
+                <th>Request Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var request in Model)
+            {
+                <tr>
+                    <td>#@request.RequestId</td>
+                    <td>
+                        <div>
+                            <strong>@request.VehicleModel</strong>
+                            <br>
+                            <small class="text-muted">@request.VehicleColor</small>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <strong>@request.DealerAddress</strong>
+                            <br>
+                            <span class="badge bg-secondary">@request.DealerType</span>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="badge bg-primary fs-6">@request.RequestedQuantity</span>
+                    </td>
+                    <td>@request.RequesterUsername</td>
+                    <td>@request.RequestDate.ToString("MMM dd, yyyy")</td>
+                    <td>
+                        @if (request.Status == "Pending")
+                        {
+                            <span class="badge bg-warning status-badge">
+                                <i class="bi bi-clock-history me-1"></i>Pending
+                            </span>
+                        }
+                        else if (request.Status == "Approved")
+                        {
+                            <span class="badge bg-success status-badge">
+                                <i class="bi bi-check-circle me-1"></i>Approved
+                            </span>
+                        }
+                        else if (request.Status == "Denied")
+                        {
+                            <span class="badge bg-danger status-badge">
+                                <i class="bi bi-x-circle me-1"></i>Denied
+                            </span>
+                        }
+                    </td>
+                    <td>
+                        @if (request.Status == "Pending")
+                        {
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-success btn-sm process-btn" 
+                                        data-request-id="@request.RequestId"
+                                        data-action="approve"
+                                        data-vehicle-model="@request.VehicleModel"
+                                        data-vehicle-color="@request.VehicleColor"
+                                        data-quantity="@request.RequestedQuantity"
+                                        data-requester="@request.RequesterUsername"
+                                        data-dealer-address="@request.DealerAddress"
+                                        title="Approve Request">
+                                    <i class="bi bi-check-circle"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm process-btn"
+                                        data-request-id="@request.RequestId"
+                                        data-action="deny"
+                                        data-vehicle-model="@request.VehicleModel"
+                                        data-vehicle-color="@request.VehicleColor"
+                                        data-quantity="@request.RequestedQuantity"
+                                        data-requester="@request.RequesterUsername"
+                                        data-dealer-address="@request.DealerAddress"
+                                        title="Deny Request">
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <small class="text-muted">
+                                    Processed: @request.ProcessedDate?.ToString("MMM dd, yyyy")
+                                    <br>
+                                    By: @request.ProcessedByAdmin
+                                </small>
+                                @if (!string.IsNullOrEmpty(request.AdminComment))
+                                {
+                                    <br>
+                                    <small class="text-info">
+                                        <i class="bi bi-chat-square-quote me-1"></i>@request.AdminComment
+                                    </small>
+                                }
+                            </div>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info text-center">
+            <i class="bi bi-info-circle me-2"></i>
+            No requests found.
+        </div>
+    }
+</div>

@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -33,7 +34,8 @@
 
 
 </head>
-<body >
+
+<body>
 
     <div class="dashboard-container">
         <!-- Sidebar -->
@@ -98,6 +100,15 @@
                             <div class="nav-content">
                                 <i class="bi bi-person-gear nav-icon"></i>
                                 User Management
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Inventory" asp-action="Requests" class="nav-link">
+                            <div class="nav-content">
+                                <i class="bi bi-box-seam nav-icon"></i>
+                                Inventory Requests
+                                <span class="badge bg-danger ms-auto" id="pendingBadge">@ViewBag.PendingRequests</span>
                             </div>
                         </a>
                     </li>
@@ -187,7 +198,8 @@
                     <button class="header-btn">
                         <i class="bi bi-person-circle" style="font-size: 18px;"></i>
                     </button>
-                    <a href="@Url.Action("Logout", "Account")" class="header-btn" style="text-decoration: none; color: inherit; margin-left: 10px;">
+                    <a href="@Url.Action("Logout", "Account")" class="header-btn"
+                        style="text-decoration: none; color: inherit; margin-left: 10px;">
                         <i class="bi bi-box-arrow-right" style="font-size: 16px;" title="Logout"></i>
                     </a>
                 </div>
@@ -203,7 +215,7 @@
     </div>
 
     <div>
-        
+
     </div>
 
     <footer id="footer" class="footer dark-background">
@@ -214,7 +226,8 @@
                     <a href="index.html" class="logo d-flex align-items-center">
                         <span class="sitename">Axis</span>
                     </a>
-                    <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
+                    <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies
+                        darta donna mare fermentum iaculis eu non diam phasellus.</p>
                     <div class="social-links d-flex mt-4">
                         <a href=""><i class="bi bi-twitter-x"></i></a>
                         <a href=""><i class="bi bi-facebook"></i></a>
@@ -258,7 +271,8 @@
         </div>
 
         <div class="container copyright text-center mt-4">
-            <p>© <span>Copyright</span> <strong class="px-1 sitename">Axis</strong> <span>All Rights Reserved</span></p>
+            <p>© <span>Copyright</span> <strong class="px-1 sitename">Axis</strong> <span>All Rights Reserved</span>
+            </p>
             <div class="credits">
                 <!-- All the links in the footer should remain intact. -->
                 <!-- You can delete the links only if you've purchased the pro version. -->
@@ -270,7 +284,8 @@
     </footer>
 
     <!-- Scroll Top -->
-    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
 
     <!-- Preloader -->
     <div id="preloader"></div>
@@ -305,4 +320,5 @@
     @await RenderSectionAsync("Styles", required: false)
 
 </body>
+
 </html>

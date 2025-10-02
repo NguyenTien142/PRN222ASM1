@@ -64,6 +64,7 @@ namespace ElectricVehicleDealerManagermentSystem
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<IDealerTypeRepository, DealerTypeRepository>();
             builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+            builder.Services.AddScoped<IInventoryRequestRepository, InventoryRequestRepository>();
             builder.Services.AddScoped<IOrderRepository, OrderRepository>();
             builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
             builder.Services.AddScoped<IVehicleCategoryRepository, VehicleCategoryRepository>();
@@ -73,9 +74,12 @@ namespace ElectricVehicleDealerManagermentSystem
             builder.Services.AddScoped<ICategoryServices, CategoryServices>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IAdminService, AdminService>();
+            builder.Services.AddScoped<IInventoryService, InventoryService>();
             builder.Services.AddScoped<JwtService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IInventoryService, InventoryService>();
+            builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+            builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 
             //auto mapper

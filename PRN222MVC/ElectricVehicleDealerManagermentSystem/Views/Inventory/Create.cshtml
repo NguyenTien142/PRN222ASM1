@@ -1,0 +1,119 @@
+@model BusinessObject.BusinessObject.InventoryModels.Request.CreateInventoryRequest
+
+@{
+    ViewData["Title"] = "Create Inventory Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5" style="margin-top: 120px !important;">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="text-center mb-0">
+                        <i class="bi bi-plus-circle me-2"></i>Create Inventory Request
+                    </h3>
+                </div>
+                <div class="card-body">
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger">
+                            <i class="bi bi-exclamation-triangle me-2"></i>@TempData["Error"]
+                        </div>
+                    }
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success">
+                            <i class="bi bi-check-circle me-2"></i>@TempData["Success"]
+                        </div>
+                    }
+
+                    <form method="post" asp-action="Create" asp-controller="Inventory">
+                        <input type="hidden" asp-for="DealerId" value="@ViewBag.DealerId" />
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="VehicleId" class="form-label">
+                                        <i class="bi bi-car-front me-1"></i>Vehicle <span class="text-danger">*</span>
+                                    </label>
+                                    <select asp-for="VehicleId" class="form-select" asp-items="@ViewBag.Vehicles" required>
+                                        <option value="">Select Vehicle</option>
+                                    </select>
+                                    <span asp-validation-for="VehicleId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group mb-3">
+                                    <label asp-for="Quantity" class="form-label">
+                                        <i class="bi bi-hash me-1"></i>Quantity <span class="text-danger">*</span>
+                                    </label>
+                                    <input asp-for="Quantity" type="number" class="form-control" min="1" placeholder="Enter quantity" required>
+                                    <span asp-validation-for="Quantity" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Reason" class="form-label">
+                                <i class="bi bi-chat-square-text me-1"></i>Reason (Optional)
+                            </label>
+                            <textarea asp-for="Reason" class="form-control" rows="4" placeholder="Enter reason for this inventory request (optional)"></textarea>
+                            <div class="form-text">Providing a reason helps admin understand your request better</div>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle me-2"></i>
+                            <strong>Note:</strong> Your request will be sent to the admin for approval. You will be notified once it's processed.
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary me-2">
+                                <i class="bi bi-send me-1"></i>Submit Request
+                            </button>
+                            <a href="@Url.Action("MyRequests", "Inventory")" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left me-1"></i>Back to My Requests
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+@section Styles {
+    <style>
+        .card {
+            border: none;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            border-radius: 10px;
+        }
+        .card-header {
+            border-radius: 10px 10px 0 0 !important;
+        }
+        .form-label {
+            font-weight: 500;
+            color: #495057;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+            transform: translateY(-1px);
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        .text-danger {
+            color: #dc3545 !important;
+        }
+    </style>
+}

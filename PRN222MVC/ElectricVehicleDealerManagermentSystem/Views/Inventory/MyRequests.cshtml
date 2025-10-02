@@ -1,0 +1,213 @@
+@model List<BusinessObject.BusinessObject.InventoryModels.Respond.GetInventoryRequestRespond>
+
+@{
+    ViewData["Title"] = "My Inventory Requests";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5" style="margin-top: 120px !important;">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="card-title mb-0">
+                            <i class="bi bi-list-check me-2"></i>My Inventory Requests
+                        </h3>
+                        <a href="@Url.Action("Create", "Inventory")" class="btn btn-success">
+                            <i class="bi bi-plus-circle me-1"></i>New Request
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="bi bi-check-circle me-2"></i>@TempData["Success"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="bi bi-exclamation-triangle me-2"></i>@TempData["Error"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    <!-- Stats Summary -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="card bg-warning text-white">
+                                <div class="card-body text-center">
+                                    <h4>@Model.Count(r => r.Status == "Pending")</h4>
+                                    <p class="mb-0">Pending</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-success text-white">
+                                <div class="card-body text-center">
+                                    <h4>@Model.Count(r => r.Status == "Approved")</h4>
+                                    <p class="mb-0">Approved</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-danger text-white">
+                                <div class="card-body text-center">
+                                    <h4>@Model.Count(r => r.Status == "Denied")</h4>
+                                    <p class="mb-0">Denied</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-info text-white">
+                                <div class="card-body text-center">
+                                    <h4>@Model.Count()</h4>
+                                    <p class="mb-0">Total</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Requests List -->
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Request ID</th>
+                                    <th>Vehicle</th>
+                                    <th>Quantity</th>
+                                    <th>Request Date</th>
+                                    <th>Status</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var request in Model.OrderByDescending(r => r.RequestDate))
+                                {
+                                    <tr>
+                                        <td>
+                                            <strong>#@request.RequestId</strong>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <strong>@request.VehicleModel</strong>
+                                                <br>
+                                                <small class="text-muted">@request.VehicleColor</small>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-primary fs-6">@request.RequestedQuantity</span>
+                                        </td>
+                                        <td>@request.RequestDate.ToString("MMM dd, yyyy HH:mm")</td>
+                                        <td>
+                                            @if (request.Status == "Pending")
+                                            {
+                                                <span class="badge bg-warning">
+                                                    <i class="bi bi-clock-history me-1"></i>Pending
+                                                </span>
+                                            }
+                                            else if (request.Status == "Approved")
+                                            {
+                                                <span class="badge bg-success">
+                                                    <i class="bi bi-check-circle me-1"></i>Approved
+                                                </span>
+                                            }
+                                            else if (request.Status == "Denied")
+                                            {
+                                                <span class="badge bg-danger">
+                                                    <i class="bi bi-x-circle me-1"></i>Denied
+                                                </span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (request.Status != "Pending")
+                                            {
+                                                <div>
+                                                    <small class="text-muted">
+                                                        Processed: @request.ProcessedDate?.ToString("MMM dd, yyyy")
+                                                        <br>
+                                                        By: @request.ProcessedByAdmin
+                                                    </small>
+                                                    @if (!string.IsNullOrEmpty(request.AdminComment))
+                                                    {
+                                                        <br>
+                                                        <button class="btn btn-sm btn-outline-info" data-bs-toggle="collapse" data-bs-target="#comment-@request.RequestId">
+                                                            <i class="bi bi-chat-square-quote me-1"></i>View Comment
+                                                        </button>
+                                                        <div class="collapse mt-2" id="comment-@request.RequestId">
+                                                            <div class="alert alert-info alert-sm">
+                                                                @request.AdminComment
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <small class="text-muted">Waiting for admin review...</small>
+                                            }
+                                            @if (!string.IsNullOrEmpty(request.Reason))
+                                            {
+                                                <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#reason-@request.RequestId">
+                                                    <i class="bi bi-info-circle me-1"></i>View Reason
+                                                </button>
+                                                <div class="collapse mt-2" id="reason-@request.RequestId">
+                                                    <div class="alert alert-secondary alert-sm">
+                                                        <strong>Request Reason:</strong><br>
+                                                        @request.Reason
+                                                    </div>
+                                                </div>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    @if (!Model.Any())
+                    {
+                        <div class="alert alert-info text-center">
+                            <i class="bi bi-info-circle me-2"></i>
+                            You haven't made any inventory requests yet.
+                            <br>
+                            <a href="@Url.Action("Create", "Inventory")" class="btn btn-primary mt-2">
+                                <i class="bi bi-plus-circle me-1"></i>Create Your First Request
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .card {
+            border: none;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            border-radius: 10px;
+        }
+        .card-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            border-radius: 10px 10px 0 0 !important;
+        }
+        .table-hover tbody tr:hover {
+            background-color: rgba(0, 0, 0, 0.075);
+        }
+        .alert-sm {
+            padding: 0.5rem;
+            font-size: 0.875rem;
+        }
+        .btn-sm {
+            margin-right: 0.25rem;
+            margin-bottom: 0.25rem;
+        }
+    </style>
+}
