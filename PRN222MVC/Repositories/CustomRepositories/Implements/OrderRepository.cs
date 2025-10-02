@@ -38,17 +38,6 @@ namespace Repositories.CustomRepositories.Implements
             return order;
         }
 
-    public class OrderRepository : IOrderRepository
-    {
-
-        private readonly Prn222asm1Context _context;
-        private readonly ILogger<OrderRepository> _logger;
-
-        public OrderRepository(Prn222asm1Context context, ILogger<OrderRepository> logger)
-        {
-            _context = context;
-            _logger = logger;
-        }
 
         public async Task<List<Order>> GetPendingOrderAsync(int userId)
         {

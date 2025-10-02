@@ -10,12 +10,12 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
 {
     public class DealerController : Controller
     {
-        private readonly IOrderService _orderService;
+        private readonly IOrderServices _orderService;
         private readonly IInventoryService _inventoryService;
         private readonly IVehicleServices _vehicleServices;
         private readonly ILogger<DealerController> _logger;
 
-        public DealerController(IOrderService orderService, IInventoryService inventoryService, IVehicleServices vehicleServices, ILogger<DealerController> logger)
+        public DealerController(IOrderServices orderService, IInventoryService inventoryService, IVehicleServices vehicleServices, ILogger<DealerController> logger)
         {
             _orderService = orderService;
             _inventoryService = inventoryService;
@@ -23,8 +23,7 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
             _logger = logger;
         }
 
-
-        public IActionResult Dashboard()
+        public IActionResult Dashboard_Dealer()
         {
             return View();
         }
@@ -77,11 +76,7 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetSuccessfulOrders()
-            {
-                _logger.LogWarning("No access token found in cookies");
-                return null;
-            }
-
+        {
             try
             {
                 var userId = HttpContext.Session.GetInt32("UserId");
@@ -97,10 +92,11 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
             {
                 Console.WriteLine($"DEBUG: Exception = {ex.Message}");
                 return Json(new { success = false, message = $"Error: {ex.Message}" });
+            }
         }
 
 
-public async Task<IActionResult> Dashboard()
+        public async Task<IActionResult> Dashboard()
 {
     try
     {

@@ -76,7 +76,7 @@ namespace ElectricVehicleDealerManagermentSystem
             builder.Services.AddScoped<IAdminService, AdminService>();
             builder.Services.AddScoped<IInventoryService, InventoryService>();
             builder.Services.AddScoped<JwtService>();
-            builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IOrderServices, OrderService>();
             builder.Services.AddScoped<IInventoryService, InventoryService>();
             builder.Services.AddScoped<IAppointmentService, AppointmentService>();
             builder.Services.AddScoped<ICustomerService, CustomerService>();
