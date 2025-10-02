@@ -82,6 +82,20 @@
             text-align: center;
         }
 
+        .welcome-icon {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .welcome-icon svg {
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+        }
+
+        /* Floating Animation */
+        @@keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
         .welcome-title {
             font-size: 4rem;
             font-weight: 700;
@@ -273,7 +287,49 @@
         <!-- Welcome Section -->
         <div class="welcome-section">
             <div class="welcome-content">
-                <h1 class="welcome-title">JOIN US</h1>
+                <!-- SVG Icon for Register -->
+                <div class="welcome-icon">
+                    <svg width="250" height="250" viewBox="0 0 250 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Background Circle -->
+                        <circle cx="125" cy="125" r="120" fill="url(#gradient1)" opacity="0.8"/>
+                        
+                        <!-- Main User Plus Icon -->
+                        <circle cx="125" cy="95" r="25" fill="#fff" opacity="0.9"/>
+                        <circle cx="125" cy="95" r="15" fill="url(#gradient2)"/>
+                        
+                        <!-- Body -->
+                        <path d="M85 160 Q85 140 125 140 Q165 140 165 160 L165 180 Q165 185 160 185 L90 185 Q85 185 85 180 Z" fill="#fff" opacity="0.9"/>
+                        <path d="M90 145 Q90 135 125 135 Q160 135 160 145 L160 175 Q160 180 155 180 L95 180 Q90 180 90 175 Z" fill="url(#gradient2)"/>
+                        
+                        <!-- Plus Sign -->
+                        <circle cx="180" cy="80" r="20" fill="#FFD700"/>
+                        <path d="M170 80 L190 80 M180 70 L180 90" stroke="#27ae60" stroke-width="4" stroke-linecap="round"/>
+                        
+                        <!-- Decorative Elements -->
+                        <circle cx="80" cy="60" r="8" fill="#FFD700" opacity="0.7"/>
+                        <circle cx="190" cy="150" r="6" fill="#FFD700" opacity="0.5"/>
+                        <circle cx="60" cy="180" r="10" fill="#FFD700" opacity="0.6"/>
+                        <circle cx="200" cy="200" r="7" fill="#FFD700" opacity="0.8"/>
+                        
+                        <!-- Sparkle Effects -->
+                        <path d="M95 40 L100 50 L105 40 L100 30 Z" fill="#FFD700"/>
+                        <path d="M160 220 L165 230 L170 220 L165 210 Z" fill="#FFD700"/>
+                        <path d="M40 120 L45 130 L50 120 L45 110 Z" fill="#FFD700"/>
+                        <path d="M210 120 L215 130 L220 120 L215 110 Z" fill="#FFD700"/>
+                        
+                        <!-- Gradient Definitions -->
+                        <defs>
+                            <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#11998e"/>
+                                <stop offset="100%" style="stop-color:#38ef7d"/>
+                            </linearGradient>
+                            <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#27ae60"/>
+                                <stop offset="100%" style="stop-color:#229954"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
             </div>
         </div>
 
