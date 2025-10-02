@@ -36,11 +36,11 @@
             <nav id="navmenu" class="navmenu">
                 <ul>
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+                    @* <li><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Services">Services</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="PortfolioDetail">Portfolio</a></li>
                     <li><a href="#team">Team</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#contact">Contact</a></li> *@
                     
                     @{
                         var token = Context.Request.Cookies["X-Access-Token"];
@@ -111,6 +111,10 @@
                     {
                         <li><a href="#" style="color: #999;"><i class="bi bi-person-circle"></i> Welcome, @username</a></li>
                         <li><a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                    }
+                    else
+                    {
+                        <li><a asp-area="", asp-controller="account" asp-action="login">Login</a></li>
                     }
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>

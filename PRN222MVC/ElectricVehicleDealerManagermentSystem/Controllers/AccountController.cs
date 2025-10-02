@@ -43,9 +43,24 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
                     Expires = DateTime.Now.AddHours(3)
                 });
 
+                if (result.User != null)
+                {
+                    HttpContext.Session.SetInt32("UserId", result.User.UserId);
+                }
+
                 if (result.User != null && result.User.DealerId > 0)
                 {
                     HttpContext.Session.SetInt32("DealerId", result.User.DealerId);
+                }
+
+                if (result.User?.Role == "Staff")
+                {
+                    return RedirectToAction("Index", "Staff");
+                }
+
+                if (result.User?.Role == "Manager")
+                {
+                    return RedirectToAction("Index", "Manager");
                 }
 
                 if (result.User?.Role == "Admin")
