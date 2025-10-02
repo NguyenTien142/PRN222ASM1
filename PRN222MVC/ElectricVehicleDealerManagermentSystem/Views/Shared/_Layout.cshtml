@@ -6,9 +6,6 @@
     <title>@ViewData["Title"] - ElectricVehicleDealerManagermentSystem</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
-    @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" /> *@
-    @* <link rel="stylesheet" href="~/ElectricVehicleDealerManagermentSystem.styles.css" asp-append-version="true" /> *@
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -25,7 +22,6 @@
     <!-- Main CSS File -->
     <link href="~/css/main.css" asp-append-version="true" rel="stylesheet">
 
-
 </head>
 <body class="index-page">
     <header id="header" class="header d-flex align-items-center fixed-top">
@@ -39,12 +35,83 @@
 
             <nav id="navmenu" class="navmenu">
                 <ul>
-                    <li><a  asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Services">Services</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="PortfolioDetail">Portfolio</a></li>
                     <li><a href="#team">Team</a></li>
                     <li><a href="#contact">Contact</a></li>
+                    
+                    @{
+                        var token = Context.Request.Cookies["X-Access-Token"];
+                        var username = "User";
+                        var isNonAdmin = false;
+                        var isAdmin = false;
+                        
+                        if (!string.IsNullOrEmpty(token))
+                        {
+                            try
+                            {
+                                // Simple JWT decode - split by dots and decode payload
+                                var parts = token.Split('.');
+                                if (parts.Length == 3)
+                                {
+                                    var payload = parts[1];
+                                    // Add padding if needed
+                                    switch (payload.Length % 4)
+                                    {
+                                        case 2: payload += "=="; break;
+                                        case 3: payload += "="; break;
+                                    }
+                                    
+                                    var jsonBytes = Convert.FromBase64String(payload);
+                                    var json = System.Text.Encoding.UTF8.GetString(jsonBytes);
+                                    
+                                    // Extract username and role using simple string parsing
+                                    if (json.Contains("\"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name\""))
+                                    {
+                                        var nameStart = json.IndexOf("\"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name\":\"") + 62;
+                                        var nameEnd = json.IndexOf("\"", nameStart);
+                                        if (nameEnd > nameStart)
+                                        {
+                                            username = json.Substring(nameStart, nameEnd - nameStart);
+                                        }
+                                    }
+                                    
+                                    if (json.Contains("\"http://schemas.microsoft.com/ws/2008/06/identity/claims/role\""))
+                                    {
+                                        var roleStart = json.IndexOf("\"http://schemas.microsoft.com/ws/2008/06/identity/claims/role\":\"") + 64;
+                                        var roleEnd = json.IndexOf("\"", roleStart);
+                                        if (roleEnd > roleStart)
+                                        {
+                                            var role = json.Substring(roleStart, roleEnd - roleStart);
+                                            isAdmin = role == "Admin";
+                                            isNonAdmin = role != "Admin";
+                                        }
+                                    }
+                                }
+                            }
+                            catch
+                            {
+                                // If parsing fails, just show basic welcome
+                                isNonAdmin = true;
+                            }
+                        }
+                    }
+                    
+                    @if (!string.IsNullOrEmpty(token) && isAdmin)
+                    {
+                        <li><a asp-area="" asp-controller="Admin" asp-action="Dashboard" style="color: #ff6b35; font-weight: bold;">
+                            <i class="bi bi-speedometer2"></i> Admin Dashboard
+                        </a></li>
+                        <li><a href="#" style="color: #999;"><i class="bi bi-person-circle"></i> Welcome, @username</a></li>
+                        <li><a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                    }
+                    else if (!string.IsNullOrEmpty(token) && isNonAdmin)
+                    {
+                        <li><a href="#" style="color: #999;"><i class="bi bi-person-circle"></i> Welcome, @username</a></li>
+                        <li><a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                    }
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>
@@ -128,7 +195,6 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/main.js" asp-append-version="true"></script>
-
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/php-email-form/validate.js"></script>

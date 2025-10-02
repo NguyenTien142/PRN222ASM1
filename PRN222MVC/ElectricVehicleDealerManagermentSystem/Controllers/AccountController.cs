@@ -50,7 +50,7 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
 
                 if (result.User?.Role == "Admin")
                 {
-                    return RedirectToAction("Index", "Admin");
+                    return RedirectToAction("Dashboard", "Admin");
                 }
 
                 return RedirectToAction("Index", "Home");
@@ -101,6 +101,7 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
         public IActionResult Logout()
         {
             Response.Cookies.Delete("X-Access-Token");
+            HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
         }
     }

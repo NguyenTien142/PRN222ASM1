@@ -1,0 +1,48 @@
+﻿@model BusinessObject.BusinessObject.OrderModels.Request.CreateOrderRequestDto
+
+@{
+    ViewData["Title"] = "Create";
+    // ViewBag.Vehicles: List<SelectListItem> with Value = VehicleId, Text = Vehicle Name
+}
+
+<h1>Create Order</h1>
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="CustomerId" class="control-label"></label>
+        <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
+        <span asp-validation-for="CustomerId" class="text-danger"></span>
+    </div>
+
+    <h4>Vehicles</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Select</th>
+                <th>Vehicle Name</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < ((List<SelectListItem>)ViewBag.Vehicles).Count; i++)
+            {
+                var vehicle = ((List<SelectListItem>)ViewBag.Vehicles)[i];
+                <tr>
+                    <td>
+                        <input type="checkbox" name="OrderVehicles[@i].VehicleId" value="@vehicle.Value" />
+                    </td>
+                    <td>
+                        @vehicle.Text
+                    </td>
+                    <td>
+                        <input type="number" name="OrderVehicles[@i].Quantity" min="1" value="1" class="form-control" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <input type="submit" value="Create" class="btn btn-primary" />
+</form>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

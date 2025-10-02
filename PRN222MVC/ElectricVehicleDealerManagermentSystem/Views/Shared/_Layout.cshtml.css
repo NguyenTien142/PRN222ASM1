@@ -46,3 +46,20 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
+
+/* Custom styles for welcome message */
+.navmenu .welcome-user {
+  color: #999 !important;
+  cursor: default;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+.navmenu .welcome-user:hover {
+  color: #999 !important;
+  text-decoration: none;
+}
+
+.navmenu .welcome-user i {
+  margin-right: 5px;
+}
