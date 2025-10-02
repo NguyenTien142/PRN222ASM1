@@ -78,6 +78,14 @@ namespace ElectricVehicleDealerManagermentSystem
             //auto mapper
             builder.Services.AddAutoMapper(cfg => { }, typeof(MapperProfile));
 
+            // Configure session
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromHours(3);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -94,6 +102,7 @@ namespace ElectricVehicleDealerManagermentSystem
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
 
             app.MapControllerRoute(
                 name: "default",

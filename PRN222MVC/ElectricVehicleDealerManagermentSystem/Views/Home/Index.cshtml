@@ -18,10 +18,19 @@
                     <div class="hero-content">
                         <h1 data-aos="fade-up" data-aos-delay="200">Transform Your Business Vision Into Reality</h1>
                         <p data-aos="fade-up" data-aos-delay="300">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
-                        <div class="hero-cta" data-aos="fade-up" data-aos-delay="400">
-                            <a  asp-area="" asp-controller="Admin" asp-action="Dashboard" class="btn-primary">Get Started Today</a>
-
-                        </div>
+                        
+                        @{
+                            var token = Context.Request.Cookies["X-Access-Token"];
+                            var isLoggedIn = !string.IsNullOrEmpty(token);
+                        }
+                        
+                        @if (!isLoggedIn)
+                        {
+                            <div class="hero-cta" data-aos="fade-up" data-aos-delay="400">
+                                <a asp-area="" asp-controller="Account" asp-action="Login" class="btn-primary">Get Started Today</a>
+                            </div>
+                        }
+                        
                         <div class="hero-stats" data-aos="fade-up" data-aos-delay="500">
                             <div class="stat-item">
                                 <div class="stat-number">500+</div>
@@ -550,20 +559,20 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Full Name</label>
-                                        <input type="text" name="name" required="">
+                                        <input type="text" name="name" required=""/>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Email Address</label>
-                                        <input type="email" name="email" required="">
+                                        <input type="email" name="email" required=""/>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label>Subject</label>
-                                <input type="text" name="subject" required="">
+                                <input type="text" name="subject" required=""/>
                             </div>
 
                             <div class="form-group">

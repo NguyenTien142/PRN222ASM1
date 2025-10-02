@@ -43,9 +43,14 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
                     Expires = DateTime.Now.AddHours(3)
                 });
 
+                if (result.User != null && result.User.DealerId > 0)
+                {
+                    HttpContext.Session.SetInt32("DealerId", result.User.DealerId);
+                }
+
                 if (result.User?.Role == "Admin")
                 {
-                    return RedirectToAction("Index", "Admin");
+                    return RedirectToAction("Dashboard", "Admin");
                 }
 
                 return RedirectToAction("Index", "Home");
@@ -96,6 +101,7 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
         public IActionResult Logout()
         {
             Response.Cookies.Delete("X-Access-Token");
+            HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
         }
     }

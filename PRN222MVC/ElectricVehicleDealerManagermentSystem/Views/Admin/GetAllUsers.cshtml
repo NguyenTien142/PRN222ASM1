@@ -2,87 +2,337 @@
 
 @{
     ViewData["Title"] = "User Management";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
 }
 
-<div class="container">
-    <h2>User Management</h2>
-
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            @TempData["Success"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    }
-
-    @if (TempData["Error"] != null)
-    {
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            @TempData["Error"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    }
-    
-    <!-- Search Form -->
-    <div class="row mb-3">
-        <div class="col-md-6">
-            <form asp-action="GetAllUsers" method="get" class="form-inline">
-                <div class="input-group">
-                    <input type="text" name="searchUsername" class="form-control" placeholder="Search by username" value="@ViewBag.SearchUsername">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-primary">Search</button>
-                        @if (!string.IsNullOrEmpty(ViewBag.SearchUsername))
-                        {
-                            <a asp-action="GetAllUsers" class="btn btn-secondary">Clear</a>
-                        }
-                    </div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">User Management</h3>
                 </div>
-            </form>
-        </div>
-    </div>
+                <div class="card-body">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            @TempData["Success"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
 
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>User ID</th>
-                    <th>Username</th>
-                    <th>Role</th>
-                    <th>Dealer Type</th>
-                    <th>Dealer Address</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var user in Model)
-                {
-                    <tr>
-                        <td>@user.UserId</td>
-                        <td>@user.Username</td>
-                        <td>@user.Role</td>
-                        <td>@(user.DealerTypeName ?? "N/A")</td>
-                        <td>@(user.DealerAddress ?? "N/A")</td>
-                        <td>
-                            <div class="btn-group">
-                                <a asp-action="GetUserById" asp-route-id="@user.UserId" class="btn btn-info btn-sm">Details</a>
-                                <a asp-action="EditUser" asp-route-id="@user.UserId" class="btn btn-warning btn-sm">Edit</a>
-                                <form asp-action="DeleteUser" asp-route-id="@user.UserId" method="post" style="display: inline;">
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
-                                </form>
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            @TempData["Error"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+                    
+                    <!-- Search Section -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="text" id="searchInput" class="form-control" placeholder="Search by username" value="@ViewBag.SearchUsername">
+                                <button type="button" id="searchBtn" class="btn btn-primary">
+                                    <i class="bi bi-search"></i> Search
+                                </button>
+                                <button type="button" id="clearBtn" class="btn btn-secondary">
+                                    <i class="bi bi-x-circle"></i> Clear
+                                </button>
                             </div>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+                        </div>
+                    </div>
 
-    @if (!Model.Any())
-    {
-        <div class="alert alert-info">
-            No users found.
+                    <!-- Users Table -->
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="usersTable">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Username</th>
+                                    <th>Role</th>
+                                    <th>Dealer Type</th>
+                                    <th>Dealer Address</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody">
+                                @foreach (var user in Model)
+                                {
+                                    <tr data-user-id="@user.UserId">
+                                        <td>@user.UserId</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <i class="bi bi-person-circle me-2 text-primary"></i>
+                                                @user.Username
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="badge @(user.Role == "Admin" ? "bg-danger" : user.Role.Contains("Manager") ? "bg-warning" : "bg-info")">
+                                                @user.Role
+                                            </span>
+                                        </td>
+                                        <td>@(user.DealerTypeName ?? "N/A")</td>
+                                        <td>@(user.DealerAddress ?? "N/A")</td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-info btn-sm view-user" data-user-id="@user.UserId" title="View Details">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-warning btn-sm edit-user" data-user-id="@user.UserId" title="Edit User">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm delete-user" data-user-id="@user.UserId" data-username="@user.Username" title="Delete User">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    @if (!Model.Any())
+                    {
+                        <div class="alert alert-info text-center" id="noUsersAlert">
+                            <i class="bi bi-info-circle me-2"></i>
+                            No users found.
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
-    }
+    </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- View User Modal -->
+<div class="modal fade" id="viewUserModal" tabindex="-1" aria-labelledby="viewUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewUserModalLabel">User Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="viewUserContent">
+                <!-- User details will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit User Modal -->
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editUserForm">
+                    <input type="hidden" id="editUserId" name="UserId">
+                    <div class="mb-3">
+                        <label for="editUsername" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="editUsername" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editRole" class="form-label">Role</label>
+                        <select class="form-select" id="editRole" name="Role">
+                            <option value="Admin">Admin</option>
+                            <option value="DealerManager">Dealer Manager</option>
+                            <option value="DealerStaff">Dealer Staff</option>
+                            <option value="EVN staff">EVN Staff</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDealerType" class="form-label">Dealer Type</label>
+                        <input type="text" class="form-control" id="editDealerType" name="DealerTypeName">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDealerAddress" class="form-label">Dealer Address</label>
+                        <textarea class="form-control" id="editDealerAddress" name="DealerAddress" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveUserBtn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .card {
+            border: none;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+        .card-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .table-hover tbody tr:hover {
+            background-color: rgba(0, 0, 0, 0.075);
+        }
+        .btn-group .btn {
+            margin-right: 2px;
+        }
+        .loading {
+            display: none;
+        }
+        .modal-dialog.modal-lg {
+            max-width: 800px;
+        }
+        .btn-close-white {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+        .form-label {
+            font-weight: 500;
+        }
+        .text-danger {
+            color: #dc3545 !important;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Search functionality
+            $('#searchBtn').click(function() {
+                performSearch();
+            });
+
+            $('#searchInput').keypress(function(e) {
+                if (e.which == 13) {
+                    performSearch();
+                }
+            });
+
+            $('#clearBtn').click(function() {
+                $('#searchInput').val('');
+                performSearch();
+            });
+
+            // View User
+            $('.view-user').click(function() {
+                var userId = $(this).data('user-id');
+                loadUserDetails(userId);
+            });
+
+            // Edit User
+            $('.edit-user').click(function() {
+                var userId = $(this).data('user-id');
+                loadUserForEdit(userId);
+            });
+
+            // Save User Changes
+            $('#saveUserBtn').click(function() {
+                saveUserChanges();
+            });
+
+            // Delete User
+            $('.delete-user').click(function() {
+                var userId = $(this).data('user-id');
+                var username = $(this).data('username');
+                if (confirm('Are you sure you want to delete user "' + username + '"?')) {
+                    deleteUser(userId);
+                }
+            });
+        });
+
+        function performSearch() {
+            var searchTerm = $('#searchInput').val();
+            window.location.href = '@Url.Action("GetAllUsers")' + '?searchUsername=' + encodeURIComponent(searchTerm);
+        }
+
+        function loadUserDetails(userId) {
+            $('#viewUserContent').html('<div class="text-center"><div class="spinner-border" role="status"></div></div>');
+            $('#viewUserModal').modal('show');
+            
+            $.get('@Url.Action("GetUserById")/' + userId)
+                .done(function(data) {
+                    var userInfo = `
+                        <div class="row">
+                            <div class="col-md-6"><strong>User ID:</strong></div>
+                            <div class="col-md-6">${data.userId}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6"><strong>Username:</strong></div>
+                            <div class="col-md-6">${data.username}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6"><strong>Role:</strong></div>
+                            <div class="col-md-6"><span class="badge bg-info">${data.role}</span></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6"><strong>Dealer ID:</strong></div>
+                            <div class="col-md-6">${data.dealerId}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6"><strong>Dealer Type:</strong></div>
+                            <div class="col-md-6">${data.dealerTypeName || 'N/A'}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6"><strong>Dealer Address:</strong></div>
+                            <div class="col-md-6">${data.dealerAddress || 'N/A'}</div>
+                        </div>`;
+                    $('#viewUserContent').html(userInfo);
+                })
+                .fail(function() {
+                    $('#viewUserContent').html('<div class="alert alert-danger">Error loading user details.</div>');
+                });
+        }
+
+        function loadUserForEdit(userId) {
+            $.get('@Url.Action("GetUserById")/' + userId)
+                .done(function(data) {
+                    $('#editUserId').val(data.userId);
+                    $('#editUsername').val(data.username);
+                    $('#editRole').val(data.role);
+                    $('#editDealerType').val(data.dealerTypeName || '');
+                    $('#editDealerAddress').val(data.dealerAddress || '');
+                    $('#editUserModal').modal('show');
+                })
+                .fail(function() {
+                    alert('Error loading user data for editing.');
+                });
+        }
+
+        function saveUserChanges() {
+            var formData = {
+                UserId: $('#editUserId').val(),
+                Role: $('#editRole').val(),
+                DealerTypeName: $('#editDealerType').val(),
+                DealerAddress: $('#editDealerAddress').val()
+            };
+
+            $.post('@Url.Action("EditUser")/' + formData.UserId, formData)
+                .done(function() {
+                    $('#editUserModal').modal('hide');
+                    location.reload(); // Refresh page to show updated data
+                })
+                .fail(function() {
+                    alert('Error saving user changes.');
+                });
+        }
+
+        function deleteUser(userId) {
+            $.post('@Url.Action("DeleteUser")/' + userId)
+                .done(function() {
+                    $('tr[data-user-id="' + userId + '"]').fadeOut(function() {
+                        $(this).remove();
+                        if ($('#usersTableBody tr').length === 0) {
+                            $('#noUsersAlert').show();
+                        }
+                    });
+                })
+                .fail(function() {
+                    alert('Error deleting user.');
+                });
+        }
+    </script>
+}
