@@ -63,12 +63,12 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <h6 class="card-title">Admin Users</h6>
-                                    <h2 class="mb-0">@ViewBag.AdminCount</h2>
-                                    <small class="opacity-75">System administrators</small>
+                                    <h6 class="card-title">Pending Requests</h6>
+                                    <h2 class="mb-0">@ViewBag.PendingRequests</h2>
+                                    <small class="opacity-75">Inventory requests</small>
                                 </div>
                                 <div class="align-self-center">
-                                    <i class="bi bi-shield-check fs-1"></i>
+                                    <i class="bi bi-clock-history fs-1"></i>
                                 </div>
                             </div>
                         </div>
@@ -80,12 +80,12 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <h6 class="card-title">EVN Staff</h6>
-                                    <h2 class="mb-0">@ViewBag.EVNStaffCount</h2>
-                                    <small class="opacity-75">EVN personnel</small>
+                                    <h6 class="card-title">Admin Users</h6>
+                                    <h2 class="mb-0">@ViewBag.AdminCount</h2>
+                                    <small class="opacity-75">System administrators</small>
                                 </div>
                                 <div class="align-self-center">
-                                    <i class="bi bi-lightning-charge fs-1"></i>
+                                    <i class="bi bi-shield-check fs-1"></i>
                                 </div>
                             </div>
                         </div>
@@ -110,17 +110,17 @@
                                     </a>
                                 </div>
                                 <div class="col-md-4">
+                                    <a href="@Url.Action("Requests", "Inventory")" class="btn btn-outline-warning w-100 p-3">
+                                        <i class="bi bi-box-seam d-block fs-2 mb-2"></i>
+                                        Inventory Requests
+                                        <small class="d-block text-muted">@ViewBag.PendingRequests pending requests</small>
+                                    </a>
+                                </div>
+                                <div class="col-md-4">
                                     <button class="btn btn-outline-info w-100 p-3">
                                         <i class="bi bi-graph-up d-block fs-2 mb-2"></i>
                                         View Reports
                                         <small class="d-block text-muted">Analytics & insights</small>
-                                    </button>
-                                </div>
-                                <div class="col-md-4">
-                                    <button class="btn btn-outline-warning w-100 p-3">
-                                        <i class="bi bi-gear d-block fs-2 mb-2"></i>
-                                        System Settings
-                                        <small class="d-block text-muted">Configure system</small>
                                     </button>
                                 </div>
                             </div>
@@ -155,7 +155,7 @@
                                             <span>@(ViewBag.TotalUsers > 0 ? Math.Round((double)ViewBag.AdminCount / ViewBag.TotalUsers * 100, 1) : 0)%</span>
                                         </div>
                                         <div class="progress">
-                                            <div class="progress-bar bg-warning" style="width: @(ViewBag.TotalUsers > 0 ? (double)ViewBag.AdminCount / ViewBag.TotalUsers * 100 : 0)%"></div>
+                                            <div class="progress-bar bg-danger" style="width: @(ViewBag.TotalUsers > 0 ? (double)ViewBag.AdminCount / ViewBag.TotalUsers * 100 : 0)%"></div>
                                         </div>
                                     </div>
                                     <div class="progress-group">
@@ -164,7 +164,7 @@
                                             <span>@(ViewBag.TotalUsers > 0 ? Math.Round((double)ViewBag.EVNStaffCount / ViewBag.TotalUsers * 100, 1) : 0)%</span>
                                         </div>
                                         <div class="progress">
-                                            <div class="progress-bar bg-danger" style="width: @(ViewBag.TotalUsers > 0 ? (double)ViewBag.EVNStaffCount / ViewBag.TotalUsers * 100 : 0)%"></div>
+                                            <div class="progress-bar bg-secondary" style="width: @(ViewBag.TotalUsers > 0 ? (double)ViewBag.EVNStaffCount / ViewBag.TotalUsers * 100 : 0)%"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -180,12 +180,12 @@
                                             <strong>@ViewBag.ActiveDealers</strong> active dealers
                                         </li>
                                         <li class="mb-2">
-                                            <i class="bi bi-shield-check text-warning me-2"></i>
-                                            <strong>@ViewBag.AdminCount</strong> system administrators
+                                            <i class="bi bi-clock-history text-warning me-2"></i>
+                                            <strong>@ViewBag.PendingRequests</strong> pending inventory requests
                                         </li>
                                         <li>
-                                            <i class="bi bi-lightning-charge text-danger me-2"></i>
-                                            <strong>@ViewBag.EVNStaffCount</strong> EVN staff members
+                                            <i class="bi bi-shield-check text-danger me-2"></i>
+                                            <strong>@ViewBag.AdminCount</strong> system administrators
                                         </li>
                                     </ul>
                                 </div>

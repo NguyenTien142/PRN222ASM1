@@ -27,6 +27,8 @@ public partial class Prn222asm1Context : DbContext
 
     public virtual DbSet<Inventory> Inventories { get; set; }
 
+    public virtual DbSet<InventoryRequest> InventoryRequests { get; set; }
+
     public virtual DbSet<Order> Orders { get; set; }
 
     public virtual DbSet<OrderVehicle> OrderVehicles { get; set; }
@@ -38,10 +40,6 @@ public partial class Prn222asm1Context : DbContext
     public virtual DbSet<VehicleCategory> VehicleCategories { get; set; }
 
     public virtual DbSet<VehicleInventory> VehicleInventories { get; set; }
-
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseSqlServer("Server=localhost;uid=SA;pwd=12345;database=PRN222ASM1;TrustServerCertificate=True");
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -139,6 +137,45 @@ public partial class Prn222asm1Context : DbContext
                 .HasForeignKey(d => d.DealerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Inventory__Deale__3E52440B");
+        });
+
+        modelBuilder.Entity<InventoryRequest>(entity =>
+        {
+            entity.HasKey(e => e.RequestId).HasName("PK__Inventor__33A8517A12345678");
+
+            entity.ToTable("InventoryRequest");
+
+            entity.Property(e => e.RequestId).HasColumnName("RequestID");
+            entity.Property(e => e.VehicleId).HasColumnName("VehicleID");
+            entity.Property(e => e.DealerId).HasColumnName("DealerID");
+            entity.Property(e => e.RequestedBy).HasColumnName("RequestedBy");
+            entity.Property(e => e.RequestedQuantity).HasColumnName("RequestedQuantity");
+            entity.Property(e => e.Reason).HasMaxLength(500);
+            entity.Property(e => e.Status).HasMaxLength(50).HasDefaultValue("Pending");
+            entity.Property(e => e.RequestDate).HasColumnType("datetime").HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.ProcessedDate).HasColumnType("datetime");
+            entity.Property(e => e.ProcessedBy).HasColumnName("ProcessedBy");
+            entity.Property(e => e.AdminComment).HasMaxLength(500);
+
+            entity.HasOne(d => d.Vehicle).WithMany()
+                .HasForeignKey(d => d.VehicleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__InventoryRequest__Vehicle");
+
+            entity.HasOne(d => d.Dealer).WithMany()
+                .HasForeignKey(d => d.DealerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__InventoryRequest__Dealer");
+
+            entity.HasOne(d => d.RequestedByUser).WithMany()
+                .HasForeignKey(d => d.RequestedBy)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__InventoryRequest__RequestedBy");
+
+            entity.HasOne(d => d.ProcessedByUser).WithMany()
+                .HasForeignKey(d => d.ProcessedBy)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("FK__InventoryRequest__ProcessedBy");
         });
 
         modelBuilder.Entity<Order>(entity =>

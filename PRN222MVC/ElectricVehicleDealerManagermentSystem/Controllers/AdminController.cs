@@ -12,11 +12,13 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
     public class AdminController : Controller
     {
         private readonly IAdminService _adminService;
+        private readonly IInventoryService _inventoryService;
         private readonly ILogger<AdminController> _logger;
 
-        public AdminController(IAdminService adminService, ILogger<AdminController> logger)
+        public AdminController(IAdminService adminService, IInventoryService inventoryService, ILogger<AdminController> logger)
         {
             _adminService = adminService;
+            _inventoryService = inventoryService;
             _logger = logger;
         }
 
@@ -37,11 +39,16 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
                 var activeDealers = allUsers.Count(u => u.Role.Contains("Dealer") && !string.IsNullOrEmpty(u.DealerTypeName));
                 var evnStaff = allUsers.Count(u => u.Role == "EVN staff");
 
+                // Get pending inventory requests count
+                var allRequests = await _inventoryService.GetAllInventoryRequestsAsync();
+                var pendingRequests = allRequests.Count(r => r.Status == "Pending");
+
                 // Pass statistics to view
                 ViewBag.TotalUsers = totalUsers;
                 ViewBag.ActiveDealers = activeDealers;
                 ViewBag.AdminCount = activeAdmins;
                 ViewBag.EVNStaffCount = evnStaff;
+                ViewBag.PendingRequests = pendingRequests;
 
                 return View();
             }
@@ -55,6 +62,7 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
                 ViewBag.ActiveDealers = 0;
                 ViewBag.AdminCount = 0;
                 ViewBag.EVNStaffCount = 0;
+                ViewBag.PendingRequests = 0;
                 
                 return View();
             }
