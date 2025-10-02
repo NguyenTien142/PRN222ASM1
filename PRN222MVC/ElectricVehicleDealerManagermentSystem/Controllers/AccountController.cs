@@ -55,28 +55,32 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
 
                 if (result.User != null && result.User.DealerId > 0)
                 {
-                    HttpContext.Session.SetInt32("UserId", result.User.UserId);
                     HttpContext.Session.SetInt32("DealerId", result.User.DealerId);
                     _logger.LogInformation("DealerId set in session: {DealerId}", result.User.DealerId);
                 }
-
-                //if (result.User?.Role == "Admin")
-                //    // Redirect based on role with debug info
-                  var userRole = result.User?.Role ?? "Unknown";
+                
+                var userRole = result.User?.Role ?? "Unknown";
                 _logger.LogInformation("Determining redirect for role: {Role}", userRole);
 
-                if (userRole == "Admin")
+                // Role-based redirects
+                switch (userRole)
                 {
-                    _logger.LogInformation("Redirecting to Admin Dashboard");
-                    return RedirectToAction("Dashboard", "Admin");
+                    case "Admin":
+                        _logger.LogInformation("Redirecting to Admin Dashboard");
+                        return RedirectToAction("Dashboard", "Admin");
+                    
+                    case "DealerManager":
+                        _logger.LogInformation("Redirecting to Dealer Dashboard");
+                        return RedirectToAction("Dashboard", "Dealer");
+                    
+                    case "DealerStaff":
+                        _logger.LogInformation("Redirecting to Home (DealerStaff)");
+                        return RedirectToAction("Index", "Home");
+                    
+                    default:
+                        _logger.LogInformation("Redirecting to Home (default/unknown role)");
+                        return RedirectToAction("Index", "Home");
                 }
-                else if (userRole == "DealerManager" || userRole.Contains("Dealer"))
-                {
-                    _logger.LogInformation("Redirecting to Dealer Dashboard");
-                    return RedirectToAction("Dashboard_Dealer", "Dealer");
-                }
-
-                return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {

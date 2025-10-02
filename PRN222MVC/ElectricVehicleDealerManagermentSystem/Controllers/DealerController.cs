@@ -117,15 +117,24 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
                 var role = GetCurrentUserRole();
                 _logger.LogInformation("Extracted Role: '{Role}'", role);
                 
-                // Check if user is DealerManager
-                var isDealerManager = !string.IsNullOrEmpty(role) && (role == "DealerManager" || role.Contains("Dealer"));
+                // Check if user is DealerManager (NOT DealerStaff)
+                var isDealerManager = !string.IsNullOrEmpty(role) && role == "DealerManager";
                 _logger.LogInformation("Is Dealer Manager Check: {Result}", isDealerManager);
 
                 if (!isDealerManager)
                 {
-                    _logger.LogWarning("Role check failed - Role: '{Role}', Redirecting to login", role);
-                    TempData["Error"] = $"Access denied. Your role is '{role}'. You must be a Dealer Manager to access this page.";
-                    return RedirectToAction("Login", "Account");
+                    _logger.LogWarning("Dashboard access denied - Role: '{Role}', Only DealerManager allowed", role);
+                    
+                    if (role == "DealerStaff")
+                    {
+                        TempData["Error"] = "Access denied. DealerStaff users don't have access to the dashboard.";
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        TempData["Error"] = $"Access denied. Your role '{role}' does not have permission to access this dashboard.";
+                        return RedirectToAction("Login", "Account");
+                    }
                 }
 
                 var dealerId = GetCurrentDealerId();
