@@ -1,0 +1,58 @@
+﻿@model IEnumerable<BusinessObject.BusinessObject.OrderModels.Respond.GetOrdersResponseDto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Order Id
+            </th>
+            <th>
+                Order Date
+            </th>
+            <th>
+                Total Amount
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Customer Name
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.OrderId
+                </td>
+                <td>
+                    @item.OrderDate
+                </td>
+                <td>
+                    @item.TotalAmount
+                </td>
+                <td>
+                    @item.Status
+                </td>
+                <td>
+                    @item.CustomerName
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.OrderId">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
