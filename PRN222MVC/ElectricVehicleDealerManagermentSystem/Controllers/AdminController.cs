@@ -5,6 +5,7 @@ using BusinessObject.BusinessObject.UserModels.Request;
 using Microsoft.Extensions.Logging;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using BusinessObject.BusinessObject.ReportModels;
 
 namespace ElectricVehicleDealerManagermentSystem.Controllers
 {
@@ -197,6 +198,66 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
             }
 
             return RedirectToAction(nameof(GetAllUsers));
+        }
+
+        // Báo cáo doanh số theo đại lý
+        public async Task<IActionResult> DealerSalesReport()
+        {
+            try
+            {
+                // Get username from JWT token
+                var username = GetCurrentUsername();
+                ViewBag.Username = username ?? "Admin";
+
+                // Get dealer sales report data
+                var dealerReports = await _adminService.GetDealerSalesReportAsync();
+                var summary = await _adminService.GetSalesReportSummaryAsync();
+
+                ViewBag.DealerReports = dealerReports;
+                ViewBag.Summary = summary;
+
+                return View();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading dealer sales report");
+
+                // Fallback values if error occurs
+                ViewBag.Username = GetCurrentUsername() ?? "Admin";
+                ViewBag.DealerReports = new List<DealerSalesReportResponse>();
+                ViewBag.Summary = new SalesReportSummary
+                {
+                    TotalDealers = 0,
+                    TotalOrders = 0,
+                    TotalEarnings = 0,
+                    ReportGeneratedDate = DateTime.Now
+                };
+
+                return View();
+            }
+        }
+
+        // API endpoint for AJAX dealer sales report
+        [HttpGet]
+        public async Task<IActionResult> GetDealerSalesReportData()
+        {
+            try
+            {
+                var dealerReports = await _adminService.GetDealerSalesReportAsync();
+                var summary = await _adminService.GetSalesReportSummaryAsync();
+
+                return Json(new
+                {
+                    success = true,
+                    data = dealerReports,
+                    summary = summary
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting dealer sales report data");
+                return Json(new { success = false, message = "Error loading report data" });
+            }
         }
 
         // API endpoint for AJAX user search

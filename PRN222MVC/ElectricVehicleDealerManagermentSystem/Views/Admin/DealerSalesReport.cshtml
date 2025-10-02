@@ -1,0 +1,474 @@
+@{
+    ViewData["Title"] = "Dealer Sales Report - Admin";
+    Layout = "Admin_Layout";
+    var summary = ViewBag.Summary; // null-safe variable
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="welcome-section mb-4">
+                <div class="card border-0 bg-primary text-white">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="welcome-icon me-3">
+                                <i class="bi bi-graph-up fs-1"></i>
+                            </div>
+                            <div>
+                                <h2 class="mb-1">Dealer Sales Report</h2>
+                                <p class="mb-0 opacity-75">Comprehensive sales performance report by dealers</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="row g-4 mb-4">
+                <div class="col-xl-3 col-md-6">
+                    <div class="card bg-info text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6 class="card-title">Total Dealers</h6>
+                                    <h2 class="mb-0" id="totalDealers">@((summary != null && summary.TotalDealers != null) ? summary.TotalDealers.ToString() : "0")</h2>
+                                    <small class="opacity-75">Active dealers</small>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="bi bi-building fs-1"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6 class="card-title">Total Orders</h6>
+                                    <h2 class="mb-0" id="totalOrders">@((summary != null && summary.TotalOrders != null) ? summary.TotalOrders.ToString() : "0")</h2>
+                                    <small class="opacity-75">All dealer orders</small>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="bi bi-receipt fs-1"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+                    <div class="card bg-warning text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6 class="card-title">Total Earnings</h6>
+                                    <h2 class="mb-0" id="totalEarnings">
+                                        @(
+                                                                                (summary != null && summary.TotalEarnings != null)
+                                                                                ? String.Format("{0:C}", summary.TotalEarnings)
+                                                                                : "$0.00"
+                                                                                )
+                                    </h2>
+                                    <small class="opacity-75">Revenue generated</small>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="bi bi-currency-dollar fs-1"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+                    <div class="card bg-secondary text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6 class="card-title">Report Date</h6>
+                                    <h2 class="mb-0" id="reportDate">
+                                        @(
+                                                                                (summary != null && summary.ReportGeneratedDate != null)
+                                                                                ? String.Format("{0:dd/MM/yyyy}", summary.ReportGeneratedDate)
+                                                                                : "-"
+                                                                                )
+                                    </h2>
+                                    <small class="opacity-75">Last updated</small>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="bi bi-calendar fs-1"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dealer Sales Report Table -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">Dealer Performance Details</h5>
+                            <div class="d-flex gap-2">
+                                <div class="input-group input-group-sm" style="width: 250px;">
+                                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                    <input type="text" class="form-control" id="dealerSearch" placeholder="Search dealers...">
+                                </div>
+                                <button class="btn btn-primary btn-sm" onclick="refreshReport()" id="refreshBtn">
+                                    <i class="bi bi-arrow-clockwise me-1"></i>Refresh
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <div id="tableLoading" class="d-none text-center py-4">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <div class="mt-2">Loading dealer data...</div>
+                                </div>
+                                <table class="table table-striped table-hover" id="dealerSalesTable">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>Dealer Name</th>
+                                            <th>Type</th>
+                                            <th>Address</th>
+                                            <th>Total Orders</th>
+                                            <th>Successful</th>
+                                            <th>Pending</th>
+                                            <th>Vehicles Sold</th>
+                                            <th>Total Earnings</th>
+                                            <th>Last Order</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (ViewBag.DealerReports != null)
+                                        {
+                                            foreach (var report in ViewBag.DealerReports)
+                                            {
+                                                var dealerNameSafe = !string.IsNullOrEmpty(report?.DealerName) ? report.DealerName : "";
+                                                var avatarInitial = !string.IsNullOrEmpty(dealerNameSafe) ? dealerNameSafe.Substring(0, 1).ToUpper() : "-";
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="avatar-wrapper me-2">
+                                                                <div class="avatar avatar-sm">
+                                                                    <span class="avatar-initial bg-label-primary">@avatarInitial</span>
+                                                                </div>
+                                                            </div>
+                                                            <span class="fw-medium">@dealerNameSafe</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge bg-label-info">@(!string.IsNullOrEmpty(report?.DealerType) ? report.DealerType : "N/A")</span>
+                                                    </td>
+                                                    <td>@(report?.DealerAddress ?? "")</td>
+                                                    <td>
+                                                        <span class="badge bg-label-secondary">@((report?.TotalOrders != null) ? report.TotalOrders.ToString() : "0")</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge bg-label-success">@((report?.SuccessfulOrders != null) ? report.SuccessfulOrders.ToString() : "0")</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge bg-label-warning">@((report?.PendingOrders != null) ? report.PendingOrders.ToString() : "0")</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="fw-medium">@((report?.TotalVehiclesSold != null) ? report.TotalVehiclesSold.ToString() : "0")</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="fw-medium text-success">@((report?.TotalEarnings != null) ? String.Format("{0:C}", report.TotalEarnings) : String.Format("{0:C}", 0))</span>
+                                                    </td>
+                                                    <td>
+                                                        @if (report?.LastOrderDate != null && report.LastOrderDate.HasValue)
+                                                        {
+                                                            @report.LastOrderDate.Value.ToString("dd/MM/yyyy")
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-muted">No orders</span>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <button class="btn p-0" type="button" id="actionDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                <i class="bi bi-three-dots-vertical"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu" aria-labelledby="actionDropdown">
+                                                                <a class="dropdown-item" href="#" onclick="viewDealerDetails('@dealerNameSafe')">
+                                                                    <i class="bi bi-eye me-2"></i>View Details
+                                                                </a>
+                                                                <a class="dropdown-item" href="#" onclick="viewDealerOrders('@dealerNameSafe')">
+                                                                    <i class="bi bi-list-ul me-2"></i>View Orders
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td colspan="10" class="text-center py-4">
+                                                    <div class="d-flex flex-column align-items-center">
+                                                        <i class="bi bi-graph-down fs-1 text-muted mb-2"></i>
+                                                        <span class="text-muted">No dealer sales data available</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+        function refreshReport() {
+            // Show loading state
+            $('#refreshBtn').html('<i class="bi bi-hourglass-split me-1"></i>Refreshing...');
+            $('#refreshBtn').prop('disabled', true);
+            $('#tableLoading').removeClass('d-none');
+            $('#dealerSalesTable').addClass('d-none');
+
+            $.ajax({
+                url: '@Url.Action("GetDealerSalesReportData", "Admin")',
+                type: 'GET',
+                success: function(response) {
+                    if (response.success) {
+                        updateReportTable(response.data, response.summary);
+                        showSuccessToast('Report refreshed successfully');
+                    } else {
+                        showErrorToast(response.message || 'Failed to refresh report');
+                    }
+                },
+                error: function() {
+                    showErrorToast('Error refreshing report');
+                },
+                complete: function() {
+                    // Reset button state and hide loading
+                    $('#refreshBtn').html('<i class="bi bi-arrow-clockwise me-1"></i>Refresh');
+                    $('#refreshBtn').prop('disabled', false);
+                    $('#tableLoading').addClass('d-none');
+                    $('#dealerSalesTable').removeClass('d-none');
+                }
+            });
+        }
+
+        // Search functionality
+        $('#dealerSearch').on('keyup', function() {
+            var searchTerm = $(this).val().toLowerCase();
+            $('#dealerSalesTable tbody tr').each(function() {
+                var dealerName = $(this).find('td:first .fw-medium').text().toLowerCase();
+                if (dealerName.includes(searchTerm)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+
+        function updateReportTable(data, summary) {
+            // Update summary cards
+            if (summary) {
+                $('#totalDealers').text(summary.totalDealers || 0);
+                $('#totalOrders').text(summary.totalOrders || 0);
+                $('#totalEarnings').text('$' + (summary.totalEarnings || 0).toLocaleString());
+                if (summary.reportGeneratedDate) {
+                    var d = new Date(summary.reportGeneratedDate);
+                    if (!isNaN(d)) $('#reportDate').text(d.toLocaleDateString('vi-VN'));
+                }
+            }
+
+            // Update table body
+            var tbody = $('#dealerSalesTable tbody');
+            tbody.empty();
+
+            if (data && data.length > 0) {
+                data.forEach(function(dealer) {
+                    var lastOrderDate = dealer.lastOrderDate ? new Date(dealer.lastOrderDate).toLocaleDateString('vi-VN') : 'No orders';
+
+                    var row = `
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar-wrapper me-2">
+                                        <div class="avatar avatar-sm">
+                                            <span class="avatar-initial bg-label-primary">${(dealer.dealerName || '').charAt(0).toUpperCase() || '-'}</span>
+                                        </div>
+                                    </div>
+                                    <span class="fw-medium">${dealer.dealerName || ''}</span>
+                                </div>
+                            </td>
+                            <td><span class="badge bg-label-info">${dealer.dealerType || 'N/A'}</span></td>
+                            <td>${dealer.dealerAddress || ''}</td>
+                            <td><span class="badge bg-label-secondary">${dealer.totalOrders || 0}</span></td>
+                            <td><span class="badge bg-label-success">${dealer.successfulOrders || 0}</span></td>
+                            <td><span class="badge bg-label-warning">${dealer.pendingOrders || 0}</span></td>
+                            <td><span class="fw-medium">${dealer.totalVehiclesSold || 0}</span></td>
+                            <td><span class="fw-medium text-success">$${(dealer.totalEarnings || 0).toLocaleString()}</span></td>
+                            <td>${lastOrderDate}</td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn p-0" type="button" data-bs-toggle="dropdown">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="#" onclick="viewDealerDetails('${dealer.dealerName || ''}')">
+                                            <i class="bi bi-eye me-2"></i>View Details
+                                        </a>
+                                        <a class="dropdown-item" href="#" onclick="viewDealerOrders('${dealer.dealerName || ''}')">
+                                            <i class="bi bi-list-ul me-2"></i>View Orders
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                    tbody.append(row);
+                });
+            } else {
+                tbody.append(`
+                    <tr>
+                        <td colspan="10" class="text-center py-4">
+                            <div class="d-flex flex-column align-items-center">
+                                <i class="bi bi-graph-down fs-1 text-muted mb-2"></i>
+                                <span class="text-muted">No dealer sales data available</span>
+                            </div>
+                        </td>
+                    </tr>
+                `);
+            }
+
+            // Hide loading and show table
+            $('#tableLoading').addClass('d-none');
+            $('#dealerSalesTable').removeClass('d-none');
+        }
+
+        function viewDealerDetails(dealerName) {
+            // Implementation for viewing dealer details
+            showInfoToast('Feature coming soon: View dealer details for ' + dealerName);
+        }
+
+        function viewDealerOrders(dealerName) {
+            // Implementation for viewing dealer orders
+            showInfoToast('Feature coming soon: View orders for ' + dealerName);
+        }
+
+        function showSuccessToast(message) {
+            // Create toast element
+            var toastHtml = `
+                <div class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            <i class="bi bi-check-circle me-2"></i>${message}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                    </div>
+                </div>
+            `;
+
+            // Add to toast container or create one
+            var container = $('.toast-container');
+            if (container.length === 0) {
+                $('body').append('<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1050;"></div>');
+                container = $('.toast-container');
+            }
+
+            container.append(toastHtml);
+
+            // Show toast
+            var toast = container.find('.toast:last-child');
+            var bsToast = new bootstrap.Toast(toast[0]);
+            bsToast.show();
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                bsToast.hide();
+                toast.remove();
+            }, 3000);
+        }
+
+        function showErrorToast(message) {
+            // Create toast element
+            var toastHtml = `
+                <div class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            <i class="bi bi-exclamation-triangle me-2"></i>${message}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                    </div>
+                </div>
+            `;
+
+            // Add to toast container or create one
+            var container = $('.toast-container');
+            if (container.length === 0) {
+                $('body').append('<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1050;"></div>');
+                container = $('.toast-container');
+            }
+
+            container.append(toastHtml);
+
+            // Show toast
+            var toast = container.find('.toast:last-child');
+            var bsToast = new bootstrap.Toast(toast[0]);
+            bsToast.show();
+
+            // Remove after 5 seconds for errors
+            setTimeout(() => {
+                bsToast.hide();
+                toast.remove();
+            }, 5000);
+        }
+
+        function showInfoToast(message) {
+            // Create toast element
+            var toastHtml = `
+                <div class="toast align-items-center text-white bg-info border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            <i class="bi bi-info-circle me-2"></i>${message}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                    </div>
+                </div>
+            `;
+
+            // Add to toast container or create one
+            var container = $('.toast-container');
+            if (container.length === 0) {
+                $('body').append('<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1050;"></div>');
+                container = $('.toast-container');
+            }
+
+            container.append(toastHtml);
+
+            // Show toast
+            var toast = container.find('.toast:last-child');
+            var bsToast = new bootstrap.Toast(toast[0]);
+            bsToast.show();
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                bsToast.hide();
+                toast.remove();
+            }, 3000);
+        }
+
+        // Auto refresh every 5 minutes
+        setInterval(refreshReport, 300000);
+    </script>
+}
