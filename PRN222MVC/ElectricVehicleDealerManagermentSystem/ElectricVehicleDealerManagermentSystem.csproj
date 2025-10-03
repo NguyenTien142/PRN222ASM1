@@ -14,11 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-
-    <Folder Include="wwwroot\img\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\css\about.css" />
   </ItemGroup>
 
@@ -30,6 +25,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\vehicles\" />
   </ItemGroup>
 
 </Project>

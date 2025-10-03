@@ -101,5 +101,15 @@ namespace Services.Implements
                 VehicleVersion = a.Vehicle.Version ?? ""
             };
         }
+
+        public async Task<bool> CancelAppointmentAsync(int appointmentId)
+        {
+            var appointmentRepo = _unitOfWork.GetRepository<Appointment>();
+            var appointment = await appointmentRepo.GetByIdAsync(appointmentId);
+            if (appointment == null) return false;
+            appointmentRepo.DeleteAsync(appointment);
+            await _unitOfWork.SaveAsync();
+            return true;
+        }
     }
 }

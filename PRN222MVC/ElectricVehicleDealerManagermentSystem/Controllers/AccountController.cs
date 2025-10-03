@@ -70,10 +70,15 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
                     _logger.LogInformation("Redirecting to Admin Dashboard");
                     return RedirectToAction("Dashboard", "Admin");
                 }
-                else if (userRole == "DealerManager" || userRole.Contains("Dealer"))
+                else if (userRole == "DealerManager" || userRole.Contains("Manager"))
                 {
                     _logger.LogInformation("Redirecting to Dealer Dashboard");
                     return RedirectToAction("Dashboard_Dealer", "Dealer");
+                }
+                else if (userRole == "DealerStaff" || userRole.Contains("Staff"))
+                {
+                    _logger.LogInformation("Redirecting to Dealer Dashboard");
+                    return RedirectToAction("Index", "Staff");
                 }
 
                 return RedirectToAction("Index", "Home");

@@ -26,7 +26,7 @@
                     <th>Phone</th>
                     <th>Vehicle</th>
                     <th>Date</th>
-                    <th></th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,7 +39,11 @@
                         <td>@a.VehicleModel (@a.VehicleColor)</td>
                         <td>@a.AppointmentDate.ToString("g")</td>
                         <td>
-                            <a asp-action="Details" asp-route-id="@a.AppointmentId" class="btn btn-info btn-sm">Details</a>
+                            <a asp-action="Details" asp-route-id="@a.AppointmentId" class="btn btn-info btn-sm me-2">Details</a>
+                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancelModal" 
+                                data-id="@a.AppointmentId" data-customer="@a.CustomerName" data-date="@a.AppointmentDate.ToString("g")">
+                                Cancel
+                            </button>
                         </td>
                     </tr>
                 }
@@ -47,3 +51,38 @@
         </table>
     </div>
 </div>
+
+<!-- Cancel Confirmation Modal -->
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="cancelModalLabel">Confirm Cancellation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p id="cancelModalText">Are you sure you want to cancel this appointment?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <a id="confirmCancelBtn" class="btn btn-danger">Confirm Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+    <script>
+        var cancelModal = document.getElementById('cancelModal');
+        cancelModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var appointmentId = button.getAttribute('data-id');
+            var customerName = button.getAttribute('data-customer');
+            var appointmentDate = button.getAttribute('data-date');
+            var modalText = cancelModal.querySelector('#cancelModalText');
+            var confirmBtn = cancelModal.querySelector('#confirmCancelBtn');
+            modalText.textContent = `Are you sure you want to cancel the appointment for ${customerName} on ${appointmentDate}?`;
+            confirmBtn.href = `/Appointment/DeleteAppointment/${appointmentId}`;
+        });
+    </script>
+}
