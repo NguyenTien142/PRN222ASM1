@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessObject.BusinessObject;
+using BusinessObject.BusinessObject.InventoryModels.Respond;
 using BusinessObject.BusinessObject.OrderModels.Response;
 using BusinessObject.BusinessObject.VehicleModels.Respond;
 using Repositories.Model;
@@ -87,6 +88,16 @@ namespace Services.Helper.AutoMapper
                            opt => opt.MapFrom(src => src.DealerType != null 
                                                      ? src.DealerType.TypeName 
                                                      : string.Empty));
+
+            // Inventory Request mappings
+            CreateMap<InventoryRequest, GetInventoryRequestRespond>()
+                .ForMember(dest => dest.VehicleModel, opt => opt.MapFrom(src => src.Vehicle.Model))
+                .ForMember(dest => dest.VehicleColor, opt => opt.MapFrom(src => src.Vehicle.Color))
+                .ForMember(dest => dest.DealerAddress, opt => opt.MapFrom(src => src.Dealer.Address))
+                .ForMember(dest => dest.DealerType, opt => opt.MapFrom(src => src.Dealer.DealerType.TypeName))
+                .ForMember(dest => dest.RequesterUsername, opt => opt.MapFrom(src => src.RequestedByUser.Username))
+                .ForMember(dest => dest.ProcessedByAdmin, opt => opt.MapFrom(src => src.ProcessedByUser != null ? src.ProcessedByUser.Username : null));
+
             // Order mappings
             CreateMap<Order, BusinessObject.BusinessObject.OrderModels.Response.GetSuccessfulOrderResponse>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Customer.Name));

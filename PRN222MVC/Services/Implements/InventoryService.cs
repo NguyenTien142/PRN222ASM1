@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessObject.BusinessObject.InventoryModels.Request;
 using BusinessObject.BusinessObject.InventoryModels.Respond;
+using BusinessObject.BusinessObject.VehicleModels.Request;
 using Repositories.CustomRepositories.Interfaces;
 using Repositories.Model;
 using Repositories.WorkSeeds.Interfaces;
@@ -79,20 +80,76 @@ namespace Services.Implements
         {
             try
             {
-                var request = await _inventoryRequestRepository.GetByIdAsync(model.RequestId);
+                var request = await _inventoryRequestRepository.GetByIdWithDetailsAsync(model.RequestId);
                 if (request == null) return false;
 
+                // Update request status
                 request.Status = model.IsApproved ? "Approved" : "Denied";
                 request.ProcessedDate = DateTime.Now;
                 request.ProcessedBy = processedByUserId;
                 request.AdminComment = model.AdminComment;
 
                 await _inventoryRequestRepository.UpdateAsync(request);
+
+                // ✅ NEW: If approved, add quantity to dealer's inventory
+                if (model.IsApproved)
+                {
+                    await AddQuantityToDealerInventoryAsync(request.VehicleId, request.DealerId, request.RequestedQuantity);
+                }
+
                 return true;
             }
             catch
             {
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Thêm quantity vào VehicleInventory của dealer khi request được approve
+        /// </summary>
+        private async Task AddQuantityToDealerInventoryAsync(int vehicleId, int dealerId, int quantity)
+        {
+            try
+            {
+                // Get dealer's inventory
+                var inventoryRepo = _unitOfWork.GetRepository<Inventory>();
+                var dealerInventory = (await inventoryRepo.GetAllAsync())
+                    .FirstOrDefault(i => i.DealerId == dealerId);
+
+                if (dealerInventory == null)
+                {
+                    throw new InvalidOperationException($"Inventory not found for dealer {dealerId}");
+                }
+
+                // Check if VehicleInventory record already exists
+                var vehicleInventoryRepo = _unitOfWork.GetRepository<VehicleInventory>();
+                var existingVehicleInventory = (await vehicleInventoryRepo.GetAllAsync())
+                    .FirstOrDefault(vi => vi.VehicleId == vehicleId && vi.InventoryId == dealerInventory.InventoryId);
+
+                if (existingVehicleInventory != null)
+                {
+                    // Update existing quantity
+                    existingVehicleInventory.Quantity += quantity;
+                    vehicleInventoryRepo.Update(existingVehicleInventory);
+                }
+                else
+                {
+                    // Create new VehicleInventory record
+                    var newVehicleInventory = new VehicleInventory
+                    {
+                        VehicleId = vehicleId,
+                        InventoryId = dealerInventory.InventoryId,
+                        Quantity = quantity
+                    };
+                    await vehicleInventoryRepo.AddAsync(newVehicleInventory);
+                }
+
+                await _unitOfWork.SaveAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Failed to add quantity to dealer inventory: {ex.Message}", ex);
             }
         }
 
