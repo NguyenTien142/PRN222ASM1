@@ -22,7 +22,7 @@ namespace Services.Implements
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private const int ADMIN_INVENTORY_ID = 2; // InventoryId cố định cho admin
+        private const int ADMIN_INVENTORY_ID = 4; // InventoryId cố định cho admin
 
         public VehicleServices(IUnitOfWork unitOfWork, IMapper mapper)
         {

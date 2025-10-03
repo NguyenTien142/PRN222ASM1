@@ -53,10 +53,10 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
                     return Json(new { success = false, message = "Dealer information not found" });
                 }
 
-                var successfulSummary = await _orderService.GetSuccessfulOrderAsync(userId.Value);
-                var pendingSummary = await _orderService.GetPendingOrderAsync(userId.Value);
+                var successfulSummary = await _orderService.GetSuccessfulOrderAsync(dealerId.Value);
+                var pendingSummary = await _orderService.GetPendingOrderAsync(dealerId.Value);
                 var stockQuantity = await _inventoryService.GetTotalStockQuantityByDealerAsync(dealerId.Value);
-                var totalEarnings = await _orderService.GetTotalEarningsByUserAsync(userId.Value);
+                var totalEarnings = await _orderService.GetTotalEarningsByUserAsync(dealerId.Value);
 
                 var stats = new
                 {
@@ -84,11 +84,12 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
             try
             {
                 var userId = HttpContext.Session.GetInt32("UserId");
-                if (!userId.HasValue)
+                var dealerId = HttpContext.Session.GetInt32("DealerId");
+                if (!dealerId.HasValue)
                 {
                     return Json(new { success = false, message = "User not logged in" });
                 }
-                var successfulOrders = await _orderService.GetSuccessfulOrderAsync(userId.Value);
+                var successfulOrders = await _orderService.GetSuccessfulOrderAsync(dealerId.Value);
 
                 return Json(successfulOrders);
             }

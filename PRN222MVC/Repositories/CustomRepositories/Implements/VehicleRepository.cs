@@ -16,7 +16,7 @@ namespace Repositories.CustomRepositories.Implements
     {
         private readonly Prn222asm1Context _context;
         private readonly ILogger<VehicleRepository> _logger;
-        const int ADMIN_INVENTORY_ID = 2;
+        const int ADMIN_INVENTORY_ID = 4;
 
 
         public VehicleRepository(Prn222asm1Context context, ILogger<VehicleRepository> logger)

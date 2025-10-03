@@ -7,7 +7,6 @@ using Services.Implements;
 using Services.Intefaces;
 using System.Linq;
 using System.Threading.Tasks;
-using System.IO;
 
 namespace ElectricVehicleDealerManagermentSystem.Controllers
 {
@@ -111,21 +110,6 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
                 Text = c.Name
             }).ToList();
 
-            var imageFile = Request.Form.Files["ImageFile"];
-            if (imageFile != null && imageFile.Length > 0)
-            {
-                var uploads = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/vehicles");
-                if (!Directory.Exists(uploads))
-                    Directory.CreateDirectory(uploads);
-                var fileName = Guid.NewGuid() + Path.GetExtension(imageFile.FileName);
-                var filePath = Path.Combine(uploads, fileName);
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await imageFile.CopyToAsync(stream);
-                }
-                request.Image = "/images/vehicles/" + fileName;
-            }
-
             if (!ModelState.IsValid)
             {
                 return View("AddVehicle", request);
@@ -174,21 +158,6 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
                 Value = c.CategoryId.ToString(),
                 Text = c.Name
             }).ToList();
-
-            var imageFile = Request.Form.Files["ImageFile"];
-            if (imageFile != null && imageFile.Length > 0)
-            {
-                var uploads = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/vehicles");
-                if (!Directory.Exists(uploads))
-                    Directory.CreateDirectory(uploads);
-                var fileName = Guid.NewGuid() + Path.GetExtension(imageFile.FileName);
-                var filePath = Path.Combine(uploads, fileName);
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await imageFile.CopyToAsync(stream);
-                }
-                request.Image = "/images/vehicles/" + fileName;
-            }
 
             if (request.VehicleId <= 0)
             {
@@ -298,6 +267,73 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
                 GC.Collect();
 
                 return StatusCode(500, new { success = false, message = "An unexpected error occurred during import. Please try again." });
+            }
+        }
+
+        [HttpPost("AddVehicleWithInventory")]
+        public async Task<IActionResult> AddVehicleWithInventory([FromBody] AddVehicleWithInventoryRequest request)
+        {
+            Console.WriteLine($"📝 AddVehicleWithInventory called with: {request?.Model ?? "null"}");
+            
+            try
+            {
+                // Validate request
+                if (request == null)
+                {
+                    Console.WriteLine("❌ Request is null");
+                    return BadRequest(new { success = false, message = "Request data is required" });
+                }
+
+                Console.WriteLine($"📊 Vehicle details: Model={request.Model}, Color={request.Color}, Price={request.Price}, Quantity={request.Quantity}");
+
+                // Validate required fields
+                if (string.IsNullOrWhiteSpace(request.Model))
+                {
+                    return BadRequest(new { success = false, message = "Model is required" });
+                }
+
+                if (string.IsNullOrWhiteSpace(request.Color))
+                {
+                    return BadRequest(new { success = false, message = "Color is required" });
+                }
+
+                if (request.Price <= 0)
+                {
+                    return BadRequest(new { success = false, message = "Price must be greater than 0" });
+                }
+
+                if (request.Quantity < 0)
+                {
+                    return BadRequest(new { success = false, message = "Quantity cannot be negative" });
+                }
+
+                Console.WriteLine("🔄 Starting vehicle creation process...");
+                
+                // Create vehicle with inventory
+                var result = await _vehicleServices.AddVehicleWithInventoryAsync(request);
+
+                if (result.Success)
+                {
+                    Console.WriteLine($"✅ Vehicle created successfully with ID: {result.VehicleId}");
+                    return Ok(new
+                    {
+                        success = true,
+                        message = $"Vehicle '{request.Model}' added successfully",
+                        vehicleId = result.VehicleId
+                    });
+                }
+                else
+                {
+                    Console.WriteLine($"❌ Failed to create vehicle: {result.Message}");
+                    return BadRequest(new { success = false, message = result.Message });
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ ERROR: Add vehicle failed - {ex.GetType().Name}: {ex.Message}");
+                Console.WriteLine($"📍 Stack trace: {ex.StackTrace}");
+
+                return StatusCode(500, new { success = false, message = "An unexpected error occurred while adding the vehicle." });
             }
         }
     }
