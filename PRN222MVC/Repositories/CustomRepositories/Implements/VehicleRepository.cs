@@ -236,7 +236,9 @@ namespace Repositories.CustomRepositories.Implements
             try
             {
                 return await _context.Vehicles
-                    .AnyAsync(v => v.Model == model && v.Color == color && v.Version == version);
+                    .AnyAsync(v => v.Model.ToLower() == model.ToLower() 
+                                && v.Color.ToLower() == color.ToLower() 
+                                && (v.Version ?? "").ToLower() == (version ?? "").ToLower());
             }
             catch (Exception ex)
             {
