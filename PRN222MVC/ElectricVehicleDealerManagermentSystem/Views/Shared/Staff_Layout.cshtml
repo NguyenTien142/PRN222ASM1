@@ -54,7 +54,7 @@
                 <div class="section-title">Navigation</div>
                 <ul class="nav-menu">
                     <li class="nav-item">
-                        <a asp-area="" asp-controller="Dealer" asp-action="Dashboard_Dealer" class="nav-link">
+                        <a asp-area="" asp-controller="Staff" asp-action="Index" class="nav-link">
                             <div class="nav-content">
                                 <i class="bi bi-speedometer2 nav-icon"></i>
                                 Dashboard
@@ -62,31 +62,31 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a asp-area="" asp-controller="vehicle" asp-action="IndexVehicle" class="nav-link">
+                        <a asp-area="" asp-controller="appointment" asp-action="Index" class="nav-link">
                             <div class="nav-content">
-                                <i class="bi bi-car-front nav-icon"></i>
-                                vehicle
+                                <i class="bi bi-calendar-check nav-icon"></i>
+                                Appointment
                             </div>
                         </a>
                     </li>
-                </ul>
-            </div>
-
-            <!-- Admin Panel Section -->
-            <div class="sidebar-section">
-                <div class="section-title">Admin Panel</div>
-                <ul class="nav-menu">
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-action="Report" asp-controller="Dealer">
+                        <a asp-area="" asp-controller="customer" asp-action="Index" class="nav-link">
                             <div class="nav-content">
-                                <i class="bi bi-receipt nav-icon"></i>
-                                Report
+                                <i class="bi bi-person-lines-fill nav-icon"></i>
+                                Customer
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="order" asp-action="Index" class="nav-link">
+                            <div class="nav-content">
+                                <i class="bi bi-bag-check nav-icon"></i>
+                                Order
                             </div>
                         </a>
                     </li>
                 </ul>
             </div>
-
         </div>
 
         <!-- Main Content -->
@@ -144,7 +144,7 @@
             <div class="row gy-4">
                 <div class="col-lg-5 col-md-12 footer-about">
                     <a href="index.html" class="logo d-flex align-items-center">
-                        <span class="sitename">Axis</span>
+                        <span class="sitename">Team 4</span>
                     </a>
                     <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
                     <div class="social-links d-flex mt-4">
@@ -190,7 +190,7 @@
         </div>
 
         <div class="container copyright text-center mt-4">
-            <p> <span></span> <strong class="px-1 sitename">Team 4</strong> <span></span></p>
+            <p><span></span> <strong class="px-1 sitename">Team4</strong> <span></span></p>
             <div class="credits">
                 <!-- All the links in the footer should remain intact. -->
                 <!-- You can delete the links only if you've purchased the pro version. -->

@@ -102,6 +102,17 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
             ViewBag.CustomerId = new SelectList(customers, "CustomerId", "Name");
             return View(model);
         }
+
+        public async Task<IActionResult> UpdateOrderStatus(int orderId, string status)
+        {
+            var result = await _orderService.UpdateOrderStatusAsync(orderId, status);
+            if (result)
+            {
+                return Json(new { success = true });
+            }
+            return Json(new { success = false, message = "Order not found or status not updated." });
+        }
+
         //
         // // GET: Order/Edit/5
         // public async Task<IActionResult> Edit(int? id)

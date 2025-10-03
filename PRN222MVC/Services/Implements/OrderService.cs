@@ -142,5 +142,19 @@ namespace Services.Implements
             var orders = await orderRepo.GetTotalEarningsByUserAsync(userId);
             return orders;
         }
+
+        public async Task<bool> UpdateOrderStatusAsync(int orderId, string status)
+        {
+            var orderRepo = _unitOfWork.GetRepository<Order>();
+            var order = await orderRepo.GetByIdAsync(orderId);
+            if (order == null)
+            {
+                return false;
+            }
+            order.Status = status;
+            orderRepo.Update(order);
+            await _unitOfWork.SaveAsync();
+            return true;
+        }
     }
 }
