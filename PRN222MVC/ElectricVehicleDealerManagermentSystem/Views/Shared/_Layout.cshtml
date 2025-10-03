@@ -36,17 +36,14 @@
             <nav id="navmenu" class="navmenu">
                 <ul>
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    @* <li><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Services">Services</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="PortfolioDetail">Portfolio</a></li>
-                    <li><a href="#team">Team</a></li>
-                    <li><a href="#contact">Contact</a></li> *@
                     
                     @{
                         var token = Context.Request.Cookies["X-Access-Token"];
                         var username = "User";
                         var isNonAdmin = false;
                         var isAdmin = false;
+                        var isDealerManager = false;
+                        var isDealerStaff = false;
                         
                         if (!string.IsNullOrEmpty(token))
                         {
@@ -67,10 +64,10 @@
                                     var jsonBytes = Convert.FromBase64String(payload);
                                     var json = System.Text.Encoding.UTF8.GetString(jsonBytes);
                                     
-                                    // Extract username and role using simple string parsing
-                                    if (json.Contains("\"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name\""))
+                                    // Extract username
+                                    if (json.Contains("\"Username\""))
                                     {
-                                        var nameStart = json.IndexOf("\"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name\":\"") + 62;
+                                        var nameStart = json.IndexOf("\"Username\":\"") + 12;
                                         var nameEnd = json.IndexOf("\"", nameStart);
                                         if (nameEnd > nameStart)
                                         {
@@ -78,6 +75,7 @@
                                         }
                                     }
                                     
+                                    // Extract role
                                     if (json.Contains("\"http://schemas.microsoft.com/ws/2008/06/identity/claims/role\""))
                                     {
                                         var roleStart = json.IndexOf("\"http://schemas.microsoft.com/ws/2008/06/identity/claims/role\":\"") + 64;
@@ -86,7 +84,23 @@
                                         {
                                             var role = json.Substring(roleStart, roleEnd - roleStart);
                                             isAdmin = role == "Admin";
-                                            isNonAdmin = role != "Admin";
+                                            isDealerManager = role == "DealerManager";
+                                            isDealerStaff = role == "DealerStaff";
+                                            isNonAdmin = !isAdmin && !isDealerManager && !isDealerStaff;
+                                        }
+                                    }
+                                    // Try alternative role claim
+                                    else if (json.Contains("\"role\""))
+                                    {
+                                        var roleStart = json.IndexOf("\"role\":\"") + 8;
+                                        var roleEnd = json.IndexOf("\"", roleStart);
+                                        if (roleEnd > roleStart)
+                                        {
+                                            var role = json.Substring(roleStart, roleEnd - roleStart);
+                                            isAdmin = role == "Admin";
+                                            isDealerManager = role == "DealerManager";
+                                            isDealerStaff = role == "DealerStaff";
+                                            isNonAdmin = !isAdmin && !isDealerManager && !isDealerStaff;
                                         }
                                     }
                                 }
@@ -107,14 +121,22 @@
                         <li><a href="#" style="color: #999;"><i class="bi bi-person-circle"></i> Welcome, @username</a></li>
                         <li><a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
                     }
-                    else if (!string.IsNullOrEmpty(token) && isNonAdmin)
+                    else if (!string.IsNullOrEmpty(token) && isDealerManager)
+                    {
+                        <li><a asp-area="" asp-controller="Dealer" asp-action="Dashboard" style="color: #3498db; font-weight: bold;">
+                            <i class="bi bi-speedometer2"></i> Dealer Dashboard
+                        </a></li>
+                        <li><a href="#" style="color: #999;"><i class="bi bi-person-circle"></i> Welcome, @username</a></li>
+                        <li><a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                    }
+                    else if (!string.IsNullOrEmpty(token) && (isDealerStaff || isNonAdmin))
                     {
                         <li><a href="#" style="color: #999;"><i class="bi bi-person-circle"></i> Welcome, @username</a></li>
                         <li><a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
                     }
                     else
                     {
-                        <li><a asp-area="", asp-controller="account" asp-action="login">Login</a></li>
+                        <li><a asp-area="" asp-controller="Account" asp-action="Login">Login</a></li>
                     }
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
