@@ -1,12 +1,15 @@
 using AutoMapper;
-
+using BusinessObject.BusinessObject.ReportModels;
 using BusinessObject.BusinessObject.UserModels.Request;
 using BusinessObject.BusinessObject.UserModels.Respond;
-using BusinessObject.BusinessObject.ReportModels;
 using Repositories.CustomRepositories.Interfaces;
 using Repositories.Model;
-using Services.Intefaces;
 using Repositories.WorkSeeds.Interfaces;
+using Services.Intefaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Services.Implements
 {
@@ -64,22 +67,29 @@ namespace Services.Implements
 
         public async Task<IEnumerable<DealerSalesReportResponse>> GetDealerSalesReportAsync()
         {
+            return await GetDealerSalesReportAsync(null, null);
+        }
+
+        public async Task<IEnumerable<DealerSalesReportResponse>> GetDealerSalesReportAsync(DateTime? startDate, DateTime? endDate)
+        {
             var allUsers = await _userRepository.GetAllUsersAsync();
-            var dealers = allUsers.Where(u => u.Role.Contains("Dealer") && u.Dealer != null);
+            var dealers = allUsers.Where(u => u.Role == "DealerStaff" && u.Dealer != null);
             var reports = new List<DealerSalesReportResponse>();
 
             foreach (var dealer in dealers)
             {
-                var successfulOrders = await _orderRepository.GetSuccessfulOrderAsync(dealer.UserId);
+                var successfulOrders = await _orderRepository.GetSuccessfulOrderAsync(dealer.UserId, startDate, endDate);
                 var pendingOrders = await _orderRepository.GetPendingOrderAsync(dealer.UserId);
-                var totalEarnings = await _orderRepository.GetTotalEarningsByUserAsync(dealer.UserId);
 
+                // Tính tổng earnings từ tất cả orders thành công
+                var totalEarnings = successfulOrders.Sum(order => order.TotalAmount);
+
+                // Tính tổng vehicles sold từ tất cả orders thành công
                 var totalVehiclesSold = successfulOrders.Sum(order =>
                     order.OrderVehicles?.Sum(ov => ov.Quantity) ?? 0);
 
-                var lastOrderDate = successfulOrders
-                    .OrderByDescending(o => o.OrderDate)
-                    .FirstOrDefault()?.OrderDate;
+                // Đảm bảo totalVehiclesSold không âm
+                totalVehiclesSold = Math.Max(0, totalVehiclesSold);
 
                 var report = new DealerSalesReportResponse
                 {
@@ -90,7 +100,6 @@ namespace Services.Implements
                     SuccessfulOrders = successfulOrders.Count,
                     PendingOrders = pendingOrders.Count,
                     TotalEarnings = totalEarnings,
-                    LastOrderDate = lastOrderDate,
                     TotalVehiclesSold = totalVehiclesSold
                 };
 
@@ -102,14 +111,19 @@ namespace Services.Implements
 
         public async Task<SalesReportSummary> GetSalesReportSummaryAsync()
         {
+            return await GetSalesReportSummaryAsync(null, null);
+        }
+
+        public async Task<SalesReportSummary> GetSalesReportSummaryAsync(DateTime? startDate, DateTime? endDate)
+        {
             var allUsers = await _userRepository.GetAllUsersAsync();
-            var dealers = allUsers.Where(u => u.Role.Contains("Dealer") && u.Dealer != null);
+            var dealers = allUsers.Where(u => u.Role == "DealerStaff" && u.Dealer != null);
             var allSuccessfulOrders = new List<Order>();
             var allPendingOrders = new List<Order>();
 
             foreach (var dealer in dealers)
             {
-                var successfulOrders = await _orderRepository.GetSuccessfulOrderAsync(dealer.UserId);
+                var successfulOrders = await _orderRepository.GetSuccessfulOrderAsync(dealer.UserId, startDate, endDate);
                 var pendingOrders = await _orderRepository.GetPendingOrderAsync(dealer.UserId);
 
                 allSuccessfulOrders.AddRange(successfulOrders);

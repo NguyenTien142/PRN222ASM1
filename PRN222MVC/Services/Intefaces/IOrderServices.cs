@@ -1,4 +1,4 @@
-﻿using BusinessObject.BusinessObject.OrderModels.Request;
+using BusinessObject.BusinessObject.OrderModels.Request;
 using BusinessObject.BusinessObject.OrderModels.Respond;
 using BusinessObject.BusinessObject.OrderModels.Response;
 
@@ -11,5 +11,9 @@ public interface IOrderServices
     Task<GetOrderByIdResponseDto?> GetOrderById(int userId, int orderId);
     Task<List<GetSuccessfulOrderResponse>> GetSuccessfulOrderAsync(int userId);
     Task<List<GetPendingOrderResponse>> GetPendingOrderAsync(int userId);
+    Task<List<GetPendingOrderResponse>> GetAllPendingOrdersAsync();
+    Task<GetOrderByIdResponseDto?> GetOrderByIdForApproval(int orderId);
+    Task<bool> ApproveOrderAsync(int orderId);
+    Task<bool> RejectOrderAsync(int orderId);
     Task<decimal> GetTotalEarningsByUserAsync(int userId);
 }

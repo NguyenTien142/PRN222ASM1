@@ -15,7 +15,6 @@ namespace BusinessObject.BusinessObject.ReportModels
         public int SuccessfulOrders { get; set; }
         public int PendingOrders { get; set; }
         public decimal TotalEarnings { get; set; }
-        public DateTime? LastOrderDate { get; set; }
         public int TotalVehiclesSold { get; set; }
     }
 

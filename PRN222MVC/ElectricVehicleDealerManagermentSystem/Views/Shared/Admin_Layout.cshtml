@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -284,12 +284,12 @@
 
     <!-- Preloader -->
     <div id="preloader"></div>
+
+    <!-- Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/main.js" asp-append-version="true"></script>
 
-
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/php-email-form/validate.js"></script>
     <script src="~/lib/aos/aos.js"></script>
     <script src="~/lib/glightbox/js/glightbox.min.js"></script>
@@ -310,10 +310,8 @@
     <!-- Dashboard Charts JS -->
     <script src="~/js/dashboard-charts.js"></script>
 
-
     @await RenderSectionAsync("Scripts", required: false)
     @await RenderSectionAsync("Styles", required: false)
-
 </body>
 
 </html>

@@ -1,6 +1,7 @@
 using BusinessObject.BusinessObject.UserModels.Respond;
 using BusinessObject.BusinessObject.UserModels.Request;
 using BusinessObject.BusinessObject.ReportModels;
+using System;
 
 namespace Services.Intefaces
 {
@@ -11,6 +12,8 @@ namespace Services.Intefaces
         Task<bool> EditUserAsync(UpdateUserRequest request);
         Task<bool> DeleteUserAsync(int id);
         Task<IEnumerable<DealerSalesReportResponse>> GetDealerSalesReportAsync();
+        Task<IEnumerable<DealerSalesReportResponse>> GetDealerSalesReportAsync(DateTime? startDate, DateTime? endDate);
         Task<SalesReportSummary> GetSalesReportSummaryAsync();
+        Task<SalesReportSummary> GetSalesReportSummaryAsync(DateTime? startDate, DateTime? endDate);
     }
 }

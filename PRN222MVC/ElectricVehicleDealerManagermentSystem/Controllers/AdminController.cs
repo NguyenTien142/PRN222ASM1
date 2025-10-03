@@ -5,7 +5,9 @@ using BusinessObject.BusinessObject.UserModels.Request;
 using Microsoft.Extensions.Logging;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using BusinessObject.BusinessObject.OrderModels.Respond;
 using BusinessObject.BusinessObject.ReportModels;
+using BusinessObject.BusinessObject.OrderModels.Response;
 
 namespace ElectricVehicleDealerManagermentSystem.Controllers
 {
@@ -14,12 +16,14 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
     {
         private readonly IAdminService _adminService;
         private readonly IInventoryService _inventoryService;
+        private readonly IOrderServices _orderServices;
         private readonly ILogger<AdminController> _logger;
 
-        public AdminController(IAdminService adminService, IInventoryService inventoryService, ILogger<AdminController> logger)
+        public AdminController(IAdminService adminService, IInventoryService inventoryService, IOrderServices orderServices, ILogger<AdminController> logger)
         {
             _adminService = adminService;
             _inventoryService = inventoryService;
+            _orderServices = orderServices;
             _logger = logger;
         }
 
@@ -201,7 +205,7 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
         }
 
         // Báo cáo doanh số theo đại lý
-        public async Task<IActionResult> DealerSalesReport()
+        public async Task<IActionResult> DealerSalesReport(DateTime? startDate, DateTime? endDate)
         {
             try
             {
@@ -210,11 +214,13 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
                 ViewBag.Username = username ?? "Admin";
 
                 // Get dealer sales report data
-                var dealerReports = await _adminService.GetDealerSalesReportAsync();
-                var summary = await _adminService.GetSalesReportSummaryAsync();
+                var dealerReports = await _adminService.GetDealerSalesReportAsync(startDate, endDate);
+                var summary = await _adminService.GetSalesReportSummaryAsync(startDate, endDate);
 
                 ViewBag.DealerReports = dealerReports;
                 ViewBag.Summary = summary;
+                ViewBag.StartDate = startDate;
+                ViewBag.EndDate = endDate;
 
                 return View();
             }
@@ -232,6 +238,8 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
                     TotalEarnings = 0,
                     ReportGeneratedDate = DateTime.Now
                 };
+                ViewBag.StartDate = startDate;
+                ViewBag.EndDate = endDate;
 
                 return View();
             }
@@ -239,12 +247,12 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
 
         // API endpoint for AJAX dealer sales report
         [HttpGet]
-        public async Task<IActionResult> GetDealerSalesReportData()
+        public async Task<IActionResult> GetDealerSalesReportData(DateTime? startDate, DateTime? endDate)
         {
             try
             {
-                var dealerReports = await _adminService.GetDealerSalesReportAsync();
-                var summary = await _adminService.GetSalesReportSummaryAsync();
+                var dealerReports = await _adminService.GetDealerSalesReportAsync(startDate, endDate);
+                var summary = await _adminService.GetSalesReportSummaryAsync(startDate, endDate);
 
                 return Json(new
                 {
@@ -276,6 +284,132 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
             }
         }
 
+        // Order Approval Management
+        public async Task<IActionResult> OrderApproval()
+        {
+            try
+            {
+                // Get username from JWT token
+                var username = GetCurrentUsername();
+                ViewBag.Username = username ?? "Admin";
+
+                // Get all pending orders for approval
+                var pendingOrders = await _orderServices.GetAllPendingOrdersAsync();
+                ViewBag.PendingOrders = pendingOrders;
+
+                return View();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading order approval page");
+
+                // Fallback values if error occurs
+                ViewBag.Username = GetCurrentUsername() ?? "Admin";
+                ViewBag.PendingOrders = new List<GetPendingOrderResponse>();
+
+                return View();
+            }
+        }
+
+        public async Task<IActionResult> OrderDetails(int id)
+        {
+            try
+            {
+                var order = await _orderServices.GetOrderByIdForApproval(id);
+                if (order == null)
+                {
+                    return NotFound();
+                }
+
+                // Check if request is AJAX
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    return Json(order);
+                }
+
+                return View(order);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting order details for approval");
+                return Json(new { success = false, message = "Error loading order details" });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ApproveOrder(int id)
+        {
+            try
+            {
+                var result = await _orderServices.ApproveOrderAsync(id);
+
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    return Json(new {
+                        success = result,
+                        message = result ? "Order approved successfully" : "Failed to approve order"
+                    });
+                }
+
+                TempData["Success"] = result ? "Order approved successfully" : "Failed to approve order";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error approving order {OrderId}", id);
+
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    return Json(new { success = false, message = "An error occurred while approving the order" });
+                }
+
+                TempData["Error"] = "An error occurred while approving the order";
+            }
+
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return Json(new { success = true });
+            }
+
+            return RedirectToAction(nameof(OrderApproval));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RejectOrder(int id)
+        {
+            try
+            {
+                var result = await _orderServices.RejectOrderAsync(id);
+
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    return Json(new {
+                        success = result,
+                        message = result ? "Order rejected successfully" : "Failed to reject order"
+                    });
+                }
+
+                TempData["Success"] = result ? "Order rejected successfully" : "Failed to reject order";
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error rejecting order {OrderId}", id);
+
+                if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    return Json(new { success = false, message = "An error occurred while rejecting the order" });
+                }
+
+                TempData["Error"] = "An error occurred while rejecting the order";
+            }
+
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return Json(new { success = true });
+            }
+
+            return RedirectToAction(nameof(OrderApproval));
+        }
+
         // Helper method to get current username from JWT token
         private string GetCurrentUsername()
         {
@@ -287,7 +421,7 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
             {
                 var handler = new JwtSecurityTokenHandler();
                 var jwtToken = handler.ReadJwtToken(token);
-                
+
                 if (jwtToken.ValidTo > DateTime.UtcNow)
                 {
                     return jwtToken.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
@@ -297,7 +431,7 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
             {
                 // Token parsing failed
             }
-            
+
             return null;
         }
     }

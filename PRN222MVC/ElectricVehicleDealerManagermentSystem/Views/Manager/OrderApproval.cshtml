@@ -1,0 +1,270 @@
+@using BusinessObject.BusinessObject.OrderModels.Response
+@{
+    ViewData["Title"] = "Order Approval - Dealer Manager";
+    Layout = "~/Views/Shared/Dealer_Layout.cshtml";
+    var pendingOrders = ViewBag.PendingOrders as List<GetPendingOrderResponse> ?? new List<GetPendingOrderResponse>();
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="welcome-section mb-4">
+                <div class="card border-0 bg-primary text-white">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="welcome-icon me-3">
+                                <i class="bi bi-check-circle fs-1"></i>
+                            </div>
+                            <div>
+                                <h2 class="mb-1">Order Approval Management</h2>
+                                <p class="mb-0 opacity-75">Review and approve pending orders from dealers</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="row g-4 mb-4">
+                <div class="col-xl-3 col-md-6">
+                    <div class="card bg-warning text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6 class="card-title">Pending Orders</h6>
+                                    <h2 class="mb-0" id="pendingCount">@pendingOrders.Count</h2>
+                                    <small class="opacity-75">Awaiting approval</small>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="bi bi-clock-history fs-1"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+                    <div class="card bg-info text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h6 class="card-title">Total Value</h6>
+                                    <h2 class="mb-0" id="totalValue">
+                                        @(pendingOrders.Sum(o => o.TotalAmount).ToString("C"))
+                                    </h2>
+                                    <small class="opacity-75">Pending order value</small>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="bi bi-currency-dollar fs-1"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Pending Orders</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Date</th>
+                                    <th>Customer</th>
+                                    <th>Total Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (pendingOrders.Any())
+                                {
+                                    foreach (var order in pendingOrders)
+                                    {
+                                        <tr>
+                                            <td>#@order.OrderId</td>
+                                            <td>@order.OrderDate.ToString("dd/MM/yyyy")</td>
+                                            <td>Customer #@order.OrderId</td>
+                                            <td>@order.TotalAmount.ToString("C")</td>
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            <td>
+                                                <div class="btn-group" role="group">
+                                                    <button type="button" class="btn btn-sm btn-outline-primary"
+                                                            onclick="viewOrderDetails(@order.OrderId)"
+                                                            data-bs-toggle="tooltip"
+                                                            title="View Details">
+                                                        <i class="bi bi-eye"></i> View
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-success"
+                                                            onclick="approveOrder(@order.OrderId)"
+                                                            data-bs-toggle="tooltip"
+                                                            title="Approve Order">
+                                                        <i class="bi bi-check-circle"></i> Approve
+                                                    </button>
+                                                    <button type="button" class="btn btn-sm btn-danger"
+                                                            onclick="rejectOrder(@order.OrderId)"
+                                                            data-bs-toggle="tooltip"
+                                                            title="Reject Order">
+                                                        <i class="bi bi-x-circle"></i> Reject
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="6" class="text-center py-4">
+                                            <div class="text-muted">
+                                                <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                                                <p>No pending orders found</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Order Details Modal -->
+<div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="orderDetailsModalLabel">Order Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="orderDetailsContent">
+                <!-- Order details will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // View order details
+        function viewOrderDetails(orderId) {
+            $.ajax({
+                url: '/Manager/OrderDetails/' + orderId,
+                type: 'GET',
+                success: function(response) {
+                    var order = response;
+                    var detailsHtml = `
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Order Information</h6>
+                                <p><strong>Order ID:</strong> #${order.orderId}</p>
+                                <p><strong>Date:</strong> ${new Date(order.orderDate).toLocaleDateString()}</p>
+                                <p><strong>Status:</strong> <span class="badge bg-warning">${order.status}</span></p>
+                                <p><strong>Total Amount:</strong> ${order.totalAmount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Customer Information</h6>
+                                <p><strong>Name:</strong> ${order.customerName}</p>
+                                <p><strong>Customer ID:</strong> ${order.customerId}</p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <h6>Order Items</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Vehicle</th>
+                                                <th>Quantity</th>
+                                                <th>Unit Price</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                    `;
+
+                    order.orderVehicles.forEach(function(vehicle) {
+                        detailsHtml += `
+                            <tr>
+                                <td>${vehicle.vehicleName}</td>
+                                <td>${vehicle.quantity}</td>
+                                <td>${vehicle.unitPrice.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                                <td>${(vehicle.quantity * vehicle.unitPrice).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                            </tr>
+                        `;
+                    });
+
+                    detailsHtml += `
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    $('#orderDetailsContent').html(detailsHtml);
+                    $('#orderDetailsModal').modal('show');
+                },
+                error: function() {
+                    alert('Error loading order details');
+                }
+            });
+        }
+
+        // Approve order
+        function approveOrder(orderId) {
+            if (confirm('Are you sure you want to approve this order?')) {
+                $.ajax({
+                    url: '/Manager/ApproveOrder/' + orderId,
+                    type: 'POST',
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message);
+                            location.reload();
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function() {
+                        alert('Error approving order');
+                    }
+                });
+            }
+        }
+
+        // Reject order
+        function rejectOrder(orderId) {
+            if (confirm('Are you sure you want to reject this order?')) {
+                $.ajax({
+                    url: '/Manager/RejectOrder/' + orderId,
+                    type: 'POST',
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message);
+                            location.reload();
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function() {
+                        alert('Error rejecting order');
+                    }
+                });
+            }
+        }
+
+        // Initialize tooltips
+        $(document).ready(function() {
+            $('[data-bs-toggle="tooltip"]').tooltip();
+        });
+    </script>
+}

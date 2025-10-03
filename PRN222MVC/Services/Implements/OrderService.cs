@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BusinessObject.BusinessObject.OrderModels.Request;
 using BusinessObject.BusinessObject.OrderModels.Respond;
 using BusinessObject.BusinessObject.OrderModels.Response;
@@ -134,6 +134,60 @@ namespace Services.Implements
             var orders = await orderRepo.GetSuccessfulOrderAsync(userId);
             var orderResponses = _mapper.Map<List<GetSuccessfulOrderResponse>>(orders);
             return orderResponses;
+        }
+
+        public async Task<List<GetPendingOrderResponse>> GetAllPendingOrdersAsync()
+        {
+            var orders = await _orderRepository.GetAllPendingOrdersAsync();
+
+            var response = orders.Select(o => new GetPendingOrderResponse()
+            {
+                OrderId = o.OrderId,
+                OrderDate = o.OrderDate,
+                TotalAmount = o.TotalAmount,
+                Status = o.Status
+            }).ToList();
+
+            return response;
+        }
+
+        public async Task<GetOrderByIdResponseDto?> GetOrderByIdForApproval(int orderId)
+        {
+            var order = await _orderRepository.GetOrderById(orderId);
+
+            if (order == null)
+            {
+                return null;
+            }
+
+            var response = new GetOrderByIdResponseDto()
+            {
+                OrderId = order.OrderId,
+                OrderDate = order.OrderDate,
+                TotalAmount = order.TotalAmount,
+                Status = order.Status,
+                CustomerId = order.CustomerId,
+                CustomerName = order.Customer.Name,
+                OrderVehicles = order.OrderVehicles.Select(x => new GetOrderVehicleResponseDto()
+                {
+                    VehicleId = x.VehicleId,
+                    VehicleName = x.Vehicle.Model,
+                    Quantity = x.Quantity,
+                    UnitPrice = x.UnitPrice
+                }).ToList()
+            };
+
+            return response;
+        }
+
+        public async Task<bool> ApproveOrderAsync(int orderId)
+        {
+            return await _orderRepository.UpdateOrderStatusAsync(orderId, "Approved");
+        }
+
+        public async Task<bool> RejectOrderAsync(int orderId)
+        {
+            return await _orderRepository.UpdateOrderStatusAsync(orderId, "Rejected");
         }
 
         public async Task<decimal> GetTotalEarningsByUserAsync(int userId)
