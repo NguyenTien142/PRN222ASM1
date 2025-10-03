@@ -75,7 +75,7 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
                     
                     case "DealerStaff":
                         _logger.LogInformation("Redirecting to Home (DealerStaff)");
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Staff");
                     
                     default:
                         _logger.LogInformation("Redirecting to Home (default/unknown role)");
