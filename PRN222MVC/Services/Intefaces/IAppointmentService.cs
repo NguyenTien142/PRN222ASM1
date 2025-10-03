@@ -14,5 +14,6 @@ namespace Services.Intefaces
         Task<bool> AddAppointmentAsync(AddAppointmentRequest dto);
         Task<IEnumerable<GetAppointmentRespond>> GetAppointmentsAsync();
         Task<GetAppointmentRespond?> GetAppointmentByIdAsync(int appointmentId);
+        Task<bool> CancelAppointmentAsync(int appointmentId);
     }
 }

@@ -73,6 +73,16 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> DeleteAppointment(int id)
+        {
+            var appointment = await _appointmentService.GetAppointmentByIdAsync(id);
+            if (appointment == null)
+                return NotFound();
+            await _appointmentService.CancelAppointmentAsync(id);
+            TempData["Success"] = "Appointment deleted successfully.";
+            return RedirectToAction(nameof(Index));
+        }
+
         public async Task<IActionResult> ViewVehicle()
         {
             var vehicles = await _vehicleServices.GetAllVehicle();

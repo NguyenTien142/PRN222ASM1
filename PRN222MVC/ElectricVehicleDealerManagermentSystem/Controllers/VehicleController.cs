@@ -7,6 +7,7 @@ using Services.Implements;
 using Services.Intefaces;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace ElectricVehicleDealerManagermentSystem.Controllers
 {
@@ -110,6 +111,21 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
                 Text = c.Name
             }).ToList();
 
+            var imageFile = Request.Form.Files["ImageFile"];
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                var uploads = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/vehicles");
+                if (!Directory.Exists(uploads))
+                    Directory.CreateDirectory(uploads);
+                var fileName = Guid.NewGuid() + Path.GetExtension(imageFile.FileName);
+                var filePath = Path.Combine(uploads, fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+                request.Image = "/images/vehicles/" + fileName;
+            }
+
             if (!ModelState.IsValid)
             {
                 return View("AddVehicle", request);
@@ -158,6 +174,21 @@ namespace ElectricVehicleDealerManagermentSystem.Controllers
                 Value = c.CategoryId.ToString(),
                 Text = c.Name
             }).ToList();
+
+            var imageFile = Request.Form.Files["ImageFile"];
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                var uploads = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/vehicles");
+                if (!Directory.Exists(uploads))
+                    Directory.CreateDirectory(uploads);
+                var fileName = Guid.NewGuid() + Path.GetExtension(imageFile.FileName);
+                var filePath = Path.Combine(uploads, fileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+                request.Image = "/images/vehicles/" + fileName;
+            }
 
             if (request.VehicleId <= 0)
             {

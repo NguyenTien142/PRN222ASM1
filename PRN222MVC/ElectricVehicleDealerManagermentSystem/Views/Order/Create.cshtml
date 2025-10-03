@@ -3,19 +3,26 @@
 @{
     ViewData["Title"] = "Create";
     // ViewBag.Vehicles: List<SelectListItem> with Value = VehicleId, Text = Vehicle Name
+    Layout = "~/Views/Shared/Staff_Layout.cshtml";
 }
 
 <h1>Create Order</h1>
 <form asp-action="Create" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="CustomerId" class="control-label"></label>
-        <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
-        <span asp-validation-for="CustomerId" class="text-danger"></span>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label asp-for="CustomerId" class="control-label">Customer</label>
+            <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
+            <span asp-validation-for="CustomerId" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label for="vehicleSearch" class="control-label">Search Vehicles</label>
+            <input type="text" id="vehicleSearch" class="form-control" placeholder="Search vehicles..." onkeyup="filterVehicles()" />
+        </div>
     </div>
 
     <h4>Vehicles</h4>
-    <table class="table">
+    <table class="table" id="vehicleTable">
         <thead>
             <tr>
                 <th>Select</th>
@@ -31,7 +38,7 @@
                     <td>
                         <input type="checkbox" name="OrderVehicles[@i].VehicleId" value="@vehicle.Value" />
                     </td>
-                    <td>
+                    <td class="vehicle-name">
                         @vehicle.Text
                     </td>
                     <td>
@@ -41,8 +48,61 @@
             }
         </tbody>
     </table>
+    <div id="paginationControls" class="mt-3"></div>
     <input type="submit" value="Create" class="btn btn-primary" />
 </form>
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+@section Scripts {
+    <script>
+        const rowsPerPage = 5;
+        let currentPage = 1;
+        let filteredRows = [];
+
+        function filterVehicles() {
+            const searchInput = document.getElementById('vehicleSearch').value.toLowerCase();
+            const rows = Array.from(document.querySelectorAll('#vehicleTable tbody tr'));
+
+            filteredRows = rows.filter(row => {
+                const vehicleName = row.querySelector('.vehicle-name').textContent.toLowerCase();
+                const matches = vehicleName.includes(searchInput);
+                row.style.display = matches ? '' : 'none';
+                return matches;
+            });
+
+            currentPage = 1; // Reset to the first page after filtering
+            paginateVehicles();
+        }
+
+        function paginateVehicles() {
+            const paginationControls = document.getElementById('paginationControls');
+            const rowsToPaginate = filteredRows.length > 0 ? filteredRows : Array.from(document.querySelectorAll('#vehicleTable tbody tr'));
+
+            rowsToPaginate.forEach((row, index) => {
+                row.style.display = (index >= (currentPage - 1) * rowsPerPage && index < currentPage * rowsPerPage) ? '' : 'none';
+            });
+
+            const totalPages = Math.ceil(rowsToPaginate.length / rowsPerPage);
+            paginationControls.innerHTML = '';
+
+            for (let i = 1; i <= totalPages; i++) {
+                const button = document.createElement('button');
+                button.textContent = i;
+                button.className = 'btn btn-sm ' + (i === currentPage ? 'btn-primary' : 'btn-secondary');
+                button.addEventListener('click', () => {
+                    currentPage = i;
+                    paginateVehicles();
+                });
+                paginationControls.appendChild(button);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const rows = Array.from(document.querySelectorAll('#vehicleTable tbody tr'));
+            filteredRows = rows; // Initialize filteredRows with all rows
+            paginateVehicles();
+        });
+    </script>
+}

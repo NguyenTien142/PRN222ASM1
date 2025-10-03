@@ -12,4 +12,6 @@ public interface IOrderServices
     Task<List<GetSuccessfulOrderResponse>> GetSuccessfulOrderAsync(int userId);
     Task<List<GetPendingOrderResponse>> GetPendingOrderAsync(int userId);
     Task<decimal> GetTotalEarningsByUserAsync(int userId);
+
+    Task<bool> UpdateOrderStatusAsync(int orderId, string status);
 }
