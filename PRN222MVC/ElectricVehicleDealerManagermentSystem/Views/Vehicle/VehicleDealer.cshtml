@@ -1,0 +1,75 @@
+﻿@model List<BusinessObject.BusinessObject.VehicleModels.Respond.GetVehicleByDealerRespond>
+
+@{
+    ViewData["Title"] = "Dealer Vehicles";
+    Layout = "~/Views/Shared/Dealer_Layout.cshtml";
+    var dealer = Model?.FirstOrDefault();
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center" >
+        <div class="col-lg-10 col-md-12">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header text-white" style="background-color: #6c757d;">
+                    <h2 class="mb-0 text-center">Dealer Vehicles</h2>
+                </div>
+                <div class="card-body">
+                    @if (dealer != null)
+                    {
+                        <div class="mb-4">
+                            <h5 class="mb-1">Dealer Info</h5>
+                            <div class="row">
+                                <div class="col-md-4"><strong>Dealer ID:</strong> @dealer.DealerId</div>
+                                <div class="col-md-4"><strong>Type:</strong> @dealer.DealerType</div>
+                                <div class="col-md-4"><strong>Address:</strong> @dealer.Address</div>
+                            </div>
+                        </div>
+                    }
+                    <table class="table table-striped table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Vehicle ID</th>
+                                <th>Model</th>
+                                <th>Version</th>
+                                <th>Color</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Manufacture Date</th>
+                                <th>Quantity</th>
+                                <th>Image</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (var v in Model)
+                                {
+                                    <tr>
+                                        <td>@v.VehicleId</td>
+                                        <td>@v.Model</td>
+                                        <td>@v.Version</td>
+                                        <td>@v.Color</td>
+                                        <td>@v.CategoryName</td>
+                                        <td>@v.Price.ToString("C")</td>
+                                        <td>@v.ManufactureDate.ToString("yyyy-MM-dd")</td>
+                                        <td>@v.Quantity</td>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(v.Image))
+                                            {
+                                                <img src="@v.Image" alt="Vehicle Image" style="max-width:80px;max-height:80px;" class="img-fluid rounded" />
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr><td colspan="9" class="text-center">No vehicles found for this dealer.</td></tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

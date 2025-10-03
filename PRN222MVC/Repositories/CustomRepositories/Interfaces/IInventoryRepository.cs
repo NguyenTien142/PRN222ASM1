@@ -8,5 +8,6 @@ namespace Repositories.CustomRepositories.Interfaces
 {
     public interface IInventoryRepository
     {
+        Task<int> GetTotalStockQuantityByDealerAsync(int dealerId);
     }
 }

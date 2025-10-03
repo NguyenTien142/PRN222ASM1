@@ -1,0 +1,44 @@
+﻿@model BusinessObject.BusinessObject.Appointment.Request.AddAppointmentRequest
+
+@{
+	Layout = "~/Views/Shared/Staff_Layout.cshtml";
+}
+
+<div class="container" >
+	<div class="row mb-4">
+		<div class="col">
+			<h2 class="mb-0">Book Appointments</h2>
+		</div>
+	</div>
+
+	<form asp-action="Create" method="post">
+		<input type="hidden" asp-for="VehicleId" />
+
+		<div class="mb-3">
+			<label asp-for="CustomerName" class="form-label"></label>
+			<input asp-for="CustomerName" class="form-control" />
+			<span asp-validation-for="CustomerName" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="CustomerEmail" class="form-label"></label>
+			<input asp-for="CustomerEmail" class="form-control" />
+			<span asp-validation-for="CustomerEmail" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="CustomerPhone" class="form-label"></label>
+			<input asp-for="CustomerPhone" class="form-control" />
+			<span asp-validation-for="CustomerPhone" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label asp-for="AppointmentDate" class="form-label"></label>
+			<input asp-for="AppointmentDate" type="datetime-local" class="form-control" />
+			<span asp-validation-for="AppointmentDate" class="text-danger"></span>
+		</div>
+
+		<button type="submit" class="btn btn-primary">Confirm Booking</button>
+	</form>
+
+</div>

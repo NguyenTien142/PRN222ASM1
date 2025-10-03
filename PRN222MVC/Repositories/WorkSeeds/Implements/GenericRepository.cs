@@ -4,6 +4,7 @@ using Repositories.WorkSeeds.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,6 +14,7 @@ namespace Repositories.WorkSeeds.Implements
     {
         internal Prn222asm1Context context;
         internal DbSet<TEntity> dbSet;
+        
         public GenericRepository(Prn222asm1Context context)
         {
             this.context = context;
@@ -51,6 +53,30 @@ namespace Repositories.WorkSeeds.Implements
         {
             var entity = await dbSet.FindAsync(id);
             return entity != null;
+        }
+
+        public virtual async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression)
+        {
+            return await dbSet.Where(expression).ToListAsync();
+        }
+
+        public virtual async Task<IEnumerable<TEntity>> GetWithIncludeAsync(
+            Expression<Func<TEntity, bool>>? filter = null, 
+            params Expression<Func<TEntity, object>>[] includes)
+        {
+            IQueryable<TEntity> query = dbSet;
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            return await query.ToListAsync();
         }
     }
 }

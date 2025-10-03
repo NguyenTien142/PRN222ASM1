@@ -1,11 +1,13 @@
-using Repositories.Model;
+
+using BusinessObject.BusinessObject.UserModels.Request;
+using BusinessObject.BusinessObject.UserModels.Respond;
 
 namespace Services.Intefaces
 {
     public interface IAuthService
     {
-        Task<(User? user, string? token)> LoginAsync(string username, string password);
-        Task<bool> RegisterAsync(User user, string password);
+        Task<LoginRespond> LoginAsync(LoginRequest request);
+        Task<RegisterRespond> RegisterAsync(RegisterRequest request);
         string HashPassword(string password);
     }
 }

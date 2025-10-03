@@ -1,0 +1,519 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <title>Admin Dashboard</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/lib/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/lib/aos/aos.css" rel="stylesheet">
+    <link href="~/lib/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="~/lib/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="~/css/main.css" asp-append-version="true" rel="stylesheet">
+    <!-- Sidebar CSS -->
+    <link href="~/css/sidebar.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Logo -->
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="bi bi-triangle-fill"></i>
+                    </div>
+                    Admindex
+                </div>
+            </div>
+
+            <!-- Navigation Section -->
+            <div class="sidebar-section">
+                <div class="section-title">Navigation</div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Admin" asp-action="Dashboard" class="nav-link">
+                            <div class="nav-content">
+                                <i class="bi bi-speedometer2 nav-icon"></i>
+                                Dashboard
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a  class="nav-link" data-toggle="layouts" asp-area="" asp-controller="Admin" asp-action="VehicleController">
+                            <div class="nav-content">
+                                <i class="bi bi-layout-sidebar nav-icon"></i>
+                                Vehicle
+                            </div>
+                        </a>
+                       
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="widget">
+                            <div class="nav-content">
+                                <i class="bi bi-puzzle nav-icon"></i>
+                                Widget
+                            </div>
+                        </a>
+                        <ul class="submenu" id="submenu-widget" style="display: none;">
+                            <li><a href="#" class="submenu-link">Chart Widgets</a></li>
+                            <li><a href="#" class="submenu-link">Data Widgets</a></li>
+                            <li><a href="#" class="submenu-link">UI Widgets</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Admin Panel Section -->
+            <div class="sidebar-section">
+                <div class="section-title">Admin Panel</div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Admin" asp-action="GetAllUsers" class="nav-link">
+                            <div class="nav-content">
+                                <i class="bi bi-person-gear nav-icon"></i>
+                                User Management
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Inventory" asp-action="Requests" class="nav-link">
+                            <div class="nav-content">
+                                <i class="bi bi-box-seam nav-icon"></i>
+                                Inventory Requests
+                                <span class="badge bg-danger ms-auto" id="pendingBadge">@ViewBag.PendingRequests</span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Content Header -->
+            <div class="content-header">
+                <div>
+                    <button class="header-btn">
+                        <i class="bi bi-list" style="font-size: 18px;"></i>
+                    </button>
+                    <button class="header-btn">
+                        <i class="bi bi-search" style="font-size: 16px;"></i>
+                    </button>
+                </div>
+                <div class="header-controls">
+
+                    <button class="header-btn">
+                        <i class="bi bi-brightness-high" style="font-size: 16px;"></i>
+                    </button>
+                    <button class="header-btn">
+                        <i class="bi bi-translate" style="font-size: 16px;"></i>
+                    </button>
+                    <button class="header-btn">
+                        <i class="bi bi-grid-3x3-gap" style="font-size: 16px;"></i>
+                    </button>
+                    <button class="header-btn notification-btn">
+                        <i class="bi bi-bell" style="font-size: 16px;"></i>
+                    </button>
+                    <button class="header-btn">
+                        <i class="bi bi-person-circle" style="font-size: 18px;"></i>
+                    </button>
+                    <a href="@Url.Action("Logout", "Account")" class="header-btn"
+                        style="text-decoration: none; color: inherit; margin-left: 10px;">
+                        <i class="bi bi-box-arrow-right" style="font-size: 16px;" title="Logout"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <main role="main">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <div>
+
+    </div>
+
+
+    <!-- Add Vehicle Modal -->
+    <div class="modal fade" id="addVehicleModal" tabindex="-1" aria-labelledby="addVehicleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addVehicleModalLabel">
+                        <i class="bi bi-plus-circle me-2"></i>Add New Vehicle
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addVehicleForm" class="needs-validation" novalidate>
+                        <div class="row">
+                            <!-- Vehicle Model -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="addVehicleModel" class="form-label">
+                                        <i class="bi bi-car-front me-1"></i>Vehicle Model <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="addVehicleModel" required maxlength="100">
+                                    <div class="invalid-feedback">
+                                        Please provide a valid vehicle model (2-100 characters).
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Vehicle Color -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="addVehicleColor" class="form-label">
+                                        <i class="bi bi-palette me-1"></i>Color <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="addVehicleColor" required maxlength="50">
+                                    <div class="invalid-feedback">
+                                        Please provide a valid color (1-50 characters).
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Price -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="addVehiclePrice" class="form-label">
+                                        <i class="bi bi-currency-euro me-1"></i>Price (€) <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="number" class="form-control" id="addVehiclePrice" required min="0.01" max="999999.99" step="0.01">
+                                    <div class="invalid-feedback">
+                                        Price must be between 0.01 and 999,999.99.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Quantity -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="addVehicleQuantity" class="form-label">
+                                        <i class="bi bi-hash me-1"></i>Quantity <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="number" class="form-control" id="addVehicleQuantity" required min="0" max="9999" value="1">
+                                    <div class="invalid-feedback">
+                                        Quantity must be between 0 and 9999.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Category -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="addVehicleCategory" class="form-label">
+                                        <i class="bi bi-tag me-1"></i>Category <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-select" id="addVehicleCategory" required>
+                                        <option value="">Select Category</option>
+                                        <option value="1">Electric Cars</option>
+                                        <option value="2">Bikes</option>
+                                        <option value="3">Bicycles</option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Please select a category.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Version -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="addVehicleVersion" class="form-label">
+                                        <i class="bi bi-gear me-1"></i>Version
+                                    </label>
+                                    <input type="text" class="form-control" id="addVehicleVersion" maxlength="50" placeholder="e.g., Standard, Premium">
+                                    <div class="invalid-feedback">
+                                        Version must be less than 50 characters.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Manufacture Date -->
+                        <div class="mb-3">
+                            <label for="addVehicleManufactureDate" class="form-label">
+                                <i class="bi bi-calendar me-1"></i>Manufacture Date <span class="text-danger">*</span>
+                            </label>
+                            <input type="date" class="form-control" id="addVehicleManufactureDate" required>
+                            <div class="invalid-feedback">
+                                Please provide a valid manufacture date.
+                            </div>
+                        </div>
+
+                        <!-- Image URL -->
+                        <div class="mb-3">
+                            <label for="addVehicleImage" class="form-label">
+                                <i class="bi bi-image me-1"></i>Image URL
+                            </label>
+                            <input type="url" class="form-control" id="addVehicleImage" placeholder="https://example.com/image.jpg">
+                            <div class="invalid-feedback">
+                                Please provide a valid image URL.
+                            </div>
+                            <small class="text-muted">Leave empty to use default image</small>
+                        </div>
+
+                        <!-- Image Preview -->
+                        <div class="mb-3" id="imagePreviewSection" style="display: none;">
+                            <label class="form-label">Image Preview</label>
+                            <div class="text-center">
+                                <img id="addVehicleImagePreview" src="" alt="Preview" class="img-thumbnail" style="max-width: 200px; max-height: 150px;">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="cancelAddVehicle()">
+                        <i class="bi bi-x-circle me-1"></i>Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="addNewVehicle()">
+                        <i class="bi bi-plus-circle me-1"></i>Add Vehicle
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Car Modal -->
+    <div class="modal fade" id="editCarModal" tabindex="-1" aria-labelledby="editCarModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCarModalLabel">
+                        <i class="bi bi-pencil-square me-2"></i>Edit Car Information
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editCarForm">
+                        <input type="hidden" id="editCarId">
+
+                        <!-- Car Name -->
+                        <div class="mb-3">
+                            <label for="editCarName" class="form-label">
+                                <i class="bi bi-car-front me-1"></i>Car Name
+                            </label>
+                            <input type="text" class="form-control" id="editCarName" required>
+                            <div class="invalid-feedback">
+                                Please provide a valid car name.
+                            </div>
+                        </div>
+
+                        <!-- Car Subtitle -->
+                        <div class="mb-3">
+                            <label for="editCarSubtitle" class="form-label">
+                                <i class="bi bi-info-circle me-1"></i>Subtitle/Description
+                            </label>
+                            <input type="text" class="form-control" id="editCarSubtitle" required>
+                            <div class="invalid-feedback">
+                                Please provide a valid subtitle.
+                            </div>
+                        </div>
+
+                        <!-- Price and Quantity Row -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editCarPrice" class="form-label">
+                                        <i class="bi bi-currency-euro me-1"></i>Price (€)
+                                    </label>
+                                    <input type="number" class="form-control" id="editCarPrice" min="1" max="10000" required>
+                                    <div class="invalid-feedback">
+                                        Price must be between 1 and 10,000.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editCarQuantity" class="form-label">
+                                        <i class="bi bi-hash me-1"></i>Quantity
+                                    </label>
+                                    <input type="number" class="form-control" id="editCarQuantity" min="0" max="999" required>
+                                    <div class="invalid-feedback">
+                                        Quantity must be between 0 and 999.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Image URL -->
+                        <div class="mb-3">
+                            <label for="editCarImage" class="form-label">
+                                <i class="bi bi-image me-1"></i>Image URL
+                            </label>
+                            <input type="url" class="form-control" id="editCarImage" required>
+                            <div class="invalid-feedback">
+                                Please provide a valid image URL.
+                            </div>
+                        </div>
+
+                        <!-- Alt Text -->
+                        <div class="mb-3">
+                            <label for="editCarAlt" class="form-label">
+                                <i class="bi bi-alt me-1"></i>Alt Text
+                            </label>
+                            <input type="text" class="form-control" id="editCarAlt" required>
+                            <div class="invalid-feedback">
+                                Please provide valid alt text.
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="cancelEdit()">
+                        <i class="bi bi-x-circle me-1"></i>Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="updateVehicle()">
+                        <i class="bi bi-check-circle me-1"></i>Save Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notificationContainer" class="notification-container">
+        <!-- Notifications will be dynamically added here -->
+    </div>
+
+    <footer id="footer" class="footer dark-background">
+
+        <div class="container footer-top">
+            <div class="row gy-4">
+                <div class="col-lg-5 col-md-12 footer-about">
+                    <a href="index.html" class="logo d-flex align-items-center">
+                        <span class="sitename">Axis</span>
+                    </a>
+                    <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies
+                        darta donna mare fermentum iaculis eu non diam phasellus.</p>
+                    <div class="social-links d-flex mt-4">
+                        <a href=""><i class="bi bi-twitter-x"></i></a>
+                        <a href=""><i class="bi bi-facebook"></i></a>
+                        <a href=""><i class="bi bi-instagram"></i></a>
+                        <a href=""><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-6 footer-links">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About us</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Terms of service</a></li>
+                        <li><a href="#">Privacy policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-2 col-6 footer-links">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><a href="#">Web Design</a></li>
+                        <li><a href="#">Web Development</a></li>
+                        <li><a href="#">Product Management</a></li>
+                        <li><a href="#">Marketing</a></li>
+                        <li><a href="#">Graphic Design</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+                    <h4></h4>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p class="mt-4"><strong>Phone:</strong> <span></span></p>
+                    <p><strong>Email:</strong> <span></span></p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="container copyright text-center mt-4">
+            <p><span></span> <strong class="px-1 sitename">Team 4</strong> <span></span>
+            </p>
+            <div class="credits">
+                <!-- All the links in the footer should remain intact. -->
+                <!-- You can delete the links only if you've purchased the pro version. -->
+                <!-- Licensing information: https://bootstrapmade.com/license/ -->
+                <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+            </div>
+        </div>
+
+    </footer>
+
+    <!-- Scroll Top -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/main.js" asp-append-version="true"></script>
+
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/php-email-form/validate.js"></script>
+    <script src="~/lib/aos/aos.js"></script>
+    <script src="~/lib/glightbox/js/glightbox.min.js"></script>
+    <script src="~/lib/purecounter/purecounter_vanilla.js"></script>
+    <script src="~/lib/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="~/lib/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="~/lib/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Sidebar JS -->
+    <script src="~/js/sidebar.js"></script>
+
+    <!-- Dashboard Charts JS -->
+    <script src="~/js/dashboard-charts.js"></script>
+
+    <!-- ✅ KEEP THESE: They contain the actual functionality -->
+    <script src="~/js/car_listing.js"></script>
+    <script src="~/js/import_modal.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+    @await RenderSectionAsync("Styles", required: false)
+
+</body>
+
+</html>

@@ -1,0 +1,265 @@
+/* Dashboard Sidebar Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f8f9fa;
+}
+
+.dashboard-container {
+  display: flex;
+  min-height: 120vh;
+  margin-bottom: 0;
+}
+
+.sidebar {
+  width: 280px;
+  background: #34495e;
+  color: white;
+  padding: 0;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+  position: relative;
+  min-height: 100vh;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  background: rgba(0,0,0,0.2);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  font-size: 14px;
+  color: white;
+}
+
+.sidebar-section {
+  padding: 20px 0 5px 20px;
+}
+
+.section-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.5);
+  font-weight: 600;
+  margin-bottom: 15px;
+  padding-bottom: 1px;
+  text-align: left;
+}
+
+.nav-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  margin-bottom: 0;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.nav-link:hover {
+  background: rgba(255,255,255,0.08);
+  color: white;
+}
+
+.nav-link.active {
+  background: rgba(255,255,255,0.12);
+  color: white;
+  border-left: 3px solid #007bff;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.nav-icon {
+  width: 20px;
+  margin-right: 12px;
+  font-size: 16px;
+}
+
+.nav-badge {
+  background: #007bff;
+  color: white;
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  margin-left: 8px;
+  font-weight: 500;
+  min-width: 20px;
+  text-align: center;
+}
+
+.nav-badge.pro {
+  background: #ff9800;
+}
+
+.nav-arrow {
+  font-size: 14px;
+  opacity: 0.7;
+  transition: transform 0.3s ease;
+}
+
+.nav-arrow.rotated {
+  transform: rotate(90deg);
+}
+
+.submenu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: rgba(0,0,0,0.2);
+  border-left: 2px solid #007bff;
+  margin-left: 20px;
+}
+
+.submenu-link {
+  display: block;
+  padding: 10px 20px 10px 40px;
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.submenu-link:hover {
+  background: rgba(255,255,255,0.1);
+  color: white;
+}
+
+.main-content {
+  flex: 1;
+  padding: 0;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+.content-header {
+  background: white;
+  padding: 10px 20px 10px 20px;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.header-btn {
+  background: none;
+  border: none;
+  padding: 8px;
+  border-radius: 6px;
+  color: #6c757d;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.header-btn:hover {
+  background: #f8f9fa;
+  color: #2c3e50;
+}
+
+.notification-btn {
+  position: relative;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #3498db;
+  color: white;
+  font-size: 10px;
+  padding: 2px 5px;
+  border-radius: 8px;
+  min-width: 16px;
+  text-align: center;
+}
+
+.breadcrumb-nav {
+  padding: 0 30px 20px;
+  background: white;
+}
+
+.breadcrumb {
+  background: none;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+}
+
+.breadcrumb-item {
+  color: #6c757d;
+}
+
+.breadcrumb-item.active {
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.content-area {
+  padding: 30px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    width: 100%;
+    position: relative;
+    height: auto;
+  }
+  
+  .main-content {
+    margin-left: 0;
+  }
+}

@@ -1,0 +1,4 @@
+CategoryId,Model,Color,Price,ManufactureDate,Version,Image,Quantity
+1,Tesla Model 3,Red,45000,2024-01-15,Standard,/images/tesla-model3-red.jpg,5
+1,BMW i4,Blue,52000,2024-02-20,eDrive40,/images/bmw-i4-blue.jpg,3
+2,Nissan Leaf,White,35000,2024-03-10,SV Plus,/images/nissan-leaf-white.jpg,8

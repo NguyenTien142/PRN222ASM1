@@ -1,0 +1,346 @@
+﻿@{
+    ViewData["Title"] = "Dealer Dashboard";
+    Layout = "~/Views/Shared/Dealer_Layout.cshtml";
+}
+
+@section Styles {
+    <style>
+        .stats-card {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .stats-card.primary { border-left-color: #3498db; }
+        .stats-card.warning { border-left-color: #f39c12; }
+        .stats-card.success { border-left-color: #27ae60; }
+        .stats-card.danger { border-left-color: #e74c3c; }
+
+        .stats-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .stats-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-label {
+            color: #7f8c8d;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .quick-action-card {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .quick-action-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .action-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn-action {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-action:hover {
+            background: linear-gradient(135deg, #2980b9, #21618c);
+            transform: translateY(-1px);
+        }
+
+        .recent-activity {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1rem;
+        }
+
+        .activity-content h6 {
+            margin: 0 0 0.25rem 0;
+            color: #2c3e50;
+            font-size: 0.875rem;
+        }
+
+        .activity-content small {
+            color: #7f8c8d;
+        }
+    </style>
+}
+
+<div class="container-fluid">
+    <!-- Welcome Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="bg-white rounded p-4 shadow-sm">
+                <h2 class="mb-1">Welcome back! 👋</h2>
+                <p class="text-muted mb-0">Here's what's happening with your dealership today.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="stats-card primary">
+                <div class="stats-icon" style="background: #3498db;">
+                    <i class="bi bi-box-seam"></i>
+                </div>
+                <div class="stats-number">@(ViewBag.Stats?.ContainsKey("Total") == true ? ViewBag.Stats["Total"] : 0)</div>
+                <div class="stats-label">Total Requests</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stats-card warning">
+                <div class="stats-icon" style="background: #f39c12;">
+                    <i class="bi bi-clock-history"></i>
+                </div>
+                <div class="stats-number">@(ViewBag.Stats?.ContainsKey("Pending") == true ? ViewBag.Stats["Pending"] : 0)</div>
+                <div class="stats-label">Pending Requests</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stats-card success">
+                <div class="stats-icon" style="background: #27ae60;">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+                <div class="stats-number">@(ViewBag.Stats?.ContainsKey("Approved") == true ? ViewBag.Stats["Approved"] : 0)</div>
+                <div class="stats-label">Approved Requests</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stats-card danger">
+                <div class="stats-icon" style="background: #e74c3c;">
+                    <i class="bi bi-x-circle"></i>
+                </div>
+                <div class="stats-number">@(ViewBag.Stats?.ContainsKey("Denied") == true ? ViewBag.Stats["Denied"] : 0)</div>
+                <div class="stats-label">Denied Requests</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h5 class="mb-3">Quick Actions</h5>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="quick-action-card">
+                <div class="action-icon">
+                    <i class="bi bi-plus-circle"></i>
+                </div>
+                <h6>Create Request</h6>
+                <p class="text-muted small mb-3">Request new inventory for your dealership</p>
+                <a href="@Url.Action("Create", "Inventory")" class="btn btn-action">
+                    <i class="bi bi-plus me-1"></i>New Request
+                </a>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="quick-action-card">
+                <div class="action-icon" style="background: linear-gradient(135deg, #27ae60, #229954);">
+                    <i class="bi bi-list-check"></i>
+                </div>
+                <h6>My Requests</h6>
+                <p class="text-muted small mb-3">View and track your inventory requests</p>
+                <a href="@Url.Action("MyRequests", "Inventory")" class="btn btn-action" style="background: linear-gradient(135deg, #27ae60, #229954);">
+                    <i class="bi bi-eye me-1"></i>View Requests
+                </a>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="quick-action-card">
+                <div class="action-icon" style="background: linear-gradient(135deg, #f39c12, #e67e22);">
+                    <i class="bi bi-car-front"></i>
+                </div>
+                <h6>Browse Vehicles</h6>
+                <p class="text-muted small mb-3">Explore available vehicles for request</p>
+                <a href="@Url.Action("IndexVehicle", "Vehicle")" class="btn btn-action" style="background: linear-gradient(135deg, #f39c12, #e67e22);">
+                    <i class="bi bi-search me-1"></i>Browse Vehicles
+                </a>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="quick-action-card">
+                <div class="action-icon" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
+                    <i class="bi bi-graph-up"></i>
+                </div>
+                <h6>Analytics</h6>
+                <p class="text-muted small mb-3">View your performance metrics</p>
+                <button class="btn btn-action" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);" onclick="showComingSoon()">
+                    <i class="bi bi-bar-chart me-1"></i>View Analytics
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity & Summary -->
+    <div class="row">
+        <div class="col-md-8 mb-4">
+            <div class="recent-activity">
+                <h5 class="mb-4">Recent Activity</h5>
+                
+                @if (ViewBag.Stats != null && ViewBag.Stats.ContainsKey("Total") && (int)ViewBag.Stats["Total"] > 0)
+                {
+                    <div class="activity-item">
+                        <div class="activity-icon" style="background: #3498db; color: white;">
+                            <i class="bi bi-plus-circle"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h6>Inventory requests are being tracked</h6>
+                            <small class="text-muted">You have @ViewBag.Stats["Total"] total requests</small>
+                        </div>
+                    </div>
+                    
+                    @if (ViewBag.Stats.ContainsKey("Pending") && (int)ViewBag.Stats["Pending"] > 0)
+                    {
+                        <div class="activity-item">
+                            <div class="activity-icon" style="background: #f39c12; color: white;">
+                                <i class="bi bi-clock-history"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h6>Pending requests need attention</h6>
+                                <small class="text-muted">@ViewBag.Stats["Pending"] requests awaiting approval</small>
+                            </div>
+                        </div>
+                    }
+                    
+                    @if (ViewBag.Stats.ContainsKey("Approved") && (int)ViewBag.Stats["Approved"] > 0)
+                    {
+                        <div class="activity-item">
+                            <div class="activity-icon" style="background: #27ae60; color: white;">
+                                <i class="bi bi-check-circle"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h6>Recent approvals received</h6>
+                                <small class="text-muted">@ViewBag.Stats["Approved"] requests have been approved</small>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="text-center py-4">
+                        <div class="activity-icon mx-auto mb-3" style="background: #95a5a6; color: white;">
+                            <i class="bi bi-inbox"></i>
+                        </div>
+                        <h6 class="text-muted">No recent activity</h6>
+                        <p class="text-muted small">Start by creating your first inventory request!</p>
+                        <a href="@Url.Action("Create", "Inventory")" class="btn btn-action">
+                            <i class="bi bi-plus me-1"></i>Create Request
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="recent-activity">
+                <h5 class="mb-4">Quick Info</h5>
+                
+                <div class="activity-item">
+                    <div class="activity-icon" style="background: #3498db; color: white;">
+                        <i class="bi bi-person-badge"></i>
+                    </div>
+                    <div class="activity-content">
+                        <h6>Dealer ID</h6>
+                        <small class="text-muted">ID: @ViewBag.DealerId</small>
+                    </div>
+                </div>
+                
+                <div class="activity-item">
+                    <div class="activity-icon" style="background: #27ae60; color: white;">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <div class="activity-content">
+                        <h6>System Status</h6>
+                        <small class="text-muted">All systems operational</small>
+                    </div>
+                </div>
+                
+                <div class="activity-item">
+                    <div class="activity-icon" style="background: #f39c12; color: white;">
+                        <i class="bi bi-clock"></i>
+                    </div>
+                    <div class="activity-content">
+                        <h6>Last Updated</h6>
+                        <small class="text-muted">@DateTime.Now.ToString("MMM dd, yyyy HH:mm")</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function showComingSoon() {
+            alert('This feature is coming soon! Stay tuned for updates.');
+        }
+    </script>
+}

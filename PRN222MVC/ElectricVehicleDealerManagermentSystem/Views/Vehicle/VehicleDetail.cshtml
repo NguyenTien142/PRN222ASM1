@@ -3,44 +3,54 @@
 
 @{
     ViewData["Title"] = "Vehicle Detail";
+    Layout = "~/Views/Shared/Dealer_Layout.cshtml";
 }
 
-<h2>Vehicle Detail</h2>
-
-@if (Model == null)
-{
-    <div class="alert alert-danger">Vehicle not found.</div>
-}
-else
-{
-    <div class="card" style="max-width: 600px; margin: auto;">
-        <div class="card-header">
-            <strong>@Model.Model</strong>
-        </div>
-        <div class="card-body">
-            <dl class="row">
-                <dt class="col-sm-4">Vehicle ID</dt>
-                <dd class="col-sm-8">@Model.VehicleId</dd>
-                <dt class="col-sm-4">Category</dt>
-                <dd class="col-sm-8">@Model.Category</dd>
-                <dt class="col-sm-4">Color</dt>
-                <dd class="col-sm-8">@Model.Color</dd>
-                <dt class="col-sm-4">Price</dt>
-                <dd class="col-sm-8">@Model.Price.ToString("C")</dd>
-                <dt class="col-sm-4">Manufacture Date</dt>
-                <dd class="col-sm-8">@Model.ManufactureDate.ToString("yyyy-MM-dd")</dd>
-                <dt class="col-sm-4">Version</dt>
-                <dd class="col-sm-8">@Model.Version</dd>
-                <dt class="col-sm-4">Available Quantity</dt>
-                <dd class="col-sm-8">@Model.AvailableQuantity</dd>
-                <dt class="col-sm-4">Image</dt>
-                <dd class="col-sm-8">
-                    @if (!string.IsNullOrEmpty(Model.Image))
-                    {
-                        <img src="@Model.Image" alt="Vehicle Image" style="max-width:200px;max-height:200px;" />
-                    }
-                </dd>
-            </dl>
+<div class="container mt-5">
+    <div class="row justify-content-center" >
+        <div class="col-lg-7 col-md-9">
+            <h2 class="mb-4 text-center">Vehicle Detail</h2>
+            @if (Model == null)
+            {
+                <div class="alert alert-danger text-center">Vehicle not found.</div>
+            }
+            else
+            {
+                <div class="card shadow-sm rounded-4 border-0">
+                    <div class="card-header text-white" style="background-color: #6c757d;">
+                        <h4 class="mb-0 text-center">@Model.Model</h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <dl class="row mb-0">
+                            <dt class="col-sm-4">Vehicle ID</dt>
+                            <dd class="col-sm-8" style="border-bottom:1px solid #e9ecef;">@Model.VehicleId</dd>
+                            <dt class="col-sm-4">Category</dt>
+                            <dd class="col-sm-8" style="border-bottom:1px solid #e9ecef;">@Model.Category</dd>
+                            <dt class="col-sm-4">Color</dt>
+                            <dd class="col-sm-8" style="border-bottom:1px solid #e9ecef;">@Model.Color</dd>
+                            <dt class="col-sm-4">Price</dt>
+                            <dd class="col-sm-8" style="border-bottom:1px solid #e9ecef;">@Model.Price.ToString("C")</dd>
+                            <dt class="col-sm-4">Manufacture Date</dt>
+                            <dd class="col-sm-8" style="border-bottom:1px solid #e9ecef;">@Model.ManufactureDate.ToString("yyyy-MM-dd")</dd>
+                            <dt class="col-sm-4">Version</dt>
+                            <dd class="col-sm-8" style="border-bottom:1px solid #e9ecef;">@Model.Version</dd>
+                            <dt class="col-sm-4">Available Quantity</dt>
+                            <dd class="col-sm-8" style="border-bottom:1px solid #e9ecef;">@Model.AvailableQuantity</dd>
+                            <dt class="col-sm-4">Image</dt>
+                            <dd class="col-sm-8">
+                                @if (!string.IsNullOrEmpty(Model.Image))
+                                {
+                                    <img src="@Model.Image" alt="Vehicle Image" class="img-fluid rounded" style="max-width:200px;max-height:200px;" />
+                                }
+                            </dd>
+                        </dl>
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <a asp-controller="Vehicle" asp-action="IndexVehicle" class="btn btn-secondary">Cancel</a>
+                            <a asp-controller="Vehicle" asp-action="UpdateVehicle" asp-route-vehicleId="@Model.VehicleId" class="btn btn-primary">Update</a>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     </div>
-}
+</div>

@@ -2,7 +2,185 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@section Styles {
+    <link href="~/css/hero.css" asp-append-version="true" rel="stylesheet">
+}
+
+<main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section light-background">
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <h1 data-aos="fade-up" data-aos-delay="200">Drive the Future with Electric Innovation</h1>
+                        <p data-aos="fade-up" data-aos-delay="300">
+                            Experience the next generation of sustainable transportation. Our electric vehicles are designed to deliver performance, efficiency, and eco-friendly driving that makes a difference for you and the planet.
+                        </p>
+
+                        @{
+                            var token = Context.Request.Cookies["X-Access-Token"];
+                            var isLoggedIn = !string.IsNullOrEmpty(token);
+                        }
+
+                        @if (!isLoggedIn)
+                        {
+                            <div class="hero-cta" data-aos="fade-up" data-aos-delay="400">
+                                <a asp-area="" asp-controller="Account" asp-action="Login" class="btn-primary">Sign In</a>
+                            </div>
+                        }
+
+                        <div class="hero-stats" data-aos="fade-up" data-aos-delay="500">
+                            <div class="stat-item">
+                                <div class="stat-number">1,000+</div>
+                                <div class="stat-label">EVs Delivered</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">95%</div>
+                                <div class="stat-label">Owner Satisfaction</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">12+</div>
+                                <div class="stat-label">Years of Innovation</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="hero-image" data-aos="fade-left" data-aos-delay="300">
+                        <img src="~/img/about/Next-Generation-Electric-Vehicle.jpg" alt="Electric Vehicle" class="img-fluid">
+                        <div class="floating-card" data-aos="zoom-in" data-aos-delay="600">
+                            <div class="card-icon">
+                                <i class="bi bi-lightning-charge-fill"></i>
+                            </div>
+                            <div class="card-content">
+                                <h5>Fast Charging</h5>
+                                <div class="growth-percentage">+350kW</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section><!-- /Hero Section -->
+    <!-- About Section -->
+    <section id="about" class="about section">
+
+        <div class="container section-title" data-aos="fade-up">
+            <span class="subtitle">About</span>
+            <h2>About Our EV Journey</h2>
+            <p>We are committed to transforming the way the world drives by delivering cutting-edge electric vehicles that combine sustainability, performance, and smart technology.</p>
+        </div>
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
+                    <div class="content">
+                        <h2>Shaping a Cleaner, Smarter Future</h2>
+                        <p class="lead">From urban commuters to long-range explorers, our EV lineup is built to suit every lifestyle without compromising on innovation or design.</p>
+
+                        <p>With advanced battery systems, intelligent safety features, and sleek aerodynamics, our vehicles are engineered for the future of mobility.</p>
+
+                        <p>We believe driving should be more than just a journey—it should be an experience that inspires progress and preserves our planet for generations.</p>
+
+                        <div class="stats-row">
+                            <div class="stat-item">
+                                <div class="stat-number purecounter" data-purecounter-start="0" data-purecounter-end="500" data-purecounter-duration="1"></div>
+                                <div class="stat-label">Charging Stations</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number purecounter" data-purecounter-start="0" data-purecounter-end="20" data-purecounter-duration="1"></div>
+                                <div class="stat-label">Countries Served</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number purecounter" data-purecounter-start="0" data-purecounter-end="50" data-purecounter-duration="1"></div>
+                                <div class="stat-label">EV Models</div>
+                            </div>
+                        </div>
+
+                        <div class="cta-section">
+                            <a href="#team" class="btn-outline">Meet Our Engineers</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6" data-aos="fade-left" data-aos-delay="300">
+                    <div class="image-wrapper">
+                        <img src="~/img/about/about-square-12.webp" alt="About EVs" class="img-fluid">
+                        <div class="floating-card" data-aos="zoom-in" data-aos-delay="500">
+                            <div class="card-content">
+                                <div class="icon">
+                                    <i class="bi bi-battery-charging"></i>
+                                </div>
+                                <div class="text">
+                                    <h4>Award Winning Technology</h4>
+                                    <p>Recognized globally for sustainable innovation</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section><!-- /About Section -->
+    <!-- Services Section -->
+    <section id="services" class="services section">
+
+        <div class="container section-title" data-aos="fade-up">
+            <span class="subtitle">Services</span>
+            <h2>Our EV Solutions</h2>
+            <p>Explore how we make electric driving smarter, faster, and more accessible for everyone.</p>
+        </div>
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+            <div class="row gy-5">
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-item">
+                        <div class="service-icon">
+                            <i class="bi bi-lightning"></i>
+                        </div>
+                        <h3>EV Charging Solutions</h3>
+                        <p>Access a growing network of ultra-fast charging stations designed for convenience and efficiency.</p>
+                        <a href="service-details.html" class="service-link">Learn More <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-item">
+                        <div class="service-icon">
+                            <i class="bi bi-car-front-fill"></i>
+                        </div>
+                        <h3>Fleet Electrification</h3>
+                        <p>Transform your business fleet with zero-emission vehicles and reduce operational costs.</p>
+                        <a href="service-details.html" class="service-link">Learn More <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-item">
+                        <div class="service-icon">
+                            <i class="bi bi-cpu"></i>
+                        </div>
+                        <h3>Smart Vehicle Software</h3>
+                        <p>Stay connected with over-the-air updates, AI-powered navigation, and intelligent driving assistance.</p>
+                        <a href="service-details.html" class="service-link">Learn More <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </section><!-- /Services Section -->
+    <!-- (Other sections like Why Us, Testimonials, Contact can be similarly updated to EV context) -->
+
+</main>

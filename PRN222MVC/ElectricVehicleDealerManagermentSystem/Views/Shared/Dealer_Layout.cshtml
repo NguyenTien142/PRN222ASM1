@@ -1,0 +1,238 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <title>Admin Dashboard</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/lib/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/lib/aos/aos.css" rel="stylesheet">
+    <link href="~/lib/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="~/lib/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="~/css/main.css" asp-append-version="true" rel="stylesheet">
+    <!-- Sidebar CSS -->
+    <link href="~/css/sidebar.css" rel="stylesheet">
+
+
+
+</head>
+<body >
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- Logo -->
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="bi bi-triangle-fill"></i>
+                    </div>
+                    Dealerdex
+                </div>
+            </div>
+
+            <!-- Navigation Section -->
+            <div class="sidebar-section">
+                <div class="section-title">Navigation</div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Dealer" asp-action="Dashboard_Dealer" class="nav-link">
+                            <div class="nav-content">
+                                <i class="bi bi-speedometer2 nav-icon"></i>
+                                Dashboard
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="vehicle" asp-action="IndexVehicle" class="nav-link">
+                            <div class="nav-content">
+                                <i class="bi bi-car-front nav-icon"></i>
+                                vehicle
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Admin Panel Section -->
+            <div class="sidebar-section">
+                <div class="section-title">Admin Panel</div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-action="Report" asp-controller="Dealer">
+                            <div class="nav-content">
+                                <i class="bi bi-receipt nav-icon"></i>
+                                Report
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Content Header -->
+            <div class="content-header">
+                <div>
+                    <button class="header-btn">
+                        <i class="bi bi-list" style="font-size: 18px;"></i>
+                    </button>
+                    <button class="header-btn">
+                        <i class="bi bi-search" style="font-size: 16px;"></i>
+                    </button>
+                </div>
+                <div class="header-controls">
+
+                    <button class="header-btn">
+                        <i class="bi bi-brightness-high" style="font-size: 16px;"></i>
+                    </button>
+                    <button class="header-btn">
+                        <i class="bi bi-translate" style="font-size: 16px;"></i>
+                    </button>
+                    <button class="header-btn">
+                        <i class="bi bi-grid-3x3-gap" style="font-size: 16px;"></i>
+                    </button>
+                    <button class="header-btn notification-btn">
+                        <i class="bi bi-bell" style="font-size: 16px;"></i>
+                    </button>
+                    <button class="header-btn">
+                        <i class="bi bi-person-circle" style="font-size: 18px;"></i>
+                    </button>
+                    @* <a href="/Account/Logout" class="btn btn-outline-danger ms-2">Logout</a> *@
+                    <a href="@Url.Action("Logout", "Account")" class="header-btn" style="text-decoration: none; color: inherit; margin-left: 10px;">
+                        <i class="bi bi-box-arrow-right" style="font-size: 16px;" title="Logout"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <main role="main">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        
+    </div>
+
+    <footer id="footer" class="footer dark-background">
+
+        <div class="container footer-top">
+            <div class="row gy-4">
+                <div class="col-lg-5 col-md-12 footer-about">
+                    <a href="index.html" class="logo d-flex align-items-center">
+                        <span class="sitename">Axis</span>
+                    </a>
+                    <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
+                    <div class="social-links d-flex mt-4">
+                        <a href=""><i class="bi bi-twitter-x"></i></a>
+                        <a href=""><i class="bi bi-facebook"></i></a>
+                        <a href=""><i class="bi bi-instagram"></i></a>
+                        <a href=""><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-6 footer-links">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About us</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Terms of service</a></li>
+                        <li><a href="#">Privacy policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-2 col-6 footer-links">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><a href="#">Web Design</a></li>
+                        <li><a href="#">Web Development</a></li>
+                        <li><a href="#">Product Management</a></li>
+                        <li><a href="#">Marketing</a></li>
+                        <li><a href="#">Graphic Design</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+                    <h4>Contact Us</h4>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p class="mt-4"><strong>Phone:</strong> <span></span></p>
+                    <p><strong>Email:</strong> <span></span></p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="container copyright text-center mt-4">
+            <p> <span></span> <strong class="px-1 sitename">Team 4</strong> <span></span></p>
+            <div class="credits">
+                <!-- All the links in the footer should remain intact. -->
+                <!-- You can delete the links only if you've purchased the pro version. -->
+                <!-- Licensing information: https://bootstrapmade.com/license/ -->
+                <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+            </div>
+        </div>
+
+    </footer>
+
+    <!-- Scroll Top -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/main.js" asp-append-version="true"></script>
+
+    <script src="~/lib/php-email-form/validate.js"></script>
+    <script src="~/lib/aos/aos.js"></script>
+    <script src="~/lib/glightbox/js/glightbox.min.js"></script>
+    <script src="~/lib/purecounter/purecounter_vanilla.js"></script>
+    <script src="~/lib/imagesloaded/imagesloaded.pkgd.min.js"></script>
+    <script src="~/lib/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="~/lib/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Bootstrap JS (only once, at the end) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Sidebar JS -->
+    <script src="~/js/sidebar.js" asp-append-version="true"></script>
+
+    <!-- Dashboard Charts JS -->
+    <script src="~/js/dashboard-charts.js" asp-append-version="true" ></script>
+
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+    @await RenderSectionAsync("Styles", required: false)
+
+</body>
+</html>
