@@ -1,234 +1,99 @@
-// Sample data with categories - Updated to include Bicycle, Bike, Car
-const sampleVehicleData = [
-    // Cars
-    {
-        id: 1,
-        name: "MERCEDES-BENZ EQA",
-        subtitle: "Automatisch - Elektrisch tweedehands lease",
-        price: 589,
-        quantity: 25,
-        image: "https://via.placeholder.com/300x200/2c3e50/ffffff?text=Mercedes+EQA",
-        alt: "Mercedes EQA",
-        category: "car"
-    },
-    {
-        id: 2,
-        name: "BMW SERIE 3 TOURING",
-        subtitle: "320 e M Sport",
-        price: 629,
-        quantity: 18,
-        image: "https://via.placeholder.com/300x200/34495e/ffffff?text=BMW+Serie+3",
-        alt: "BMW Serie 3",
-        category: "car"
-    },
-    {
-        id: 3,
-        name: "TESLA MODEL Y",
-        subtitle: "AWD Long Range",
-        price: 649,
-        quantity: 12,
-        image: "https://via.placeholder.com/300x200/e74c3c/ffffff?text=Tesla+Model+Y",
-        alt: "Tesla Model Y",
-        category: "car"
-    },
-    {
-        id: 4,
-        name: "AUDI Q5 SPORTBACK",
-        subtitle: "40 TDI quattro S tronic",
-        price: 729,
-        quantity: 8,
-        image: "https://via.placeholder.com/300x200/27ae60/ffffff?text=Audi+Q5",
-        alt: "Audi Q5",
-        category: "car"
-    },
-    {
-        id: 5,
-        name: "VOLVO XC90",
-        subtitle: "T8 Twin Engine AWD Inscription",
-        price: 945,
-        quantity: 6,
-        image: "https://via.placeholder.com/300x200/8e44ad/ffffff?text=Volvo+XC90",
-        alt: "Volvo XC90",
-        category: "car"
-    },
-    {
-        id: 6,
-        name: "PORSCHE TAYCAN",
-        subtitle: "4S Sport Turismo",
-        price: 1329,
-        quantity: 3,
-        image: "https://via.placeholder.com/300x200/f39c12/ffffff?text=Porsche+Taycan",
-        alt: "Porsche Taycan",
-        category: "car"
-    },
-    
-    // Bikes (Motorcycles)
-    {
-        id: 7,
-        name: "HARLEY DAVIDSON SPORTSTER",
-        subtitle: "Iron 883 - Classic Cruiser",
-        price: 289,
-        quantity: 14,
-        image: "https://via.placeholder.com/300x200/16a085/ffffff?text=Harley+Davidson",
-        alt: "Harley Davidson Sportster",
-        category: "bike"
-    },
-    {
-        id: 8,
-        name: "YAMAHA MT-07",
-        subtitle: "689cc Naked Sport",
-        price: 195,
-        quantity: 22,
-        image: "https://via.placeholder.com/300x200/2980b9/ffffff?text=Yamaha+MT07",
-        alt: "Yamaha MT-07",
-        category: "bike"
-    },
-    {
-        id: 9,
-        name: "KAWASAKI NINJA 650",
-        subtitle: "Sport Touring - ABS",
-        price: 225,
-        quantity: 16,
-        image: "https://via.placeholder.com/300x200/059669/ffffff?text=Kawasaki+Ninja",
-        alt: "Kawasaki Ninja 650",
-        category: "bike"
-    },
-    {
-        id: 10,
-        name: "HONDA CB650R",
-        subtitle: "Neo Sports Cafe",
-        price: 210,
-        quantity: 19,
-        image: "https://via.placeholder.com/300x200/dc2626/ffffff?text=Honda+CB650R",
-        alt: "Honda CB650R",
-        category: "bike"
-    },
-    {
-        id: 11,
-        name: "BMW R1250GS",
-        subtitle: "Adventure Touring",
-        price: 450,
-        quantity: 8,
-        image: "https://via.placeholder.com/300x200/7c3aed/ffffff?text=BMW+R1250GS",
-        alt: "BMW R1250GS",
-        category: "bike"
-    },
-    {
-        id: 12,
-        name: "DUCATI MONSTER 821",
-        subtitle: "Naked Sport - Traction Control",
-        price: 315,
-        quantity: 12,
-        image: "https://via.placeholder.com/300x200/ef4444/ffffff?text=Ducati+Monster",
-        alt: "Ducati Monster 821",
-        category: "bike"
-    },
-    
-    // Bicycles
-    {
-        id: 13,
-        name: "TREK DOMANE SL 7",
-        subtitle: "Carbon Road Bike - 105 Di2",
-        price: 89,
-        quantity: 35,
-        image: "https://via.placeholder.com/300x200/10b981/ffffff?text=Trek+Domane",
-        alt: "Trek Domane SL 7",
-        category: "bicycle"
-    },
-    {
-        id: 14,
-        name: "SPECIALIZED TARMAC SL7",
-        subtitle: "Aero Road Bike - Ultegra",
-        price: 125,
-        quantity: 28,
-        image: "https://via.placeholder.com/300x200/f59e0b/ffffff?text=Specialized+Tarmac",
-        alt: "Specialized Tarmac SL7",
-        category: "bicycle"
-    },
-    {
-        id: 15,
-        name: "GIANT DEFY ADVANCED",
-        subtitle: "Endurance Road - Carbon Frame",
-        price: 95,
-        quantity: 42,
-        image: "https://via.placeholder.com/300x200/6366f1/ffffff?text=Giant+Defy",
-        alt: "Giant Defy Advanced",
-        category: "bicycle"
-    },
-    {
-        id: 16,
-        name: "CANNONDALE SUPERSIX EVO",
-        subtitle: "Race Bike - Shimano 105",
-        price: 110,
-        quantity: 31,
-        image: "https://via.placeholder.com/300x200/ec4899/ffffff?text=Cannondale+SuperSix",
-        alt: "Cannondale SuperSix Evo",
-        category: "bicycle"
-    },
-    {
-        id: 17,
-        name: "SCOTT ADDICT RC",
-        subtitle: "Climbing Bike - SRAM Rival",
-        price: 98,
-        quantity: 24,
-        image: "https://via.placeholder.com/300x200/14b8a6/ffffff?text=Scott+Addict",
-        alt: "Scott Addict RC",
-        category: "bicycle"
-    },
-    {
-        id: 18,
-        name: "BIANCHI OLTRE XR4",
-        subtitle: "Aero Road - Celeste Color",
-        price: 145,
-        quantity: 18,
-        image: "https://via.placeholder.com/300x200/0891b2/ffffff?text=Bianchi+Oltre",
-        alt: "Bianchi Oltre XR4",
-        category: "bicycle"
-    },
-    {
-        id: 19,
-        name: "PINARELLO DOGMA F12",
-        subtitle: "Pro Race Bike - Dura Ace Di2",
-        price: 189,
-        quantity: 12,
-        image: "https://via.placeholder.com/300x200/7c2d12/ffffff?text=Pinarello+Dogma",
-        alt: "Pinarello Dogma F12",
-        category: "bicycle"
-    },
-    {
-        id: 20,
-        name: "CERVELO R5",
-        subtitle: "Lightweight Climber",
-        price: 135,
-        quantity: 26,
-        image: "https://via.placeholder.com/300x200/1f2937/ffffff?text=Cervelo+R5",
-        alt: "Cervelo R5",
-        category: "bicycle"
-    }
-];
-
-// Filter state
+// Global variables
 let currentCategory = 'all';
 let currentPage = 1;
 let itemsPerPage = 9;
-let currentDataSet = sampleVehicleData;
+let currentDataSet = [];
+let allVehicleData = []; // Store all vehicle data from API
 
-// Category configuration
+// Category configuration with mapping from API to UI
 const categoryConfig = {
     all: { name: 'All Vehicles', icon: 'bi-grid-3x3-gap' },
-    car: { name: 'Cars', icon: 'bi-car-front' },
-    bike: { name: 'Bikes', icon: 'bi-bicycle' },
-    bicycle: { name: 'Bicycles', icon: 'bi-bike' }
+    1: { name: 'Electric Cars', icon: 'bi-car-front', alias: 'car' },
+    2: { name: 'Bikes', icon: 'bi-bicycle', alias: 'bike' },
+    3: { name: 'Bicycles', icon: 'bi-bike', alias: 'bicycle' }
 };
+
+// API functions
+async function fetchVehicleData() {
+    try {
+        console.log('🔄 Fetching vehicle data from API...');
+        
+        const response = await fetch('/vehicle/GetAdminVehicle');
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const apiData = await response.json();
+        console.log('📊 Raw API response:', apiData);
+        
+        // Transform API data to UI format
+        allVehicleData = apiData.map(vehicle => ({
+            id: vehicle.vehicleId,
+            name: vehicle.model.toUpperCase(),
+            subtitle: `${vehicle.version || 'Standard'} - ${vehicle.color}`,
+            price: vehicle.price,
+            quantity: vehicle.quantity,
+            image: vehicle.image || '/images/default-vehicle.jpg',
+            alt: `${vehicle.model} ${vehicle.color}`,
+            category: vehicle.categoryId || 1, // Use categoryId from API
+            categoryName: vehicle.categoryName,
+            manufacturDate: vehicle.manufactureDate
+        }));
+        
+        console.log('✅ Transformed vehicle data:', allVehicleData);
+        
+        // Update category counts
+        updateCategorySelector();
+        
+        // Initialize with all data
+        currentDataSet = allVehicleData;
+        
+        return allVehicleData;
+    } catch (error) {
+        console.error('❌ Error fetching vehicle data:', error);
+        showNotification('Failed to load vehicle data. Please refresh the page.', 'error');
+        
+        // Fallback to empty array
+        allVehicleData = [];
+        currentDataSet = [];
+        return [];
+    }
+}
+
+// Function to update category selector with actual counts
+function updateCategorySelector() {
+    const categorySelect = document.getElementById('categorySelect');
+    if (!categorySelect) return;
+    
+    // Count vehicles by category
+    const categoryCounts = {};
+    allVehicleData.forEach(vehicle => {
+        const categoryId = vehicle.category;
+        categoryCounts[categoryId] = (categoryCounts[categoryId] || 0) + 1;
+    });
+    
+    const totalCount = allVehicleData.length;
+    
+    // Update selector options
+    categorySelect.innerHTML = `
+        <option value="all" selected>🌐 All Vehicles (${totalCount})</option>
+        <option value="1">🚗 Electric Cars (${categoryCounts[1] || 0})</option>
+        <option value="2">🏍️ Bikes (${categoryCounts[2] || 0})</option>
+        <option value="3">🚲 Bicycles (${categoryCounts[3] || 0})</option>
+    `;
+}
 
 // Function to filter by category
 function filterByCategory(category) {
     currentCategory = category;
     
     if (category === 'all') {
-        currentDataSet = sampleVehicleData;
+        currentDataSet = allVehicleData;
     } else {
-        currentDataSet = sampleVehicleData.filter(vehicle => vehicle.category === category);
+        // Filter by categoryId
+        const categoryId = parseInt(category);
+        currentDataSet = allVehicleData.filter(vehicle => vehicle.category === categoryId);
     }
     
     currentPage = 1; // Reset to first page
@@ -258,7 +123,7 @@ function updateCategoryButtons() {
 function updatePageTitle() {
     const titleElement = document.querySelector('.page-title');
     if (titleElement) {
-        const config = categoryConfig[currentCategory];
+        const config = categoryConfig[currentCategory] || { name: 'Vehicles', icon: 'bi-grid-3x3-gap' };
         titleElement.innerHTML = `<i class="${config.icon} me-2"></i>${config.name}`;
     }
 }
@@ -380,7 +245,7 @@ function changePage(page) {
     }
 }
 
-// Function to update pagination info
+// Function to update pagination info - CHANGED: Import -> Add Vehicle
 function updatePaginationInfo() {
     const totalItems = currentDataSet.length;
     const totalPages = getTotalPages(totalItems, itemsPerPage);
@@ -389,13 +254,257 @@ function updatePaginationInfo() {
     
     const paginationInfo = document.querySelector('.pagination-info');
     if (paginationInfo) {
-        const categoryName = categoryConfig[currentCategory].name.toLowerCase();
         paginationInfo.innerHTML = `
-         <button class="btn btn-success btn-sm" onclick="showImportModal()" title="Import Data">
-                        <i class="bi bi-upload me-1"></i>Import
-                      </button>
+            <button class="btn btn-success btn-sm" onclick="showAddVehicleModal()" title="Add New Vehicle">
+                <i class="bi bi-plus-circle me-1"></i>Add Vehicle
+            </button>
         `;
     }
+}
+
+// ✅ NEW: Function to show add vehicle modal
+function showAddVehicleModal() {
+    console.log('🆕 Opening add vehicle modal');
+    try {
+        // Reset form
+        resetAddVehicleForm();
+        
+        // Show the add vehicle modal
+        const addModal = new bootstrap.Modal(document.getElementById('addVehicleModal'));
+        addModal.show();
+        
+        console.log('✅ Add vehicle modal opened successfully');
+    } catch (error) {
+        console.error('❌ Error opening add vehicle modal:', error);
+        showNotification('Error opening add modal', 'error');
+    }
+}
+
+// ✅ NEW: Function to reset add vehicle form
+function resetAddVehicleForm() {
+    try {
+        // Reset all form fields
+        const form = document.getElementById('addVehicleForm');
+        if (form) {
+            form.reset();
+        }
+        
+        // Set default values
+        const today = new Date().toISOString().split('T')[0];
+        const elements = {
+            'addVehicleModel': '',
+            'addVehicleColor': '',
+            'addVehiclePrice': '',
+            'addVehicleQuantity': '1',
+            'addVehicleCategory': '1',
+            'addVehicleVersion': '',
+            'addVehicleImage': '',
+            'addVehicleManufactureDate': today
+        };
+        
+        // Set values safely
+        Object.entries(elements).forEach(([id, value]) => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.value = value;
+            }
+        });
+        
+        // Reset validation states
+        if (form) {
+            form.classList.remove('was-validated');
+            const invalidInputs = form.querySelectorAll('.is-invalid');
+            invalidInputs.forEach(input => input.classList.remove('is-invalid'));
+        }
+        
+        // Hide image preview
+        const imagePreviewSection = document.getElementById('imagePreviewSection');
+        if (imagePreviewSection) {
+            imagePreviewSection.style.display = 'none';
+        }
+        
+        console.log('🔄 Add vehicle form reset completed');
+    } catch (error) {
+        console.error('❌ Error resetting form:', error);
+    }
+}
+
+// ✅ NEW: Function to add new vehicle
+async function addNewVehicle() {
+    console.log('🆕 addNewVehicle function called');
+    
+    try {
+        // Get form data safely
+        const getElementValue = (id) => {
+            const element = document.getElementById(id);
+            return element ? element.value.trim() : '';
+        };
+        
+        const vehicleData = {
+            CategoryId: parseInt(getElementValue('addVehicleCategory'), 10) || 1,
+            Model: getElementValue('addVehicleModel'),
+            Color: getElementValue('addVehicleColor'),
+            Price: parseFloat(getElementValue('addVehiclePrice')) || 0,
+            Quantity: parseInt(getElementValue('addVehicleQuantity'), 10) || 0,
+            Version: getElementValue('addVehicleVersion') || null,
+            Image: getElementValue('addVehicleImage') || null,
+            ManufactureDate: getElementValue('addVehicleManufactureDate')
+        };
+
+        console.log('📊 Vehicle data to add:', vehicleData);
+
+        // Validate data
+        if (!validateAddVehicleData(vehicleData)) {
+            return;
+        }
+
+        // Show loading state
+        const addButton = document.querySelector('#addVehicleModal .btn-primary');
+        if (addButton) {
+            addButton.innerHTML = '<i class="spinner-border spinner-border-sm me-2"></i>Adding...';
+            addButton.disabled = true;
+        }
+
+        console.log('🚀 Sending POST request to /vehicle/AddVehicleWithInventory');
+
+        // Make API call with timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 30000);
+
+        try {
+            const response = await fetch('/vehicle/AddVehicleWithInventory', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(vehicleData),
+                signal: controller.signal
+            });
+
+            clearTimeout(timeoutId);
+
+            console.log('📡 API Response status:', response.status);
+
+            if (response.ok) {
+                const result = await response.json();
+                console.log('✅ Vehicle added successfully:', result);
+                showNotification(result.message || 'Vehicle added successfully!', 'success');
+                
+                // Close the modal
+                const addModal = bootstrap.Modal.getInstance(document.getElementById('addVehicleModal'));
+                if (addModal) {
+                    addModal.hide();
+                }
+                
+                // Refresh the vehicle list
+                await refreshData();
+                
+            } else {
+                let errorMessage = 'Failed to add vehicle';
+                try {
+                    const errorData = await response.json();
+                    errorMessage = errorData.message || errorMessage;
+                } catch (e) {
+                    errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+                }
+                
+                console.error('❌ Add failed:', errorMessage);
+                showNotification(`Error adding vehicle: ${errorMessage}`, 'error');
+            }
+        } catch (error) {
+            clearTimeout(timeoutId);
+            throw error;
+        }
+    } catch (error) {
+        console.error('❌ Exception in addNewVehicle:', error);
+        
+        let message = 'An error occurred while adding the vehicle';
+        if (error.name === 'AbortError') {
+            message = 'Request timeout. Please try again.';
+        } else {
+            message = error.message;
+        }
+        
+        showNotification(message, 'error');
+    } finally {
+        // Reset button state
+        const addButton = document.querySelector('#addVehicleModal .btn-primary');
+        if (addButton) {
+            addButton.innerHTML = '<i class="bi bi-plus-circle me-1"></i>Add Vehicle';
+            addButton.disabled = false;
+        }
+    }
+}
+
+// ✅ NEW: Function to validate add vehicle data
+function validateAddVehicleData(vehicle) {
+    const errors = [];
+    
+    if (!vehicle.Model || vehicle.Model.length < 2) {
+        errors.push('Vehicle model must be at least 2 characters long');
+    }
+    
+    if (!vehicle.Color || vehicle.Color.length < 2) {
+        errors.push('Vehicle color must be at least 2 characters long');
+    }
+    
+    if (!vehicle.Price || vehicle.Price <= 0 || vehicle.Price > 999999) {
+        errors.push('Price must be between 1 and 999,999');
+    }
+    
+    if (vehicle.Quantity < 0 || vehicle.Quantity > 9999) {
+        errors.push('Quantity must be between 0 and 9999');
+    }
+    
+    if (!vehicle.CategoryId || vehicle.CategoryId < 1) {
+        errors.push('Please select a valid category');
+    }
+    
+    if (!vehicle.ManufactureDate) {
+        errors.push('Manufacture date is required');
+    }
+    
+    if (errors.length > 0) {
+        showNotification(`Validation errors:\n${errors.join('\n')}`, 'error');
+        return false;
+    }
+    
+    return true;
+}
+
+// ✅ NEW: Function to cancel add vehicle
+function cancelAddVehicle() {
+    const addModal = bootstrap.Modal.getInstance(document.getElementById('addVehicleModal'));
+    if (addModal) {
+        addModal.hide();
+    }
+    console.log('🚫 Add vehicle cancelled');
+}
+
+// Function to refresh data from API
+async function refreshData() {
+    console.log('🔄 Refreshing data...');
+    
+    // Show loading state
+    const vehicleListingsGrid = document.querySelector('.vehicle-listings-grid');
+    if (vehicleListingsGrid) {
+        vehicleListingsGrid.innerHTML = `
+            <div class="loading-placeholder text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-3 text-muted">Refreshing vehicle data...</p>
+            </div>
+        `;
+    }
+    
+    // Fetch fresh data
+    await fetchVehicleData();
+    
+    // Re-apply current filter
+    filterByCategory(currentCategory);
+    
+    showNotification('Vehicle data refreshed successfully!', 'success');
 }
 
 // Function to render vehicle listings with pagination
@@ -415,12 +524,15 @@ function renderVehicleListings() {
     
     // Show no results if no data
     if (paginatedData.length === 0) {
-        const categoryName = categoryConfig[currentCategory].name.toLowerCase();
+        const categoryName = (categoryConfig[currentCategory]?.name || 'vehicles').toLowerCase();
         vehicleListingsGrid.innerHTML = `
             <div class="no-results text-center py-5">
-                <i class="${categoryConfig[currentCategory].icon}" style="font-size: 3rem; color: #6c757d;"></i>
+                <i class="${categoryConfig[currentCategory]?.icon || 'bi-grid-3x3-gap'}" style="font-size: 3rem; color: #6c757d;"></i>
                 <h5 class="mt-3 text-muted">No ${categoryName} found</h5>
-                <p class="text-muted">Try selecting a different category or adjusting your filters</p>
+                <p class="text-muted">Try selecting a different category or refreshing the data</p>
+                <button class="btn btn-primary" onclick="refreshData()">
+                    <i class="bi bi-arrow-clockwise me-1"></i>Refresh Data
+                </button>
             </div>
         `;
         return;
@@ -432,7 +544,7 @@ function renderVehicleListings() {
         vehicleListingsGrid.appendChild(vehicleCard);
     });
     
-    console.log(`✅ Rendered ${paginatedData.length} ${categoryConfig[currentCategory].name.toLowerCase()} (Page ${currentPage})`);
+    console.log(`✅ Rendered ${paginatedData.length} vehicles (Page ${currentPage})`);
 }
 
 // Function to create a single vehicle card
@@ -442,17 +554,15 @@ function createVehicleCard(vehicle) {
     vehicleCard.setAttribute('data-vehicle-id', vehicle.id);
     vehicleCard.setAttribute('data-category', vehicle.category);
     
-    // Determine price unit based on category
-    let priceUnit = 'Per maand excl. BTW';
-    if (vehicle.category === 'bicycle') {
-        priceUnit = 'Per week excl. BTW';
-    } else if (vehicle.category === 'bike') {
-        priceUnit = 'Per maand excl. BTW';
-    }
+    // Format price
+    const formattedPrice = vehicle.price.toLocaleString('en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+    });
     
     vehicleCard.innerHTML = `
         <div class="vehicle-image">
-            <img src="${vehicle.image}" alt="${vehicle.alt}">
+            <img src="${vehicle.image}" alt="${vehicle.alt}" onerror="handleImageError(this)">
             <div class="vehicle-status available">Quantity: ${vehicle.quantity}</div>
         </div>
         <div class="vehicle-content">
@@ -460,9 +570,9 @@ function createVehicleCard(vehicle) {
             <p class="vehicle-subtitle">${vehicle.subtitle}</p>
             <div class="vehicle-price">
                 <div class="price">
-                    <strong>€ ${vehicle.price.toLocaleString()}</strong>
-                    <small>${priceUnit}</small>
+                    <strong>€ ${formattedPrice}</strong>
                 </div>
+                <small class="text-muted">${vehicle.categoryName}</small>
             </div>
         </div>
         <div class="vehicle-actions">
@@ -480,44 +590,203 @@ function createVehicleCard(vehicle) {
     return vehicleCard;
 }
 
+// Function to handle image loading errors
+function handleImageError(img) {
+    // Check if we've already tried to load the default image
+    if (!img.hasAttribute('data-fallback-attempted')) {
+        // Mark that we've attempted fallback
+        img.setAttribute('data-fallback-attempted', 'true');
+        
+        // Try to load default image
+        img.src = '/images/default-vehicle.jpg';
+    } else {
+        // If default image also failed, use a placeholder or base64 image
+        img.style.display = 'none';
+        
+        // Create a placeholder div
+        const placeholder = document.createElement('div');
+        placeholder.className = 'image-placeholder';
+        placeholder.style.cssText = `
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+            border-radius: 8px;
+        `;
+        placeholder.innerHTML = `
+            <div>
+                <i class="bi bi-image" style="font-size: 2rem; display: block; margin-bottom: 8px;"></i>
+                <div>No Image Available</div>
+            </div>
+        `;
+        
+        // Replace the image with placeholder
+        img.parentNode.replaceChild(placeholder, img);
+    }
+}
+
+// Alternative: Use base64 placeholder image
+function getPlaceholderImage() {
+    // Small 1x1 pixel transparent image in base64
+    return 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzY2N2VlYSIvPgogIDx0ZXh0IHg9IjE1MCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+Tm8gSW1hZ2UgQXZhaWxhYmxlPC90ZXh0Pgo8L3N2Zz4K';
+}
+
+// Better approach: Use placeholder in the initial HTML
+function createVehicleCardImproved(vehicle) {
+    const vehicleCard = document.createElement('div');
+    vehicleCard.className = 'vehicle-card';
+    vehicleCard.setAttribute('data-vehicle-id', vehicle.id);
+    vehicleCard.setAttribute('data-category', vehicle.category);
+    
+    // Format price
+    const formattedPrice = vehicle.price.toLocaleString('en-US', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+    });
+    
+    // Use placeholder if no image or invalid image
+    const imageUrl = vehicle.image && vehicle.image !== 'NULL' && vehicle.image.trim() !== '' 
+        ? vehicle.image 
+        : getPlaceholderImage();
+    
+    vehicleCard.innerHTML = `
+        <div class="vehicle-image">
+            <img src="${imageUrl}" alt="${vehicle.alt}" onerror="handleImageError(this)">
+            <div class="vehicle-status available">Quantity: ${vehicle.quantity}</div>
+        </div>
+        <div class="vehicle-content">
+            <h6 class="vehicle-title">${vehicle.name}</h6>
+            <p class="vehicle-subtitle">${vehicle.subtitle}</p>
+            <div class="vehicle-price">
+                <div class="price">
+                    <strong>€ ${formattedPrice}</strong>
+                </div>
+                <small class="text-muted">${vehicle.categoryName}</small>
+            </div>
+        </div>
+        <div class="vehicle-actions">
+            <button class="action-btn edit-btn" onclick="editVehicle(${vehicle.id})">
+                <i class="bi bi-pencil"></i>
+                Edit
+            </button>
+            <button class="action-btn delete-btn" onclick="deleteVehicle(${vehicle.id})">
+                <i class="bi bi-trash"></i>
+                Delete
+            </button>
+        </div>
+    `;
+    
+    return vehicleCard;
+}
+
+// Make handleImageError globally accessible
+window.handleImageError = handleImageError;
+
 // Updated functions for vehicle management
 function editVehicle(vehicleId) {
-    const vehicle = sampleVehicleData.find(v => v.id === vehicleId);
+    const vehicle = allVehicleData.find(v => v.id === vehicleId);
     if (vehicle) {
         console.log(`🔧 Editing vehicle: ${vehicle.name} (ID: ${vehicleId})`);
         showEditModal(vehicle);
     }
 }
 
-function deleteVehicle(vehicleId) {
-    const vehicle = sampleVehicleData.find(v => v.id === vehicleId);
-    if (vehicle) {
-        const confirmDelete = confirm(`Are you sure you want to delete ${vehicle.name}?`);
-        if (confirmDelete) {
-            const index = sampleVehicleData.findIndex(v => v.id === vehicleId);
-            if (index > -1) {
-                sampleVehicleData.splice(index, 1);
-                
-                // Update current dataset if it's filtered
-                const currentIndex = currentDataSet.findIndex(v => v.id === vehicleId);
-                if (currentIndex > -1) {
-                    currentDataSet.splice(currentIndex, 1);
-                }
-                
-                // Adjust current page if necessary
-                const totalPages = getTotalPages(currentDataSet.length, itemsPerPage);
-                if (currentPage > totalPages && totalPages > 0) {
-                    currentPage = totalPages;
-                }
-                
-                renderVehicleListings();
-                renderPagination();
-                updatePaginationInfo();
-                showNotification(`Successfully deleted ${vehicle.name}`, 'success');
-                console.log(`🗑️ Deleted vehicle: ${vehicle.name} (ID: ${vehicleId})`);
+// Updated function to call the DELETE API with correct method
+async function deleteVehicle(vehicleId) {
+    const vehicle = allVehicleData.find(v => v.id === vehicleId);
+    if (!vehicle) {
+        showNotification('Vehicle not found', 'error');
+        return;
+    }
+
+    // Confirm deletion
+    const confirmDelete = confirm(`Are you sure you want to delete ${vehicle.name}?\n\nThis action cannot be undone.`);
+    if (!confirmDelete) {
+        return;
+    }
+
+    try {
+        console.log(`🗑️ Deleting vehicle: ${vehicle.name} (ID: ${vehicleId})`);
+        
+        // Show loading notification immediately
+        showNotification('Deleting vehicle...', 'info');
+        
+        // Set timeout for API call to prevent hanging
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+        
+        // FIXED: Use DELETE method to match your Controller
+        const response = await fetch(`/vehicle/DeleteVehicleInventory/${vehicleId}`, {
+            method: 'DELETE', // Correct method
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            signal: controller.signal
+        });
+
+        clearTimeout(timeoutId); // Clear timeout if request completes
+
+        console.log('📡 Delete API Response status:', response.status);
+        console.log('📡 Delete API Response ok:', response.ok);
+
+        if (response.ok) {
+            console.log('✅ Vehicle deleted successfully');
+            showNotification(`Successfully deleted ${vehicle.name}`, 'success');
+            
+            // OPTIMIZED: Update UI immediately without waiting
+            updateUIAfterDelete(vehicleId);
+            
+        } else {
+            // Try to get error message from response
+            let errorMessage = 'Failed to delete vehicle';
+            try {
+                const errorData = await response.json();
+                errorMessage = errorData.message || errorMessage;
+            } catch (e) {
+                errorMessage = `HTTP ${response.status}: ${response.statusText}`;
             }
+            
+            console.error('❌ Delete failed:', errorMessage);
+            showNotification(`Error deleting vehicle: ${errorMessage}`, 'error');
+        }
+    } catch (error) {
+        if (error.name === 'AbortError') {
+            console.error('❌ Delete request timeout');
+            showNotification('Request timeout. Please try again.', 'error');
+        } else {
+            console.error('❌ Exception during delete:', error);
+            showNotification(`Network error: ${error.message}`, 'error');
         }
     }
+}
+
+// OPTIMIZED: Separate function to update UI quickly
+function updateUIAfterDelete(vehicleId) {
+    // Remove vehicle from local data
+    const vehicleIndex = allVehicleData.findIndex(v => v.id === vehicleId);
+    if (vehicleIndex > -1) {
+        allVehicleData.splice(vehicleIndex, 1);
+    }
+    
+    // Update current dataset
+    const currentIndex = currentDataSet.findIndex(v => v.id === vehicleId);
+    if (currentIndex > -1) {
+        currentDataSet.splice(currentIndex, 1);
+    }
+    
+    // Use requestAnimationFrame for smoother UI updates
+    requestAnimationFrame(() => {
+        renderVehicleListings();
+        renderPagination();
+        updatePaginationInfo();
+        updateCategorySelector();
+    });
 }
 
 // Search function with pagination reset
@@ -525,10 +794,11 @@ function searchVehicles(searchTerm) {
     if (!searchTerm.trim()) {
         filterByCategory(currentCategory); // Reset to current category
     } else {
-        currentDataSet = sampleVehicleData.filter(vehicle => {
+        currentDataSet = allVehicleData.filter(vehicle => {
             const matchesSearch = vehicle.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                                vehicle.subtitle.toLowerCase().includes(searchTerm.toLowerCase());
-            const matchesCategory = currentCategory === 'all' || vehicle.category === currentCategory;
+                                vehicle.subtitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                vehicle.categoryName.toLowerCase().includes(searchTerm.toLowerCase());
+            const matchesCategory = currentCategory === 'all' || vehicle.category == currentCategory;
             return matchesSearch && matchesCategory;
         });
         
@@ -539,61 +809,121 @@ function searchVehicles(searchTerm) {
     }
 }
 
-// Function to show edit modal (keep existing implementation)
+// Function to show edit modal - sử dụng modal có sẵn
 function showEditModal(vehicle) {
-    document.getElementById('editCarId').value = vehicle.id;
-    document.getElementById('editCarName').value = vehicle.name;
-    document.getElementById('editCarSubtitle').value = vehicle.subtitle;
-    document.getElementById('editCarPrice').value = vehicle.price;
-    document.getElementById('editCarQuantity').value = vehicle.quantity;
-    document.getElementById('editCarImage').value = vehicle.image;
-    document.getElementById('editCarAlt').value = vehicle.alt;
+    console.log('🔧 Showing edit modal for vehicle:', vehicle);
     
-    const editModal = new bootstrap.Modal(document.getElementById('editCarModal'));
-    editModal.show();
-}
-
-// Keep existing modal functions...
-function saveEditedCar() {
-    const vehicleId = parseInt(document.getElementById('editCarId').value);
-    const updatedVehicle = {
-        id: vehicleId,
-        name: document.getElementById('editCarName').value.trim(),
-        subtitle: document.getElementById('editCarSubtitle').value.trim(),
-        price: parseInt(document.getElementById('editCarPrice').value),
-        quantity: parseInt(document.getElementById('editCarQuantity').value),
-        image: document.getElementById('editCarImage').value.trim(),
-        alt: document.getElementById('editCarAlt').value.trim(),
-        category: sampleVehicleData.find(v => v.id === vehicleId)?.category || 'car'
-    };
-    
-    if (!validateVehicleData(updatedVehicle)) {
+    // Kiểm tra modal có tồn tại không
+    const modalElement = document.getElementById('editCarModal');
+    if (!modalElement) {
+        console.error('❌ Edit modal not found in DOM');
+        showNotification('Edit modal not available', 'error');
         return;
     }
     
-    const index = sampleVehicleData.findIndex(v => v.id === vehicleId);
-    if (index > -1) {
-        sampleVehicleData[index] = updatedVehicle;
+    try {
+        // Populate form fields với modal có sẵn
+        document.getElementById('editCarId').value = vehicle.id;
+        document.getElementById('editCarName').value = vehicle.name;
         
-        const currentIndex = currentDataSet.findIndex(v => v.id === vehicleId);
-        if (currentIndex > -1) {
-            currentDataSet[currentIndex] = updatedVehicle;
-        }
+        // Parse subtitle để lấy version và color
+        const subtitleParts = vehicle.subtitle.split(' - ');
+        const version = subtitleParts[0] || '';
+        const color = subtitleParts[1] || vehicle.subtitle;
         
-        renderVehicleListings();
+        document.getElementById('editCarSubtitle').value = `${version} - ${color}`;
+        document.getElementById('editCarPrice').value = vehicle.price;
+        document.getElementById('editCarQuantity').value = vehicle.quantity;
+        document.getElementById('editCarImage').value = vehicle.image !== '/images/default-vehicle.jpg' ? vehicle.image : '';
+        document.getElementById('editCarAlt').value = vehicle.alt || `${vehicle.name} ${color}`;
         
-        const editModal = bootstrap.Modal.getInstance(document.getElementById('editCarModal'));
-        editModal.hide();
+        // Show modal có sẵn
+        const editModal = new bootstrap.Modal(modalElement);
+        editModal.show();
         
-        showNotification(`Successfully updated ${updatedVehicle.name}`, 'success');
-        console.log(`📝 Updated vehicle: ${updatedVehicle.name} (ID: ${vehicleId})`);
+        console.log('✅ Edit modal opened successfully');
+    } catch (error) {
+        console.error('❌ Error opening edit modal:', error);
+        showNotification('Error opening edit modal', 'error');
     }
 }
 
+// Function to save edited car - cập nhật để phù hợp với API
+async function saveEditedCar() {
+    try {
+        const vehicleId = parseInt(document.getElementById('editCarId').value);
+        
+        // Get form data
+        const updatedVehicle = {
+            vehicleId: vehicleId,
+            model: document.getElementById('editCarName').value.trim(),
+            subtitle: document.getElementById('editCarSubtitle').value.trim(),
+            price: parseFloat(document.getElementById('editCarPrice').value),
+            quantity: parseInt(document.getElementById('editCarQuantity').value),
+            image: document.getElementById('editCarImage').value.trim(),
+            alt: document.getElementById('editCarAlt').value.trim()
+        };
+        
+        // Validate data
+        if (!validateVehicleData(updatedVehicle)) {
+            return;
+        }
+        
+        // Show loading state
+        const saveBtn = document.querySelector('#editCarModal .btn-primary');
+        const originalText = saveBtn.innerHTML;
+        saveBtn.innerHTML = '<i class="spinner-border spinner-border-sm me-1"></i>Saving...';
+        saveBtn.disabled = true;
+        
+        // TODO: Call API to update vehicle
+        // const response = await fetch(`/api/vehicle/update/${vehicleId}`, {
+        //     method: 'PUT',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify(updatedVehicle)
+        // });
+        
+        // For now, update local data
+        const vehicleIndex = allVehicleData.findIndex(v => v.id === vehicleId);
+        if (vehicleIndex > -1) {
+            allVehicleData[vehicleIndex] = {
+                ...allVehicleData[vehicleIndex],
+                name: updatedVehicle.model.toUpperCase(),
+                subtitle: updatedVehicle.subtitle,
+                price: updatedVehicle.price,
+                quantity: updatedVehicle.quantity,
+                image: updatedVehicle.image || '/images/default-vehicle.jpg',
+                alt: updatedVehicle.alt
+            };
+        }
+        
+        // Update current dataset and refresh display
+        filterByCategory(currentCategory);
+        
+        // Hide modal
+        const editModal = bootstrap.Modal.getInstance(document.getElementById('editCarModal'));
+        editModal.hide();
+        
+        showNotification(`Successfully updated ${updatedVehicle.model}`, 'success');
+        console.log(`✅ Updated vehicle: ${updatedVehicle.model} (ID: ${vehicleId})`);
+        
+    } catch (error) {
+        console.error('❌ Error updating vehicle:', error);
+        showNotification(`Error updating vehicle: ${error.message}`, 'error');
+    } finally {
+        // Reset button state
+        const saveBtn = document.querySelector('#editCarModal .btn-primary');
+        if (saveBtn) {
+            saveBtn.innerHTML = '<i class="bi bi-check-circle me-1"></i>Save Changes';
+            saveBtn.disabled = false;
+        }
+    }
+}
+
+// Function to validate vehicle data
 function validateVehicleData(vehicle) {
     const errors = [];
     
-    if (!vehicle.name || vehicle.name.length < 2) {
+    if (!vehicle.model || vehicle.model.length < 2) {
         errors.push('Vehicle name must be at least 2 characters long');
     }
     
@@ -601,11 +931,11 @@ function validateVehicleData(vehicle) {
         errors.push('Vehicle subtitle must be at least 2 characters long');
     }
     
-    if (!vehicle.price || vehicle.price < 1 || vehicle.price > 10000) {
+    if (!vehicle.price || vehicle.price <= 0 || vehicle.price > 10000) {
         errors.push('Price must be between 1 and 10,000');
     }
     
-    if (!vehicle.quantity || vehicle.quantity < 0 || vehicle.quantity > 999) {
+    if (vehicle.quantity < 0 || vehicle.quantity > 999) {
         errors.push('Quantity must be between 0 and 999');
     }
     
@@ -617,8 +947,18 @@ function validateVehicleData(vehicle) {
     return true;
 }
 
+// Function to cancel edit
+function cancelEdit() {
+    const editModal = bootstrap.Modal.getInstance(document.getElementById('editCarModal'));
+    if (editModal) {
+        editModal.hide();
+    }
+    console.log('🚫 Edit cancelled');
+}
+
+// Utility functions
 function showNotification(message, type = 'info') {
-    const notificationContainer = document.getElementById('notificationContainer');
+    const notificationContainer = document.getElementById('notificationContainer') || createNotificationContainer();
     const notification = document.createElement('div');
     notification.className = `alert alert-${type === 'error' ? 'danger' : type === 'success' ? 'success' : 'info'} alert-dismissible fade show notification-item`;
     notification.innerHTML = `
@@ -635,35 +975,87 @@ function showNotification(message, type = 'info') {
     }, 5000);
 }
 
-function cancelEdit() {
-    const editModal = bootstrap.Modal.getInstance(document.getElementById('editCarModal'));
-    editModal.hide();
+function createNotificationContainer() {
+    const container = document.createElement('div');
+    container.id = 'notificationContainer';
+    container.className = 'position-fixed top-0 end-0 p-3';
+    container.style.zIndex = '9999';
+    document.body.appendChild(container);
+    return container;
 }
 
-// Initialize when DOM is loaded
+// Add image preview functionality
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚗 Vehicle Data Manager with Categories initialized');
-    currentDataSet = sampleVehicleData;
-    renderVehicleListings();
-    renderPagination();
-    updatePaginationInfo();
-    updateCategoryButtons();
-    updatePageTitle();
+    // Initialize vehicle manager
+    console.log('🚗 Vehicle Data Manager initialized with API integration');
+    
+    // Show loading state
+    const vehicleListingsGrid = document.querySelector('.vehicle-listings-grid');
+    if (vehicleListingsGrid) {
+        vehicleListingsGrid.innerHTML = `
+            <div class="loading-placeholder text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-3 text-muted">Loading vehicle data...</p>
+            </div>
+        `;
+    }
+    
+    // Fetch data from API
+    fetchVehicleData().then(() => {
+        // Initialize display
+        filterByCategory('all');
+    });
+    
+    // Add image preview functionality
+    const imageInput = document.getElementById('addVehicleImage');
+    const imagePreview = document.getElementById('addVehicleImagePreview');
+    const imagePreviewSection = document.getElementById('imagePreviewSection');
+    
+    if (imageInput) {
+        imageInput.addEventListener('input', function() {
+            const imageUrl = this.value.trim();
+            if (imageUrl && isValidUrl(imageUrl)) {
+                if (imagePreview) {
+                    imagePreview.src = imageUrl;
+                    imagePreview.onload = function() {
+                        if (imagePreviewSection) {
+                            imagePreviewSection.style.display = 'block';
+                        }
+                    };
+                    imagePreview.onerror = function() {
+                        if (imagePreviewSection) {
+                            imagePreviewSection.style.display = 'none';
+                        }
+                    };
+                }
+            } else {
+                if (imagePreviewSection) {
+                    imagePreviewSection.style.display = 'none';
+                }
+            }
+        });
+    }
 });
 
-// Export functions for global use
-window.vehicleManager = {
-    filterByCategory,
-    searchVehicles,
-    editVehicle,
-    deleteVehicle,
-    changePage,
-    saveEditedCar,
-    cancelEdit,
-    sampleVehicleData
-};
+// Helper function to validate URL
+function isValidUrl(string) {
+    try {
+        new URL(string);
+        return true;
+    } catch (_) {
+        return false;
+    }
+}
 
-// Make functions globally accessible
+// Export all functions for global use
+window.showAddVehicleModal = showAddVehicleModal;
+window.addNewVehicle = addNewVehicle;
+window.cancelAddVehicle = cancelAddVehicle;
+window.resetAddVehicleForm = resetAddVehicleForm;
+window.validateAddVehicleData = validateAddVehicleData;
+window.refreshData = refreshData;
 window.filterByCategory = filterByCategory;
 window.searchVehicles = searchVehicles;
 window.changePage = changePage;
@@ -671,3 +1063,18 @@ window.saveEditedCar = saveEditedCar;
 window.cancelEdit = cancelEdit;
 window.editVehicle = editVehicle;
 window.deleteVehicle = deleteVehicle;
+window.handleImageError = handleImageError;
+window.isValidUrl = isValidUrl;
+
+// Export functions for vehicle manager
+window.vehicleManager = {
+    filterByCategory,
+    searchVehicles,
+    editVehicle,
+    deleteVehicle,
+    changePage,
+    refreshData,
+    allVehicleData,
+    showAddVehicleModal,
+    addNewVehicle
+};

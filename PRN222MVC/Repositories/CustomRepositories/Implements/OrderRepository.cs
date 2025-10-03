@@ -41,22 +41,25 @@ namespace Repositories.CustomRepositories.Implements
 
         public async Task<List<Order>> GetPendingOrderAsync(int userId)
         {
+            var dealerStaff = await _context.Users.FirstOrDefaultAsync(o => o.DealerId == userId && o.Role == "DealerStaff");
             var orders = await _context.Orders
-                .Where(o => o.UserId == userId && o.Status == "Pending").ToListAsync();
+                .Where(o => o.UserId == dealerStaff.UserId && o.Status == "Pending").ToListAsync();
             return  orders;
         }
 
         public async Task<List<Order>> GetSuccessfulOrderAsync(int userId)
         {
+            var dealerStaff = await _context.Users.FirstOrDefaultAsync(o => o.DealerId == userId && o.Role == "DealerStaff");
             var orders = await _context.Orders
                 .Include(o => o.Customer)
-                .Where(o => o.UserId == userId && o.Status == "Done").ToListAsync();
+                .Where(o => o.UserId == dealerStaff.UserId && o.Status == "Payed").ToListAsync();
             return orders;
         }
 
         public async Task<decimal> GetTotalEarningsByUserAsync(int userId)
         {
-            var successfulOrders = await GetSuccessfulOrderAsync(userId);
+            var dealerStaff = await _context.Users.FirstOrDefaultAsync(o => o.DealerId == userId && o.Role == "DealerStaff");
+            var successfulOrders = await GetSuccessfulOrderAsync(dealerStaff.UserId);
             return successfulOrders.Sum(o => o.TotalAmount);
         }
     }

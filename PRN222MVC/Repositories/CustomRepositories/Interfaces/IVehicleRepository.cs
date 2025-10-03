@@ -1,4 +1,5 @@
 ﻿using Repositories.Model;
+using BusinessObject.BusinessObject.VehicleModels.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,16 @@ namespace Repositories.CustomRepositories.Interfaces
         Task<Vehicle?> GetDetailVehiclesAsync(int id);
 
         Task<List<Vehicle>> GetVehicleBuyDealerIdAsync(int dealerId);
+
+        Task<List<VehicleInventory>> GetVehiclesByInventoryIdAsync(int inventoryId);
+
+        Task UpdateVehicleInventoryAsync(UpdateVehicleInventoryRequest request);
+        Task DeleteVehicleInventoryAsync(int id);
+
+        Task<int> CreateVehicleAsync(CreateVehicleRequest request);
+        Task CreateVehicleInventoryAsync(CreateVehicleInventoryRequest request);
+        Task<bool> VehicleExistsAsync(string model, string color, string version);
+
+
     }
 }

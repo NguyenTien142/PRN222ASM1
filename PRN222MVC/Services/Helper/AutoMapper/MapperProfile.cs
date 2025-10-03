@@ -92,6 +92,21 @@ namespace Services.Helper.AutoMapper
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Customer.Name));
 
             CreateMap<Order, BusinessObject.BusinessObject.OrderModels.Response.GetPendingOrderResponse>();
+
+            //Vehicle Inventory
+
+            CreateMap<VehicleInventory, BusinessObject.BusinessObject.VehicleModels
+                .Respond.GetAdminVehicleResponse>()
+                 .ForMember(dest => dest.VehicleId, opt => opt.MapFrom(src => src.Vehicle.VehicleId))
+                .ForMember(dest => dest.Model, opt => opt.MapFrom(src => src.Vehicle.Model))
+                .ForMember(dest => dest.Color, opt => opt.MapFrom(src => src.Vehicle.Color))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Vehicle.Price))
+                .ForMember(dest => dest.ManufactureDate, opt => opt.MapFrom(src => src.Vehicle.ManufactureDate))
+                .ForMember(dest => dest.Version, opt => opt.MapFrom(src => src.Vehicle.Version))
+                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Vehicle.Image))
+                .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Vehicle.CategoryId))
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Vehicle.Category.Name))
+                .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity));
         }
     }
 }
