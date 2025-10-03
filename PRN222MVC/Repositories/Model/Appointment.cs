@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Repositories.Model;
@@ -12,6 +12,8 @@ public partial class Appointment
     public int VehicleId { get; set; }
 
     public DateTime AppointmentDate { get; set; }
+
+    public string Status { get; set; } = null!;
 
     public virtual Customer Customer { get; set; } = null!;
 

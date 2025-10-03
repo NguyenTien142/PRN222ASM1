@@ -1,12 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessObject.BusinessObject.Appointment.Respond
 {
-    public class GetAppointmentRespond
+    public class GetPendingAppointmentResponse
     {
         public int AppointmentId { get; set; }
         public DateTime AppointmentDate { get; set; }
@@ -22,5 +18,9 @@ namespace BusinessObject.BusinessObject.Appointment.Respond
         public string VehicleModel { get; set; } = string.Empty;
         public string VehicleColor { get; set; } = string.Empty;
         public string VehicleVersion { get; set; } = string.Empty;
+
+        // Dealer info (nếu cần)
+        public string DealerName { get; set; } = string.Empty;
+        public string DealerType { get; set; } = string.Empty;
     }
 }

@@ -1,4 +1,4 @@
-﻿using Repositories.Model;
+using Repositories.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +15,6 @@ namespace Repositories.CustomRepositories.Interfaces
         Task<Customer> AddCustomerAsync(Customer customer);
         Task<IEnumerable<Appointment>> GetAppointmentsAsync();
         Task<Appointment?> GetAppointmentByIdAsync(int appointmentId);
+        Task<IEnumerable<Appointment>> GetPendingAppointmentsAsync();
     }
 }

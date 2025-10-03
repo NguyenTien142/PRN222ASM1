@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BusinessObject.BusinessObject.Appointment.Request;
 using BusinessObject.BusinessObject.Appointment.Respond;
 using Repositories.CustomRepositories.Implements;
@@ -53,7 +53,8 @@ namespace Services.Implements
             {
                 CustomerId = customer.CustomerId,
                 VehicleId = dto.VehicleId,
-                AppointmentDate = dto.AppointmentDate
+                AppointmentDate = dto.AppointmentDate,
+                Status = "Pending"
             };
 
             //await appointmentRepository.AddAppointmentAsync(appointment);
@@ -72,6 +73,7 @@ namespace Services.Implements
             {
                 AppointmentId = a.AppointmentId,
                 AppointmentDate = a.AppointmentDate,
+                Status = a.Status,
                 CustomerName = a.Customer.Name,
                 CustomerPhone = a.Customer.Phone,
                 CustomerEmail = a.Customer.Email,
@@ -92,6 +94,7 @@ namespace Services.Implements
             {
                 AppointmentId = a.AppointmentId,
                 AppointmentDate = a.AppointmentDate,
+                Status = a.Status,
                 CustomerName = a.Customer.Name,
                 CustomerPhone = a.Customer.Phone,
                 CustomerEmail = a.Customer.Email,
@@ -100,6 +103,52 @@ namespace Services.Implements
                 VehicleColor = a.Vehicle.Color,
                 VehicleVersion = a.Vehicle.Version ?? ""
             };
+        }
+
+        public async Task<IEnumerable<GetPendingAppointmentResponse>> GetPendingAppointmentsAsync()
+        {
+            var appointmentRepository = _unitOfWork.GetCustomRepository<IAppointmentRepository>();
+            var appointments = await appointmentRepository.GetPendingAppointmentsAsync();
+
+            return appointments.Select(a => new GetPendingAppointmentResponse
+            {
+                AppointmentId = a.AppointmentId,
+                AppointmentDate = a.AppointmentDate,
+                Status = a.Status,
+                CustomerName = a.Customer.Name,
+                CustomerPhone = a.Customer.Phone,
+                CustomerEmail = a.Customer.Email,
+                VehicleId = a.Vehicle.VehicleId,
+                VehicleModel = a.Vehicle.Model,
+                VehicleColor = a.Vehicle.Color,
+                VehicleVersion = a.Vehicle.Version ?? ""
+            });
+        }
+
+        public async Task<bool> ApproveAppointmentAsync(ApproveAppointmentRequest request)
+        {
+            var appointmentRepository = _unitOfWork.GetCustomRepository<IAppointmentRepository>();
+            var appointment = await appointmentRepository.GetAppointmentByIdAsync(request.AppointmentId);
+
+            if (appointment == null || appointment.Status != "Pending")
+                return false;
+
+            appointment.Status = "Approved";
+            await _unitOfWork.SaveAsync();
+            return true;
+        }
+
+        public async Task<bool> RejectAppointmentAsync(RejectAppointmentRequest request)
+        {
+            var appointmentRepository = _unitOfWork.GetCustomRepository<IAppointmentRepository>();
+            var appointment = await appointmentRepository.GetAppointmentByIdAsync(request.AppointmentId);
+
+            if (appointment == null || appointment.Status != "Pending")
+                return false;
+
+            appointment.Status = "Rejected";
+            await _unitOfWork.SaveAsync();
+            return true;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Repositories.Context;
 using Repositories.CustomRepositories.Interfaces;
@@ -65,6 +65,15 @@ namespace Repositories.CustomRepositories.Implements
                 .Include(a => a.Customer)
                 .Include(a => a.Vehicle)
                 .FirstOrDefaultAsync(a => a.AppointmentId == appointmentId);
+        }
+
+        public async Task<IEnumerable<Appointment>> GetPendingAppointmentsAsync()
+        {
+            return await _context.Appointments
+                .Include(a => a.Customer)
+                .Include(a => a.Vehicle)
+                .Where(a => a.Status == "Pending")
+                .ToListAsync();
         }
     }
 }

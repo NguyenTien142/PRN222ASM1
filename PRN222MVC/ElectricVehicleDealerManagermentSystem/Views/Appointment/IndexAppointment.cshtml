@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BusinessObject.BusinessObject.Appointment.Respond.GetAppointmentRespond>
+@model IEnumerable<BusinessObject.BusinessObject.Appointment.Respond.GetAppointmentRespond>
 
 @{
     Layout = "~/Views/Shared/Dealer_Layout.cshtml";
@@ -26,6 +26,7 @@
                     <th>Phone</th>
                     <th>Vehicle</th>
                     <th>Date</th>
+                    <th>Status</th>
                     <th></th>
                 </tr>
             </thead>
@@ -38,6 +39,24 @@
                         <td>@a.CustomerPhone</td>
                         <td>@a.VehicleModel (@a.VehicleColor)</td>
                         <td>@a.AppointmentDate.ToString("g")</td>
+                        <td>
+                            @if (a.Status == "Pending")
+                            {
+                                <span class="badge bg-warning">@a.Status</span>
+                            }
+                            else if (a.Status == "Approved")
+                            {
+                                <span class="badge bg-success">@a.Status</span>
+                            }
+                            else if (a.Status == "Rejected")
+                            {
+                                <span class="badge bg-danger">@a.Status</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">@a.Status</span>
+                            }
+                        </td>
                         <td>
                             <a asp-action="Details" asp-route-id="@a.AppointmentId" class="btn btn-info btn-sm">Details</a>
                         </td>

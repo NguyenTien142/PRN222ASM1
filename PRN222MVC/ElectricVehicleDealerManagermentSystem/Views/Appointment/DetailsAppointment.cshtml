@@ -1,4 +1,4 @@
-﻿@model BusinessObject.BusinessObject.Appointment.Respond.GetAppointmentRespond
+@model BusinessObject.BusinessObject.Appointment.Respond.GetAppointmentRespond
 
 @{
 	Layout = "~/Views/Shared/Dealer_Layout.cshtml";
@@ -25,6 +25,24 @@
 
 			<h4 class="card-title mt-4">Appointment</h4>
 			<p><strong>Date:</strong> @Model.AppointmentDate.ToString("f")</p>
+			<p><strong>Status:</strong> 
+				@if (Model.Status == "Pending")
+				{
+					<span class="badge bg-warning">@Model.Status</span>
+				}
+				else if (Model.Status == "Approved")
+				{
+					<span class="badge bg-success">@Model.Status</span>
+				}
+				else if (Model.Status == "Rejected")
+				{
+					<span class="badge bg-danger">@Model.Status</span>
+				}
+				else
+				{
+					<span class="badge bg-secondary">@Model.Status</span>
+				}
+			</p>
 		</div>
 	</div>
 

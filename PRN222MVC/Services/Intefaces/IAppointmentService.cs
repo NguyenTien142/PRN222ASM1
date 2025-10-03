@@ -1,4 +1,4 @@
-﻿using BusinessObject.BusinessObject.Appointment.Request;
+using BusinessObject.BusinessObject.Appointment.Request;
 using BusinessObject.BusinessObject.Appointment.Respond;
 using Repositories.Model;
 using System;
@@ -14,5 +14,8 @@ namespace Services.Intefaces
         Task<bool> AddAppointmentAsync(AddAppointmentRequest dto);
         Task<IEnumerable<GetAppointmentRespond>> GetAppointmentsAsync();
         Task<GetAppointmentRespond?> GetAppointmentByIdAsync(int appointmentId);
+        Task<IEnumerable<GetPendingAppointmentResponse>> GetPendingAppointmentsAsync();
+        Task<bool> ApproveAppointmentAsync(ApproveAppointmentRequest request);
+        Task<bool> RejectAppointmentAsync(RejectAppointmentRequest request);
     }
 }
